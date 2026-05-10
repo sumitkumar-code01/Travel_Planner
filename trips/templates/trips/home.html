@@ -1,0 +1,223 @@
+import requests
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.db.models import Sum
+
+from .models import Trip, Itinerary   # 👈 Itinerary use कर रहे हैं
+
+
+# ================== 🔥 UNSPLASH IMAGE FUNCTION ==================
+def get_unique_image(destination):
+    access_key = "RtJu3yQQPig9i8_iek4fQdaMMK1o_9HToKYQna4rdyo"
+
+    url = f"https://api.unsplash.com/search/photos?query={destination}&orientation=landscape&per_page=1"
+    
+    headers = {
+        "Authorization": f"Client-ID {access_key}"
+    }
+
+    try:
+        response = requests.get(url, headers=headers)
+        data = response.json()
+
+        if data.get('results'):
+            return data['results'][0]['urls']['regular']
+    except:
+        pass
+
+    # fallback image
+    return "https://images.unsplash.com/photo-1488646953014-85cb44e25828"
+
+
+# ================== DASHBOARD ==================
+@login_required
+def dashboard(request):
+    trips = Trip.objects.filter(user=request.user).order_by('-created_at')
+
+    # 🔥 Category-wise budget
+    for trip in trips:
+        trip.category_budget = (
+            trip.days.values('category')
+            .annotate(total=Sum('cost'))
+        )
+
+    return render(request, 'trips/dashboard.html', {'trips': trips})
+
+
+# ================== ADD TRIP ==================
+@login_required
+def add_trip(request):
+    if request.method == "POST":
+        destination = request.POST.get('destination')
+
+        # 🔥 Auto image fetch
+        image_url = get_unique_image(destination)
+
+        Trip.objects.create(
+            user=request.user,
+            destination=destination,
+            start_date=request.POST.get('start_date'),
+            end_date=request.POST.get('end_date'),
+            budget=request.POST.get('budget'),
+            description=request.POST.get('description'),
+            image=request.FILES.get('image'),
+            image_url=image_url   # ✅ auto save
+        )
+
+        messages.success(request, "Trip planned successfully!")
+        return redirect('dashboard')
+
+    return render(request, 'trips/add_trip.html')
+
+
+# ================== DELETE ==================
+@login_required
+def delete_trip(request, pk):
+    trip = get_object_or_404(Trip, pk=pk, user=request.user)
+    trip.delete()
+    messages.info(request, "Trip removed.")
+    return redirect('dashboard')
+
+
+# ================== TRIP DETAIL ==================
+@login_required
+def trip_detail(request, pk):
+    trip = get_object_or_404(Trip, pk=pk, user=request.user)
+
+    days = trip.days.all()
+
+    # 🔥 Budget calculation
+    total_spent = sum(day.cost for day in days)
+    remaining_budget = trip.budget - total_spent
+
+    return render(request, 'trips/trip_detail.html', {
+        'trip': trip,
+        'days': days,
+        'total_spent': total_spent,
+        'remaining': remaining_budget
+    })
+
+
+# ================== HOME (OPTIONAL) ==================
+def home(request):
+    url = "https://api.unsplash.com/photos"
+    headers = {
+        "Authorization": "Client-ID RtJu3yQQPig9i8_iek4fQdaMMK1o_9HToKYQna4rdyo"
+    }
+
+    response = requests.get(url, headers=headers)
+    data = response.json()
+
+    return render(request, 'home.html', {'data': data})import requests
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.db.models import Sum
+
+from .models import Trip, Itinerary   # 👈 Itinerary use कर रहे हैं
+
+
+# ================== 🔥 UNSPLASH IMAGE FUNCTION ==================
+def get_unique_image(destination):
+    access_key = "RtJu3yQQPig9i8_iek4fQdaMMK1o_9HToKYQna4rdyo"
+
+    url = f"https://api.unsplash.com/search/photos?query={destination}&orientation=landscape&per_page=1"
+    
+    headers = {
+        "Authorization": f"Client-ID {access_key}"
+    }
+
+    try:
+        response = requests.get(url, headers=headers)
+        data = response.json()
+
+        if data.get('results'):
+            return data['results'][0]['urls']['regular']
+    except:
+        pass
+
+    # fallback image
+    return "https://images.unsplash.com/photo-1488646953014-85cb44e25828"
+
+
+# ================== DASHBOARD ==================
+@login_required
+def dashboard(request):
+    trips = Trip.objects.filter(user=request.user).order_by('-created_at')
+
+    # 🔥 Category-wise budget
+    for trip in trips:
+        trip.category_budget = (
+            trip.days.values('category')
+            .annotate(total=Sum('cost'))
+        )
+
+    return render(request, 'trips/dashboard.html', {'trips': trips})
+
+
+# ================== ADD TRIP ==================
+@login_required
+def add_trip(request):
+    if request.method == "POST":
+        destination = request.POST.get('destination')
+
+        # 🔥 Auto image fetch
+        image_url = get_unique_image(destination)
+
+        Trip.objects.create(
+            user=request.user,
+            destination=destination,
+            start_date=request.POST.get('start_date'),
+            end_date=request.POST.get('end_date'),
+            budget=request.POST.get('budget'),
+            description=request.POST.get('description'),
+            image=request.FILES.get('image'),
+            image_url=image_url   # ✅ auto save
+        )
+
+        messages.success(request, "Trip planned successfully!")
+        return redirect('dashboard')
+
+    return render(request, 'trips/add_trip.html')
+
+
+# ================== DELETE ==================
+@login_required
+def delete_trip(request, pk):
+    trip = get_object_or_404(Trip, pk=pk, user=request.user)
+    trip.delete()
+    messages.info(request, "Trip removed.")
+    return redirect('dashboard')
+
+
+# ================== TRIP DETAIL ==================
+@login_required
+def trip_detail(request, pk):
+    trip = get_object_or_404(Trip, pk=pk, user=request.user)
+
+    days = trip.days.all()
+
+    # 🔥 Budget calculation
+    total_spent = sum(day.cost for day in days)
+    remaining_budget = trip.budget - total_spent
+
+    return render(request, 'trips/trip_detail.html', {
+        'trip': trip,
+        'days': days,
+        'total_spent': total_spent,
+        'remaining': remaining_budget
+    })
+
+
+# ================== HOME (OPTIONAL) ==================
+def home(request):
+    url = "https://api.unsplash.com/photos"
+    headers = {
+        "Authorization": "Client-ID RtJu3yQQPig9i8_iek4fQdaMMK1o_9HToKYQna4rdyo"
+    }
+
+    response = requests.get(url, headers=headers)
+    data = response.json()
+
+    return render(request, 'home.html', {'data': data})

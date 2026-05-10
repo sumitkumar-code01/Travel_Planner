@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel World | Your Personal Trip Architect</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    {% load static %}
+
+    <style>
+        :root { --primary: #4e54c8; --secondary: #8f94fb; --dark: #2d3436; --accent: #ff5a5f; }
+        body { font-family: 'Poppins', sans-serif; background-color: #f8f9fa; color: var(--dark); overflow-x: hidden; }
+
+        /* Navbar Stylish Improvement */
+        .navbar-custom { 
+            background: rgba(255, 255, 255, 0.95); 
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* Travel World Logo Gradient Design */
+        .travel-world-logo {
+            font-weight: 800 !important;
+            font-size: 1.8rem;
+            letter-spacing: -1px;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            transition: 0.4s ease;
+            text-decoration: none;
+        }
+        .travel-world-logo:hover {
+            filter: drop-shadow(0 0 8px rgba(78, 84, 200, 0.3));
+            transform: scale(1.05);
+        }
+
+        /* --- Stylish Blinking Text CSS --- */
+        .blink-text {
+            font-weight: 600;
+            color: var(--accent);
+            margin-right: 15px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: glow-animation 1.5s infinite ease-in-out;
+            white-space: nowrap; 
+        }
+
+        @keyframes glow-animation {
+            0%, 100% { opacity: 1; text-shadow: 0 0 10px var(--accent); }
+            50% { opacity: 0.3; text-shadow: none; }
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover; 
+            background-position: center; 
+            background-attachment: fixed;
+            height: 85vh;
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: white; 
+            text-align: center;
+        }
+        .hero h1 { font-size: 4rem; font-weight: 700; text-shadow: 2px 2px 10px rgba(0,0,0,0.3); }
+
+        .section-padding { padding: 80px 0; }
+        .about-text p { line-height: 2; font-size: 1.1rem; color: #636e72; margin-bottom: 20px; text-align: justify; }
+        
+        .dev-card {
+            border: none;
+            border-radius: 25px;
+            overflow: hidden;
+            background: #fff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.4s ease;
+            height: 100%;
+        }
+        .dev-card:hover { transform: translateY(-15px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+        
+        /* Developer Image Improvement - Perfect Circle */
+        .dev-img-container { padding: 30px 30px 10px 30px; display: flex; justify-content: center; }
+        .dev-img { 
+            width: 160px;            /* Fix Width */
+            height: 160px;           /* Fix Height (Width ke barabar) */
+            border-radius: 50%;      /* Perfect Circle */
+            object-fit: cover;       /* Image stretch nahi hogi */
+            object-position: center; /* Image ka focus beech mein rahega */
+            border: 5px solid var(--secondary);
+            background: #eee;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .btn-premium {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white; border: none; border-radius: 50px;
+            padding: 12px 35px; font-weight: 600; transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-premium:hover { transform: scale(1.05); color: white; box-shadow: 0 5px 15px rgba(78, 84, 200, 0.4); }
+        
+        footer { background: #1a1a1a !important; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light navbar-custom sticky-top">
+        <div class="container">
+            <a class="navbar-brand travel-world-logo" href="#">✈️ TRAVEL WORLD</a>
+            
+            <div class="ms-auto d-flex align-items-center">
+                
+                <span class="blink-text">
+                    <i class="fas fa-hand-point-right me-2"></i>Click Here
+                </span>
+
+                <a href="{% url 'login' %}" class="btn btn-premium shadow-sm">
+                    Welcome Travelers <i class="fas fa-plane-departure ms-2"></i>
+                </a>
+
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container">
+            <h1 class="display-2 mb-3">Your Journey, <br>Our Blueprint.</h1>
+            <p class="lead mb-5 fs-4 opacity-90">Smart AI itineraries and budget tracking for the modern explorer.</p>
+            <a href="#about" class="btn btn-outline-light btn-lg rounded-pill px-5">Explore More</a>
+        </div>
+    </header>
+
+    <section id="about" class="section-padding bg-white">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 about-text pe-md-5">
+                    <h6 class="text-primary fw-bold text-uppercase mb-3">About the Project</h6>
+                    <h2 class="fw-bold mb-4">Redefining the Way You Travel</h2>
+                    <p>Travel World is a modern web application designed to simplify the chaotic process of trip planning. Whether you are a solo backpacker or traveling with family, our platform provides a structured way to manage your time and money.</p>
+                    <p>We believe that travel should be about the experience, not the stress of managing spreadsheets. Our smart engine auto-generates itineraries based on your budget and destination, ensuring you never miss a local landmark or hidden gem.</p>
+                    <p>With real-time image integration via Unsplash API, you get a visual feel of your destination even before you arrive. This project integrates Python, Django, and Bootstrap to deliver a seamless user experience across all devices.</p>
+                    <p>Our budget tracker keeps a close eye on your expenses, dividing your total budget into daily limits so you can enjoy your vacation without financial worries.</p>
+                    <p>Security is our priority. With Django’s robust authentication system, your trip data is safe and private. You can customize, update, and track your travel status with just a few clicks, making it the most reliable tool for travelers.</p>
+                </div>
+                <div class="col-md-6">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <img src="https://images.unsplash.com/photo-1503220317375-aaad61436b1b?auto=format&fit=crop&w=400" class="img-fluid rounded-4 shadow" alt="Travel">
+                        </div>
+                        <div class="col-6">
+                            <img src="https://images.unsplash.com/photo-1527631746610-bca00a040d60?auto=format&fit=crop&w=400" class="img-fluid rounded-4 shadow mt-4" alt="Travel">
+                        </div>
+                        <div class="col-6">
+                            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=400" class="img-fluid rounded-4 shadow" alt="Beach">
+                        </div>
+                        <div class="col-6">
+                            <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=400" class="img-fluid rounded-4 shadow mt-4" alt="Road Trip">
+                        </div>
+                        <div class="col-12">
+                            <img src="https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&w=800" class="img-fluid rounded-4 shadow mt-2" alt="Landscape">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding bg-light">
+        <div class="container text-center">
+            <h6 class="text-primary fw-bold text-uppercase mb-3">Expert Team</h6>
+            <h2 class="fw-bold mb-5">Meet the Developers</h2>
+            
+            <div class="row g-4 justify-content-center">
+                {% for dev in developers %}
+                <div class="col-md-3 text-center">
+                    <div class="card dev-card">
+                        <div class="dev-img-container">
+                            <img src="{{ dev.img }}" class="dev-img" alt="{{ dev.name }}" onerror="this.src='https://via.placeholder.com/150'">
+                        </div>
+                        <div class="card-body pb-4">
+                            <h5 class="fw-bold mb-1">{{ dev.name }}</h5>
+                            <p class="text-primary small fw-bold mb-3">{{ dev.role }}</p>
+                            <div class="d-flex justify-content-center gap-3">
+                                <a href="#" class="text-muted"><i class="fab fa-github"></i></a>
+                                <a href="#" class="text-muted"><i class="fab fa-linkedin"></i></a>
+                                <a href="#" class="text-muted"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="text-muted">Developers data not found in views.py</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-dark text-white py-5 text-center">
+        <div class="container">
+            <h4 class="fw-bold mb-3 text-white">TRAVEL WORLD</h4>
+            <p class="mb-2 opacity-75">© 2026 Travel World Project | All Rights Reserved</p>
+            <div class="small opacity-50">Built with Python • Django • Bootstrap • Unsplash API</div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

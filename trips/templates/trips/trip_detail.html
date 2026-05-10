@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{ trip.destination }} Plan</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background: #f8f9fa; }
+        .carousel-item img { height: 450px; object-fit: cover; border-radius: 0 0 30px 30px; }
+        .day-card { border: none; border-radius: 15px; transition: 0.3s; }
+        .day-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .status-badge { font-size: 0.8rem; padding: 5px 12px; border-radius: 20px; }
+    </style>
+</head>
+<body>
+
+<div id="tripSlider" class="carousel slide carousel-fade" data-bs-ride="carousel">
+    <div class="carousel-inner shadow-lg">
+        {% for img in trip.image_list %}
+        <div class="carousel-item {% if forloop.first %}active{% endif %}" data-bs-interval="3000">
+            <img src="{{ img }}" class="d-block w-100">
+            <div class="carousel-caption" style="background: rgba(0,0,0,0.4); border-radius: 20px;">
+                <h1 class="display-4 fw-bold">Happy Journey, {{ user.username }}!</h1>
+                <p>Exploring {{ trip.destination }} for {{ trip.total_days }} days</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold"><i class="fa fa-map-marked-alt text-primary"></i> Detailed Schedule</h2>
+        <span class="h5 badge bg-dark">Total Budget: ₹{{ trip.budget }}</span>
+    </div>
+
+    <div class="row">
+        {% for day in trip.days.all %}
+        <div class="col-md-6 mb-4">
+            <div class="card day-card shadow-sm">
+                <div class="card-header bg-white border-0 pt-3 d-flex justify-content-between">
+                    <span class="text-primary fw-bold">DAY {{ day.day_number }}</span>
+                    <span class="badge bg-light text-dark border">Cost: ₹{{ day.cost_estimate }}</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="fw-bold">{{ day.activity_title }}</h5>
+                    <p class="text-muted mb-3 small"><i class="fa fa-clock"></i> {{ day.time_slot }}</p>
+                    
+                    <a href="https://www.google.com/maps/search/{{ day.location_address|urlencode }}" target="_blank" class="btn btn-outline-primary btn-sm mb-3 w-100">
+                        <i class="fa fa-location-arrow"></i> Navigate on Google Maps
+                    </a>
+
+                    <div class="p-3 rounded bg-light">
+                        <form action="{% url 'update_status' day.id %}" method="POST">
+                            {% csrf_token %}
+                            <p class="small fw-bold mb-2">Track Status:</p>
+                            <div class="btn-group w-100 mb-2">
+                                <button type="submit" name="status" value="Completed" class="btn btn-sm btn-outline-success {% if day.status == 'Completed' %}active{% endif %}">Completed</button>
+                                <button type="button" class="btn btn-sm btn-outline-warning {% if day.status == 'Pending' %}active{% endif %}" onclick="document.getElementById('note-{{day.id}}').style.display='block'">Pending</button>
+                            </div>
+                            
+                            <div id="note-{{day.id}}" style="display: {% if day.notes %}block{% else %}none{% endif %};">
+                                <textarea name="notes" class="form-control form-control-sm mb-2" placeholder="Why pending? (e.g. Raining)">{{ day.notes }}</textarea>
+                                <button type="submit" name="status" value="Pending" class="btn btn-dark btn-sm w-100">Save Note</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
