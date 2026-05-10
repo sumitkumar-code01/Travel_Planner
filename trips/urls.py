@@ -4,7 +4,7 @@ from django.contrib.auth import views as auth_views
 
 # trips/urls.py
 urlpatterns = [
-    path('', views.intro_page, name='landing'),
+    path('', views.home, name='landing'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('login/', views.stylish_login, name='login'),
     # 'add/' ko badal kar 'add-trip/' kiya taaki 404 na aaye

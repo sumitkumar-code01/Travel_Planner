@@ -102,7 +102,7 @@ LOGIN_URL = '/login/'
 
 # 2. Login button click karne ke baad user kahan jayega
 LOGIN_REDIRECT_URL = '/add_trip/'
-LOGOUT_REDIRECT_URL = 'landing'
+
 # 3. Logout karne ke baad user kahan jayega (Intro Page)
 LOGOUT_REDIRECT_URL = '/'
 

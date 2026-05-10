@@ -9,7 +9,7 @@ from django.contrib.auth import login as auth_login
 from decimal import Decimal
 
 # Introduction Page Logic
-def intro_page(request):
+def home(request):
     # Agar user manual address bar mein '/' likhe, toh use landing hi dikhna chahiye
     # Dashboard par user sirf LOGIN karne ke baad hi ja payega
     
@@ -19,7 +19,7 @@ def intro_page(request):
         {'name': 'Khushi Kumari', 'role': 'Backend Expert', 'img': '/static/images/Khushi_Kumari.jpeg'},
         {'name': 'Priyanshu Kumari', 'role': 'Database Manager', 'img': '/static/images/Priya_Kumari.jpeg'},
     ]
-    return render(request, 'trips/landing.html', {'developers': developers})
+    return render(request, 'trips/home.html', {'developers': developers})
 
 @login_required
 def dashboard(request):
