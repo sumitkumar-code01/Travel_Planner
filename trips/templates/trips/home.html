@@ -10,8 +10,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     
-    {% load static %}
-
     <style>
         :root { --primary: #4e54c8; --secondary: #8f94fb; --dark: #2d3436; --accent: #ff5a5f; }
         body { font-family: 'Poppins', sans-serif; background-color: #f8f9fa; color: var(--dark); overflow-x: hidden; }
@@ -90,11 +88,10 @@
         /* Developer Image Improvement - Perfect Circle */
         .dev-img-container { padding: 30px 30px 10px 30px; display: flex; justify-content: center; }
         .dev-img { 
-            width: 160px;            /* Fix Width */
-            height: 160px;           /* Fix Height (Width ke barabar) */
-            border-radius: 50%;      /* Perfect Circle */
-            object-fit: cover;       /* Image stretch nahi hogi */
-            object-position: center; /* Image ka focus beech mein rahega */
+            width: 160px; height: 160px; 
+            border-radius: 50%; 
+            object-fit: cover; 
+            object-position: center; 
             border: 5px solid var(--secondary);
             background: #eee;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
@@ -116,18 +113,29 @@
 
     <nav class="navbar navbar-expand-lg navbar-light navbar-custom sticky-top">
         <div class="container">
-            <a class="navbar-brand travel-world-logo" href="#">✈️ TRAVEL WORLD</a>
+            <a class="navbar-brand travel-world-logo" href="{% url 'landing' %}">✈️ TRAVEL WORLD</a>
             
-            <div class="ms-auto d-flex align-items-center">
-                
-                <span class="blink-text">
-                    <i class="fas fa-hand-point-right me-2"></i>Click Here
-                </span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                <a href="{% url 'login' %}" class="btn btn-premium shadow-sm">
-                    Welcome Travelers <i class="fas fa-plane-departure ms-2"></i>
-                </a>
-
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link fw-bold text-dark mx-2" href="{% url 'landing' %}"><i class="fas fa-home me-1"></i> HOME</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-bold text-dark mx-2" href="{% url 'contact_us' %}"><i class="fas fa-envelope me-1"></i> CONTACT</a>
+                    </li>
+                    <li class="nav-item ms-lg-3">
+                        <span class="blink-text d-none d-lg-inline">
+                            <i class="fas fa-hand-point-right me-2"></i>Click Here
+                        </span>
+                        <a href="{% url 'login' %}" class="btn btn-premium shadow-sm">
+                            Welcome Travelers <i class="fas fa-plane-departure ms-2"></i>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>

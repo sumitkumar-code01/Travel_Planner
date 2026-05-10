@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>{{ trip.destination }} Plan</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% extends 'trips/base.html' %}
+{% load static %}
+
+{% block extra_css %}
     <style>
         body { background: #f8f9fa; }
         .carousel-item img { height: 450px; object-fit: cover; border-radius: 0 0 30px 30px; }
@@ -11,9 +9,9 @@
         .day-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
         .status-badge { font-size: 0.8rem; padding: 5px 12px; border-radius: 20px; }
     </style>
-</head>
-<body>
+{% endblock %}
 
+{% block content %}
 <div id="tripSlider" class="carousel slide carousel-fade" data-bs-ride="carousel">
     <div class="carousel-inner shadow-lg">
         {% for img in trip.image_list %}
@@ -71,7 +69,4 @@
         {% endfor %}
     </div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+{% endblock %}

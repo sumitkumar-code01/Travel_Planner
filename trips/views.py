@@ -21,6 +21,16 @@ def home(request):
     ]
     return render(request, 'trips/home.html', {'developers': developers})
 
+def contact_us(request):
+    developers = [
+        {'name': 'Sumit Kumar', 'role': 'Lead Developer', 'img': '/static/images/SUMIT_PIC.jpeg'},
+        {'name': 'Rishu Raj', 'role': 'UI Designer', 'img': '/static/images/Rishu_Raj.jpeg'},
+        {'name': 'Khushi Kumari', 'role': 'Backend Expert', 'img': '/static/images/Khushi_Kumari.jpeg'},
+        {'name': 'Priyanshu Kumari', 'role': 'Database Manager', 'img': '/static/images/Priya_Kumari.jpeg'},
+    ]
+    return render(request, 'trips/contactus.html', {'developers': developers})
+
+
 @login_required
 def dashboard(request):
     # Ab dashboard sirf tabhi khulega jab user login ho jayega

@@ -7,6 +7,8 @@ urlpatterns = [
     path('', views.home, name='landing'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('login/', views.stylish_login, name='login'),
+    path('contact-us/', views.contact_us, name='contact_us'),
+    
     # 'add/' ko badal kar 'add-trip/' kiya taaki 404 na aaye
     path('add-trip/', views.add_trip, name='add_trip'), 
     path('trip/<int:pk>/', views.trip_detail, name='trip_detail'),
