@@ -1,84 +1,279 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Contact Us | Travel World Developers</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root { --primary: #4e54c8; --secondary: #8f94fb; --accent: #ff5a5f; }
-        body { font-family: 'Poppins', sans-serif; background: #f4f7f6; }
-        
-        .contact-header { 
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            padding: 80px 0; color: white; text-align: center; border-radius: 0 0 50px 50px;
-        }
+{% extends 'trips/base.html' %}
+{% block content %}
+<style>
+    :root { 
+        --primary: #4e54c8; 
+        --secondary: #8f94fb; 
+        --dark: #0c0919; 
+        --accent: #ff5a5f; 
+        --neon-cyan: #00f2fe;
+        --card-radius: 24px;
+        --squircle-radius: 16px;
+    }
+    
+    body { 
+        background: linear-gradient(135deg, #0c0919 0%, #120e24 50%, #171130 100%);
+        min-height: 100vh;
+        color: #ffffff;
+        overflow-x: hidden;
+    }
+    
+    /* --- MASSIVE & HIGH-END CINEMATIC SLIDESHOW HEADER --- */
+    .contact-header { 
+        position: relative;
+        height: 65vh; /* Perfect proportional large screen view */
+        min-height: 480px;
+        color: white; 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center; 
+        border-radius: 0 0 70px 70px;
+        overflow: hidden;
+        box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6);
+        z-index: 10;
+    }
 
-        .dev-card {
-            border: none; border-radius: 20px; overflow: hidden;
-            background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: 0.4s; height: 100%;
-        }
-        .dev-card:hover { transform: translateY(-10px); }
+    .header-image-track {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        z-index: 1;
+    }
 
-        .dev-img { 
-            width: 120px; height: 120px; border-radius: 50%; 
-            object-fit: cover; border: 4px solid var(--secondary);
-            margin: 20px auto; display: block;
-        }
+    .header-loop-img {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        transform: scale(1.06);
+        transition: opacity 1.5s ease-in-out, transform 5s ease-out;
+    }
 
-        .contact-icon {
-            width: 40px; height: 40px; border-radius: 50%;
-            display: inline-flex; align-items: center; justify-content: center;
-            margin: 5px; color: white; text-decoration: none; transition: 0.3s;
-        }
-        .bg-whatsapp { background: #25D366; }
-        .bg-phone { background: #3498db; }
-        .bg-email { background: var(--accent); }
-        
-        .contact-icon:hover { opacity: 0.8; transform: scale(1.1); color: white; }
-    </style>
-</head>
-<body>
+    .header-loop-img.active {
+        opacity: 0.85; 
+        transform: scale(1);
+    }
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
-        <div class="container">
-            <a class="navbar-brand fw-bold text-primary" href="{% url 'landing' %}">✈️ TRAVEL WORLD</a>
-            <div class="ms-auto">
-                <a class="btn btn-outline-primary rounded-pill px-4" href="{% url 'landing' %}">Back to Home</a>
-            </div>
-        </div>
-    </nav>
+    .clear-dark-tint {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: linear-gradient(180deg, rgba(12, 9, 25, 0.1) 0%, rgba(12, 9, 25, 0.75) 100%);
+        z-index: 2;
+    }
 
-    <div class="contact-header">
-        <h1 class="fw-bold">Meet Our Creative Team</h1>
-        <p class="lead">We are here to help you plan your next big adventure!</p>
+    .contact-header .container-fluid {
+        position: relative;
+        z-index: 5;
+    }
+
+    .exclusive-badge-tag {
+        background: linear-gradient(90deg, rgba(0, 242, 254, 0.2) 0%, rgba(255, 0, 127, 0.2) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+        padding: 6px 20px;
+        border-radius: 30px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        display: inline-block;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        animation: pulseGlow 3s infinite alternate;
+    }
+
+    @keyframes pulseGlow {
+        0% { box-shadow: 0 4px 15px rgba(0, 242, 254, 0.2); }
+        100% { box-shadow: 0 4px 25px rgba(255, 0, 127, 0.4); }
+    }
+
+    .gradient-headline {
+        background: linear-gradient(45deg, #ff007f, var(--neon-cyan), #ffea00);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shineText 4s linear infinite;
+        font-weight: 900;
+        font-size: 3.8rem; 
+        letter-spacing: -1.5px;
+        text-shadow: 0 5px 30px rgba(0, 0, 0, 0.8);
+    }
+
+    @keyframes shineText {
+        to { background-position: 200% center; }
+    }
+
+    /* --- 🔥 FIXED: CARDS SHIFTED SAFELY BELOW THE HEADER IMAGE --- */
+    .lowered-grid-wrapper {
+        margin-top: 40px; /* Purane negative margin ko hata kar positive spacing de di h taaki card niche rahe */
+        position: relative; 
+        z-index: 20;
+        padding-bottom: 90px;
+    }
+
+    .dev-card {
+        border: 1px solid rgba(255, 255, 255, 0.12) !important; 
+        border-radius: var(--card-radius) !important; 
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.05) !important; 
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        box-shadow: 0 35px 70px rgba(0, 0, 0, 0.45) !important; 
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) !important; 
+        height: 100%;
+    }
+    
+    .dev-card:hover { 
+        transform: translateY(-10px); 
+        border-color: rgba(0, 242, 254, 0.4) !important;
+        box-shadow: 0 45px 90px rgba(78, 84, 200, 0.25) !important;
+    }
+
+    .dev-img-wrapper {
+        position: relative;
+        display: inline-block;
+        margin: 35px auto 15px;
+    }
+
+    .dev-img { 
+        width: 130px; height: 130px; 
+        border-radius: 50%; object-fit: cover; 
+        border: 4px solid rgba(255, 255, 255, 0.9);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        transition: transform 0.4s ease;
+    }
+
+    .dev-card:hover .dev-img {
+        transform: scale(1.05) rotate(3deg);
+        border-color: var(--neon-cyan);
+    }
+
+    .role-badge {
+        background: rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+        padding: 5px 16px; border-radius: 30px;
+        font-size: 0.78rem; font-weight: 700; letter-spacing: 1px;
+        text-transform: uppercase;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    /* --- PREMIUM SQUIRCLE INTERACTIVE CONTACT BUTTONS --- */
+    .fancy-squircle-button {
+        width: 46px; height: 46px;
+        display: inline-flex; align-items: center; justify-content: center;
+        margin: 0 8px; color: white !important; text-decoration: none;
+        font-size: 1.2rem;
+        border-radius: var(--squircle-radius);
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .btn-whatsapp { background: linear-gradient(135deg, #25D366 0%, #1ebd57 100%); }
+    .btn-phone { background: linear-gradient(135deg, #00f2fe 0%, #4e54c8 100%); }
+    .btn-email { background: linear-gradient(135deg, #ff5a5f 0%, #fe0979 100%); }
+    
+    .fancy-squircle-button:hover { 
+        transform: translateY(-5px) scale(1.15);
+        filter: brightness(1.15);
+        box-shadow: 0 10px 20px rgba(0, 242, 254, 0.3);
+    }
+
+    hr { opacity: 0.1; margin: 25px 0; }
+
+    /* --- CHAMELEON NEON FOOTER TEXT --- */
+    .glowing-footer {
+        text-align: center;
+        padding: 35px 0;
+        position: relative;
+        z-index: 20;
+    }
+
+    .animated-neon-text {
+        font-size: 1rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        background: linear-gradient(45deg, #ff007f, #00f2fe, #ffea00, #4e54c8, #ff007f);
+        background-size: 400% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: inline-block;
+        animation: neonWave 6s linear infinite;
+        text-shadow: 0 0 12px rgba(0, 242, 254, 0.15);
+    }
+
+    @keyframes neonWave {
+        0% { background-position: 0% center; }
+        100% { background-position: 400% center; }
+    }
+</style>
+
+<!-- EXPANDED HIGH-QUALITY SLIDESHOW HERO STAGE -->
+<div class="contact-header">
+    <div class="header-image-track">
+        <img src="https://images.unsplash.com/photo-1539635278303-d4002c07eae3?auto=format&fit=crop&w=1600&q=80" class="header-loop-img active">
+        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80" class="header-loop-img">
+        <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1600&q=80" class="header-loop-img">
+        <img src="https://images.unsplash.com/photo-1581791534721-e599df4417f7?auto=format&fit=crop&w=1600&q=80" class="header-loop-img">
+        <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1600&q=80" class="header-loop-img">
     </div>
+    
+    <div class="clear-dark-tint"></div>
+    
+    <div class="container-fluid px-3">
+        <span class="exclusive-badge-tag">Architects of Travel World</span>
+        <h1 class="gradient-headline mb-3">Meet Our Creative Team</h1>
+        <p class="lead opacity-85 mb-0 max-width-text mx-auto" style="max-width: 600px;">We design automated full-stack itinerary modules to simplify your chaotic booking journeys map systems.</p>
+    </div>
+</div>
 
-    <div class="container mt-n5 mb-5" style="margin-top: -50px;">
-        <div class="row g-4 justify-content-center">
-            {% for dev in developers %}
-            <div class="col-md-3">
-                <div class="card dev-card text-center p-3">
+<!-- COMPRESSED LOWERED MAIN CARDS MATRIX GRID -->
+<div class="container lowered-grid-wrapper">
+    <div class="row g-4 justify-content-center">
+        {% for dev in developers %}
+        <div class="col-lg-3 col-md-6">
+            <div class="card dev-card text-center p-3">
+                
+                <div class="dev-img-wrapper">
                     <img src="{{ dev.img }}" class="dev-img" alt="{{ dev.name }}">
-                    <h5 class="fw-bold mb-1">{{ dev.name }}</h5>
-                    <p class="text-primary small fw-bold">{{ dev.role }}</p>
-                    <hr>
-                    <div class="d-flex justify-content-center">
-                        <a href="https://wa.me/911234567890" class="contact-icon bg-whatsapp" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                        <a href="tel:+911234567890" class="contact-icon bg-phone" title="Call Us"><i class="fas fa-phone-alt"></i></a>
-                        <a href="mailto:contact@travelworld.com" class="contact-icon bg-email" title="Email Us"><i class="fas fa-envelope"></i></a>
-                    </div>
+                </div>
+                
+                <h5 class="fw-bold mb-2 text-white">{{ dev.name }}</h5>
+                <div class="mb-3">
+                    <span class="role-badge">{{ dev.role }}</span>
+                </div>
+                
+                <hr>
+                
+                <!-- CONTACT ACTIONS SQUIRCLES -->
+                <div class="d-flex justify-content-center pb-2">
+                    <a href="https://wa.me/911234567890" class="fancy-squircle-button btn-whatsapp" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="tel:+911234567890" class="fancy-squircle-button btn-phone" title="Call Us"><i class="fas fa-phone-alt"></i></a>
+                    <a href="mailto:contact@travelworld.com" class="fancy-squircle-button btn-email" title="Email Us"><i class="fas fa-envelope"></i></a>
                 </div>
             </div>
-            {% endfor %}
         </div>
+        {% endfor %}
     </div>
+</div>
 
-    <footer class="text-center py-4 text-muted small">
+<!-- GLOWING FOOTER REDIRECTION NODE -->
+<footer class="glowing-footer">
+    <span class="animated-neon-text">
         © 2026 Travel World Project | Designed with ❤️
-    </footer>
+    </span>
+</footer>
 
-</body>
-</html>
+<!-- CONTINUOUS BACKEND ASSET MANAGER ROTATOR SCRIPT -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const headSlides = document.querySelectorAll('.header-loop-img');
+        let headIdx = 0;
+        setInterval(() => {
+            headSlides[headIdx].classList.remove('active');
+            headIdx = (headIdx + 1) % headSlides.length;
+            headSlides[headIdx].classList.add('active');
+        }, 3500);
+    });
+</script>
+{% endblock %}
