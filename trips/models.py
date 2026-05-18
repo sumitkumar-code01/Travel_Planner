@@ -29,3 +29,5 @@ class Itinerary(models.Model):
 
     class Meta:
         ordering = ['day_number']
+
+

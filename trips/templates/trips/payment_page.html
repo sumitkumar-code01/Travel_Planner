@@ -1,0 +1,242 @@
+{% extends 'trips/base.html' %}
+{% block content %}
+<style>
+    :root {
+        --travel-primary: #0d6efd;
+        --travel-success: #198754;
+        --travel-dark: #1d002c;
+        --travel-bg: #f4f7f6;
+        --card-radius: 24px;
+        --input-radius: 14px;
+    }
+
+    body {
+        background-color: var(--travel-bg);
+    }
+
+    .payment-wrapper {
+        display: flex;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(15px);
+        border-radius: var(--card-radius);
+        box-shadow: 0 25px 60px rgba(29, 0, 44, 0.11) !important;
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        overflow: hidden;
+        min-height: 680px;
+    }
+
+    /* Left Side Ambient Slideshow Dashboard */
+    .payment-showcase {
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+        background: var(--travel-dark);
+        display: none;
+    }
+
+    @media (min-width: 992px) {
+        .payment-showcase {
+            display: block;
+        }
+    }
+
+    .showcase-img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        transition: opacity 1.5s ease-in-out, transform 6s linear;
+    }
+
+    .showcase-img.active {
+        opacity: 0.55;
+        transform: scale(1.06);
+    }
+
+    .showcase-text {
+        position: absolute;
+        bottom: 40px;
+        left: 40px;
+        right: 40px;
+        z-index: 10;
+        color: white;
+        text-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+    }
+
+    .showcase-text h3 {
+        font-weight: 800;
+        font-size: 2rem;
+        letter-spacing: -0.5px;
+    }
+
+    /* Right Side Checkout Engine */
+    .checkout-panel {
+        flex: 1.1;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    @media (max-width: 576px) {
+        .checkout-panel {
+            padding: 25px 20px;
+        }
+    }
+
+    .user-greeting {
+        background: rgba(13, 110, 237, 0.05);
+        padding: 18px;
+        border-radius: var(--input-radius);
+        border: 1px solid rgba(13, 110, 237, 0.1);
+    }
+
+    .amount-badge {
+        font-size: 2.6rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--travel-dark) 0%, var(--travel-primary) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 15px;
+    }
+
+    .qr-image-wrapper {
+        border: 2px solid #e2e8f0;
+        padding: 12px;
+        border-radius: var(--input-radius);
+        display: inline-block;
+        background: #ffffff;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .qr-image-wrapper:hover {
+        transform: scale(1.02);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08) !important;
+    }
+
+    .btn-pay-app {
+        background: linear-gradient(135deg, #1d002c 0%, #000000 100%);
+        color: white !important;
+        border-radius: var(--input-radius);
+        padding: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s ease;
+        border: none;
+    }
+
+    .btn-pay-app:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
+        background: linear-gradient(135deg, #000000 0%, #2d0044 100%);
+    }
+
+    .btn-verify-schedule {
+        border-radius: 30px;
+        padding: 10px 20px;
+        font-weight: 700;
+        transition: all 0.3s ease;
+        border: 2px solid var(--travel-primary);
+        color: var(--travel-primary);
+        background: transparent;
+    }
+
+    .btn-verify-schedule:hover {
+        background-color: var(--travel-primary);
+        color: white !important;
+        transform: translateY(-1px);
+    }
+</style>
+
+<div class="container py-5 mt-4">
+    <div class="row justify-content-center">
+        <div class="col-xl-11">
+            
+            <div class="payment-wrapper">
+                
+                <!-- LEFT SIDE: Premium Rotating Imagery Showcase -->
+                <div class="payment-showcase">
+                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" class="showcase-img active" alt="Ocean Gateway">
+                    <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=800&q=80" class="showcase-img" alt="Mountain Pass">
+                    <img src="https://images.unsplash.com/photo-1581791534721-e599df4417f7?auto=format&fit=crop&w=800&q=80" class="showcase-img" alt="Leh Palace Corridor">
+                    <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80" class="showcase-img" alt="Highways Route">
+                    <img src="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80" class="showcase-img" alt="Kerala Houseboat">
+
+                    <div class="showcase-text">
+                        <span class="badge bg-primary mb-2 px-3 py-2 text-uppercase fw-bold" style="letter-spacing: 1px;">Secure Gateway</span>
+                        <h3>Pack Your Bags</h3>
+                        <p class="mb-0 opacity-75">Your payment transitions instantly into confirmed travel coordinates.</p>
+                    </div>
+                </div>
+
+                <!-- RIGHT SIDE: Main Gateway Dashboard -->
+                <div class="checkout-panel">
+                    <div class="text-center text-lg-start mb-4">
+                        <h4 class="fw-bold text-dark mb-1">Secure Checkout</h4>
+                        <p class="small text-muted mb-0">Scan the cryptographically signed dynamic QR or launch via application link</p>
+                    </div>
+                    
+                    <!-- FIXED: Greeting layout container parsing request.user variables -->
+                    <div class="user-greeting mb-4 text-center text-lg-start">
+                        <h5 class="fw-bold text-dark mb-1">Hi, {{ request.user.username }} 👋</h5>
+                        <p class="small text-muted mb-0">Complete your payment for <strong>{{ destination }}</strong></p>
+                    </div>
+
+                    <div class="text-center">
+                        <div class="amount-badge">₹{{ amount }}</div>
+                        
+                        <div class="qr-image-wrapper shadow-sm mb-4">
+                            <img src="data:image/png;base64,{{ qr_code }}" alt="Payment QR" width="220">
+                        </div>
+
+                        <div class="d-grid gap-2 mb-3 max-width-form mx-auto" style="max-width: 320px;">
+                            <a href="{{ upi_url }}" class="btn-pay-app">
+                                <i class="fas fa-mobile-alt"></i> Pay via UPI App
+                            </a>
+                        </div>
+
+                        <p class="small text-muted mb-4"><i class="fas fa-shield-alt text-success me-1"></i> Instantly accepting GPay, PhonePe, Paytm & Bank Apps</p>
+                        
+                        <hr class="my-4 opacity-10">
+
+                        <!-- FIXED: Corrected parameter names inside the template query string -->
+                        <div class="px-2">
+                            <a href="/booking-confirmed/?amount={{ amount }}&destination={{ destination }}&days={{ days }}&members={{ members }}" 
+                                class="btn btn-verify-schedule w-100 fw-bold small text-uppercase">
+                                Already Paid? View My Schedule
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Background Image Rotating Script Core -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const imgs = document.querySelectorAll('.showcase-img');
+        let currentIdx = 0;
+        
+        function rotateShowcaseImages() {
+            imgs[currentIdx].classList.remove('active');
+            currentIdx = (currentIdx + 1) % imgs.length;
+            imgs[currentIdx].classList.add('active');
+        }
+        
+        // Fluid transition rotation interval timing loop 4.5 seconds
+        setInterval(rotateShowcaseImages, 4500);
+    });
+</script>
+{% endblock %}

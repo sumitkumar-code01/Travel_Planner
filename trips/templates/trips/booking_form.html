@@ -1,0 +1,174 @@
+{% extends 'trips/base.html' %}
+{% block content %}
+<style>
+    :root {
+        --travel-primary: #0d6efd;
+        --travel-dark: #1d002c;
+        --travel-bg: #f4f7f6;
+        --card-radius: 24px;
+        --input-radius: 12px;
+    }
+
+    body { background-color: var(--travel-bg); }
+
+    .booking-wrapper {
+        display: flex;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: var(--card-radius);
+        box-shadow: 0 25px 60px rgba(29, 0, 44, 0.1) !important;
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        overflow: hidden;
+        min-height: 600px;
+    }
+
+    .showcase-sidebar {
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+        background: var(--travel-dark);
+        display: none;
+    }
+
+    @media (min-width: 992px) { .showcase-sidebar { display: block; } }
+
+    .showcase-img {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        object-fit: cover; opacity: 0;
+        transition: opacity 1.5s ease-in-out, transform 6s linear;
+    }
+
+    .showcase-img.active { opacity: 0.6; transform: scale(1.08); }
+
+    .showcase-overlay {
+        position: absolute; bottom: 40px; left: 40px; right: 40px;
+        z-index: 10; color: white; text-shadow: 0 4px 15px rgba(0,0,0,0.6);
+    }
+
+    .form-panel { flex: 1.2; padding: 40px; }
+
+    .manifest-pill {
+        background: rgba(13, 110, 237, 0.08);
+        color: var(--travel-primary);
+        font-weight: 600; font-size: 0.85rem;
+        padding: 6px 14px; border-radius: 30px;
+        display: inline-flex; align-items: center; margin: 4px;
+    }
+
+    .form-control {
+        border-radius: var(--input-radius); padding: 14px;
+        border: 2px solid #e2e8f0; font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: var(--travel-primary);
+        box-shadow: 0 0 0 4px rgba(13, 110, 237, 0.15);
+    }
+
+    .btn-view-package {
+        background: linear-gradient(135deg, #198754 0%, #157347 100%);
+        border: none; border-radius: var(--input-radius);
+        padding: 16px; font-size: 1.1rem; color: white;
+        box-shadow: 0 8px 20px rgba(25, 135, 84, 0.25);
+        transition: all 0.3s ease;
+    }
+
+    .btn-view-package:hover {
+        transform: translateY(-2px); color: white;
+        box-shadow: 0 12px 25px rgba(25, 135, 84, 0.35);
+    }
+</style>
+
+<div class="container py-5 mt-4">
+    <div class="row justify-content-center">
+        <div class="col-xl-11">
+            <div class="booking-wrapper">
+                
+                <!-- LEFT SIDE: Rotating Ambience Imagery -->
+                <div class="showcase-sidebar">
+                    <img src="https://images.unsplash.com/photo-1506461883276-594a12b11cc3?auto=format&fit=crop&w=800&q=80" class="showcase-img active">
+                    <img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=800&q=80" class="showcase-img">
+                    <img src="https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=800&q=80" class="showcase-img">
+                    
+                    <div class="showcase-overlay">
+                        <span class="badge bg-warning text-dark mb-2 px-3 py-2 text-uppercase fw-bold">Live Configuration</span>
+                        <h2>Secure Your Travel Dates</h2>
+                        <p class="mb-0 opacity-75">Your curated {{ package_days }} Days timeline maps dynamically to this initialization vector.</p>
+                    </div>
+                </div>
+
+                <!-- RIGHT SIDE: Configurator Engine Form Panel -->
+                <div class="form-panel">
+                    <div class="mb-4">
+                        <h3 class="fw-bold text-dark mb-1">Set Journey Timeline</h3>
+                        <p class="text-muted small">Confirm deployment window for your premium package to <strong>{{ place_name }}</strong></p>
+                    </div>
+
+                    <!-- Verified Travelers Board View -->
+                    <div class="card p-3 border-0 bg-light rounded-4 mb-4">
+                        <span class="text-uppercase text-secondary fw-bold mb-2" style="font-size: 0.7rem; letter-spacing: 0.5px;">Attached Crew Manifest</span>
+                        <div class="d-flex flex-wrap m-n1">
+                            <!-- FIXED: Now showing strictly the logged-in User's Username -->
+                            <span class="manifest-pill"><i class="fas fa-user-shield me-2"></i>{{ login_username }}</span>
+                            {% for name in co_names %}
+                                <span class="manifest-pill"><i class="fas fa-user me-2"></i>{{ name }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="mt-2 text-muted small" style="font-size: 0.75rem;">
+                            Total Registered Group Size: <strong>{{ total_members }} Traveler(s)</strong>
+                        </div>
+                    </div>
+
+                    <form method="POST">
+                        {% csrf_token %}
+                        
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-dark mb-2">Select Start Date <span class="text-danger">*</span></label>
+                            <input type="date" name="start_date" id="start_date_input" class="form-control form-control-lg" required>
+                            <div class="form-text text-muted mt-2">
+                                <i class="fas fa-info-circle me-1"></i> Selection restricted to current or upcoming open booking slots only. Past dates are blocked.
+                            </div>
+                        </div>
+
+                        <!-- Static Meta Display Badge for Duration Info -->
+                        <div class="p-3 rounded-3 mb-4 bg-white border d-flex justify-content-between align-items-center">
+                            <div>
+                                <small class="text-muted d-block text-uppercase fw-bold" style="font-size: 0.65rem;">Package Duration</small>
+                                <span class="fw-bold text-dark" style="font-size: 1.1rem;"><i class="far fa-calendar-alt text-primary me-2"></i>{{ package_days }} Days Standard Itinerary</span>
+                            </div>
+                            <span class="badge bg-primary px-3 py-2 rounded-pill">Fixed Rate</span>
+                        </div>
+
+                        <!-- Action Redirection Trigger Button -->
+                        <div class="mt-5">
+                            <button type="submit" class="btn btn-view-package w-100 fw-bold py-3">
+                                View Your Amazing Package <i class="fas fa-arrow-right ms-2"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Date Validation Guard Control Script -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const dateInput = document.getElementById('start_date_input');
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.setAttribute('min', today);
+        
+        const imgs = document.querySelectorAll('.showcase-img');
+        let idx = 0;
+        setInterval(() => {
+            imgs[idx].classList.remove('active');
+            idx = (idx + 1) % imgs.length;
+            imgs[idx].classList.add('active');
+        }, 4000);
+    });
+</script>
+{% endblock %}

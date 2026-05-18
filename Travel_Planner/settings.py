@@ -97,7 +97,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # --- Login / Logout Logic (FIXED & SYSTEMATIC) ---
 
-# 1. Jab koi login wala page access karega (/login/ click karega)
+
 LOGIN_URL = '/login/'
 
 # 2. Login button click karne ke baad user kahan jayega
@@ -108,3 +108,15 @@ LOGOUT_REDIRECT_URL = '/'
 
 # 4. GET request se logout allow karne ke liye (Important for manual logout)
 LOGOUT_ON_GET = True
+
+LOGIN_REDIRECT_URL = 'login_check'
+
+LOGOUT_REDIRECT_URL = 'landing'
+
+
+# Django settings.py
+CSRF_COOKIE_SECURE = False  # Localhost par runs karne ke liye False rakhein
+CSRF_COOKIE_HTTPONLY = True
+# Agar aap localhost standard terminal use kar rahe hain toh iski zaroorat nahi, 
+# lekin back-button issue ke liye ye help karta hai:
+CSRF_USE_SESSIONS = True

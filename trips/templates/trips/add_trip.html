@@ -1,13 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Your Plan | Travel World</title>
+    <!-- Google Fonts for Premium Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; align-items: center; font-family: 'Poppins', sans-serif; }
-        .card-plan { border-radius: 25px; border: none; box-shadow: 0 15px 35px rgba(0,0,0,0.2); background: white; padding: 40px; }
-        .form-control { border-radius: 10px; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; }
-        .btn-create { background: #4e54c8; color: white; border-radius: 10px; padding: 12px; width: 100%; font-weight: bold; border: none; }
+        body { 
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #c084fc 100%); 
+            min-height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            font-family: 'Poppins', sans-serif; 
+            padding: 20px 0;
+        }
+        .card-plan { 
+            border-radius: 24px; 
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25); 
+            background: #ffffff; 
+            padding: 45px 40px; 
+            transition: all 0.3s ease;
+        }
+        .form-label {
+            color: #4b5563;
+            letter-spacing: 0.3px;
+            margin-bottom: 8px;
+        }
+        .form-control { 
+            border-radius: 12px; 
+            padding: 14px 16px; 
+            margin-bottom: 18px; 
+            border: 1px solid #e5e7eb; 
+            background-color: #f9fafb;
+            color: #1f2937;
+            font-size: 0.95rem;
+            transition: all 0.2s ease-in-out;
+        }
+        .form-control:focus {
+            background-color: #ffffff;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+            outline: none;
+        }
+        .form-control::placeholder {
+            color: #9ca3af;
+        }
+        .form-control:disabled {
+            background-color: #f3f4f6;
+            color: #9ca3af;
+            border-color: #e5e7eb;
+        }
+        .btn-create-plan { 
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); 
+            color: white; 
+            border-radius: 12px; 
+            padding: 14px; 
+            width: 100%; 
+            font-weight: 600; 
+            font-size: 1.05rem;
+            border: none; 
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 14px rgba(79, 70, 229, 0.4);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .btn-create-plan:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.6);
+            background: linear-gradient(135deg, #4338ca 0%, #6d28d9 100%);
+            color: white;
+        }
+        .btn-create-plan:active {
+            transform: translateY(1px);
+        }
+        .alert-danger {
+            border-radius: 12px;
+            border: none;
+            background-color: #fef2f2;
+            color: #dc2626;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.08);
+        }
     </style>
 </head>
 <body>
@@ -15,38 +90,39 @@
     <div class="row justify-content-center">
         <div class="col-md-5">
             <div class="card-plan">
-                <h3 class="text-center fw-bold text-primary mb-4">Hello, {{ user.username }}! 👋</h3>
-                <p class="text-center text-muted mb-4">Enter the Name of the Place where you want to visit.</p>
+                <h3 class="text-center fw-bold text-transparent bg-clip-text mb-2" style="background: linear-gradient(135deg, #4f46e5, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Hello, {{ user.username }} 👋</h3>
+                <p class="text-center text-muted mb-4 small">Enter the Name of the Place where you want to visit.</p>
                 
-            <form method="POST">
+                <!-- Error Message Alert Box -->
+                <div id="error-alert" class="alert alert-danger d-none small fw-bold text-center mb-4" role="alert"></div>
+
+                <form method="POST" id="tripForm">
                     {% csrf_token %}
-                    <div class="mb-3">
+                    <div class="mb-1">
                         <label class="form-label small fw-bold">Destination Name</label>
-                        <input type="text" name="destination" class="form-control" placeholder="e.g. Goa, Paris, Manali" required>
+                        <input type="text" name="destination" class="form-control" placeholder="🗺️ e.g. Goa, Paris, Manali" required>
                     </div>
                     
                     <div class="row">
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-6 mb-1">
                             <label class="form-label small fw-bold">Start Date</label>
-                            <input type="date" name="start_date" class="form-control" required>
+                            <input type="date" id="start_date" name="start_date" class="form-control" required>
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-6 mb-1">
                             <label class="form-label small fw-bold">End Date</label>
-                            <input type="date" name="end_date" class="form-control" required>
+                            <input type="date" id="end_date" name="end_date" class="form-control" required disabled>
                         </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold">Number of Days</label>
-                        <input type="number" name="days" class="form-control" placeholder="How many days?" required min="1">
-                    </div>
+                    <!-- Hidden field to pass total days to your backend view automatically -->
+                    <input type="hidden" id="days" name="days" value="1">
 
                     <div class="mb-4">
                         <label class="form-label small fw-bold">Total Budget (₹)</label>
-                        <input type="number" name="budget" class="form-control" placeholder="Enter your budget" required>
+                        <input type="number" name="budget" class="form-control" placeholder="💳 Enter your budget" required>
                     </div>
 
-                    <button type="submit" class="btn btn-primary w-100">
+                    <button type="submit" class="btn-create-plan">
                         ✨ Create My Dream Plan
                     </button>
                 </form>
@@ -54,5 +130,110 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const startDateInput = document.getElementById("start_date");
+        const endDateInput = document.getElementById("end_date");
+        const daysInput = document.getElementById("days");
+        const errorAlert = document.getElementById("error-alert");
+        const tripForm = document.getElementById("tripForm");
+
+        // 1. Set Minimum Date to Today (Prevents Back Date Selection)
+        const today = new Date().toISOString().split('T')[0];
+        startDateInput.setAttribute('min', today);
+
+        // 2. When Start Date Changes
+        startDateInput.addEventListener("change", function () {
+            const startDateVal = startDateInput.value;
+            
+            if (startDateVal) {
+                // Unlock End Date
+                endDateInput.removeAttribute("disabled");
+                
+                // End Date cannot be before Start Date
+                endDateInput.setAttribute("min", startDateVal);
+                
+                // Calculate Max Date (Start Date + 29 Days = 30 Days Total Plan Limit)
+                let startDateObj = new Date(startDateVal);
+                let maxDateObj = new Date(startDateObj);
+                maxDateObj.setDate(startDateObj.getDate() + 29); 
+                
+                const maxDateVal = maxDateObj.toISOString().split('T')[0];
+                endDateInput.setAttribute("max", maxDateVal);
+                
+                // Reset End Date if it violates new conditions
+                if (endDateInput.value && (endDateInput.value < startDateVal || endDateInput.value > maxDateVal)) {
+                    endDateInput.value = "";
+                    daysInput.value = "1";
+                } else {
+                    calculateDays();
+                }
+            } else {
+                endDateInput.setAttribute("disabled", "true");
+                endDateInput.value = "";
+            }
+        });
+
+        // 3. When End Date Changes
+        endDateInput.addEventListener("change", calculateDays);
+
+        // Function to calculate and auto-fill days gap
+        function calculateDays() {
+            errorAlert.classList.add("d-none"); // Hide errors if any
+            
+            if (startDateInput.value && endDateInput.value) {
+                const start = new Date(startDateInput.value);
+                const end = new Date(endDateInput.value);
+                
+                // Time difference calculation
+                const diffTime = Math.abs(end - start);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1 includes both start and end days
+                
+                if (diffDays > 30) {
+                    showError("⚠️ You can only create a plan for up to 30 days!");
+                    endDateInput.value = "";
+                    daysInput.value = "1";
+                } else {
+                    daysInput.value = diffDays;
+                }
+            }
+        }
+
+        // 4. Final Form Submission Validation
+        tripForm.addEventListener("submit", function (e) {
+            const start = new Date(startDateInput.value);
+            const end = new Date(endDateInput.value);
+            const currentToday = new Date(today);
+
+            if (start < currentToday) {
+                e.preventDefault();
+                showError("❌ Backdate selection is invalid! Please select the current date or a future date.");
+                return false;
+            }
+
+            const diffTime = end - start;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+
+            if (diffDays > 30) {
+                e.preventDefault();
+                showError("❌ Trip duration exceeds the 30-day limit! Please adjust your dates.");
+                return false;
+            }
+            
+            if (diffDays <= 0) {
+                e.preventDefault();
+                showError("❌ End Date must be equal to or after the Start Date!");
+                return false;
+            }
+        });
+
+        function showError(message) {
+            errorAlert.innerText = message;
+            errorAlert.classList.remove("d-none");
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    });
+</script>
 </body>
 </html>

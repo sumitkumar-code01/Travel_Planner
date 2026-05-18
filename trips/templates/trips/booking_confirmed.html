@@ -1,0 +1,191 @@
+{% extends 'trips/base.html' %}
+{% block content %}
+<style>
+    :root {
+        --travel-primary: #0d6efd;
+        --travel-success: #198754;
+        --travel-dark: #1d002c;
+        --travel-bg: #f4f7f6;
+        --card-radius: 24px;
+        --input-radius: 12px;
+    }
+
+    body {
+        background-color: var(--travel-bg);
+    }
+
+    /* Success Header Style */
+    .success-hero {
+        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        border-radius: 0 0 var(--card-radius) var(--card-radius);
+        padding: 50px 20px;
+        color: white;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(25, 135, 84, 0.15);
+    }
+
+    .success-icon {
+        width: 80px;
+        height: 80px;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(5px);
+        color: white;
+        font-size: 3rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin-bottom: 20px;
+        animation: scaleUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes scaleUp {
+        from { transform: scale(0.5); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+    }
+
+    .itinerary-card {
+        background: white;
+        border-radius: var(--card-radius);
+        border: none;
+        box-shadow: 0 15px 40px rgba(29, 0, 44, 0.05);
+        overflow: hidden;
+    }
+
+    /* Timeline Nodes for Schedule */
+    .schedule-timeline {
+        position: relative;
+        padding-left: 30px;
+        margin-bottom: 40px;
+        border-left: 3px dashed var(--travel-primary);
+    }
+
+    .schedule-timeline::before {
+        content: '✓';
+        position: absolute;
+        left: -13px;
+        top: 0;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: var(--travel-primary);
+        color: white;
+        font-size: 0.75rem;
+        font-weight: 900;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 10px rgba(13, 110, 253, 0.4);
+    }
+
+    .schedule-img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 16px;
+        margin-top: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        transition: transform 0.3s ease;
+    }
+
+    .schedule-img:hover {
+        transform: scale(1.01);
+    }
+
+    .receipt-badge {
+        background: rgba(29, 0, 44, 0.03);
+        border: 1px dashed rgba(29, 0, 44, 0.1);
+        border-radius: 16px;
+        padding: 15px;
+    }
+</style>
+
+<!-- SUCCESS HEADER BANNER -->
+<div class="success-hero">
+    <div class="container">
+        <div class="success-icon">✓</div>
+        <h1 class="fw-bold mb-2">Payment Successful!</h1>
+        <p class="fs-5 opacity-90 mb-0">Thank you, {{ request.user.username }}. Your transaction is secured & itinerary is deployed.</p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row g-4 justify-content-center">
+        
+        <!-- LEFT SIDE: Final Booked Itinerary Manifest (Dynamic Cards) -->
+        <div class="col-lg-8">
+            <div class="itinerary-card p-4">
+                <div class="d-flex align-items-center mb-5">
+                    <div class="bg-primary text-white rounded-circle p-3 me-3" style="width: 55px; height: 55px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-passport fa-lg"></i>
+                    </div>
+                    <div>
+                        <h4 class="fw-bold text-dark mb-0">Your Digital Travel Manifest</h4>
+                        <p class="text-muted small mb-0">Strictly mapped layout according to chosen duration pipeline</p>
+                    </div>
+                </div>
+
+                <!-- Loop iteration mapped exactly to days duration context -->
+                {% for item in itinerary %}
+                <div class="schedule-timeline">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h5 class="fw-bold text-dark mb-0">Day {{ item.day }}: {{ item.spot_name }}</h5>
+                        <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-1 text-uppercase fw-bold" style="font-size: 0.7rem;">Status: Confirmed</span>
+                    </div>
+                    <p class="text-muted small mb-3">Exploring the famous spots and hidden gems around <strong>{{ destination }}</strong>. Transport, dynamic tracking, and entry permissions are configured for this window.</p>
+                    
+                    <!-- HIGH ACCURACY LOCATION IMAGERY ENGINE FOR DAY PLAN -->
+                    <div class="position-relative">
+                        <img src="https://loremflickr.com/800/450/{{ item.spot_name|slugify }},travel/all?sig={{ item.day }}" 
+                             alt="{{ item.spot_name }}" 
+                             class="schedule-img border"
+                             onerror="this.onerror=null;this.src='https://loremflickr.com/800/450/india,{{ destination|slugify }},travel/all?sig={{ item.day }}';">
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- RIGHT SIDE: Booking Voucher Summary Card -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm p-4 sticky-top" style="top: 100px; border-radius: var(--card-radius);">
+                <h5 class="fw-bold text-dark mb-3">Booking Voucher</h5>
+                
+                <div class="receipt-badge mb-4">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted small">Account Holder</span>
+                        <span class="fw-bold text-dark small">{{ request.user.username }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted small">Target Destination</span>
+                        <span class="fw-bold text-primary small">{{ destination }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted small">Package Duration</span>
+                        <span class="fw-bold text-dark small">{{ days }} Days</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted small">Total Members</span>
+                        <span class="fw-bold text-dark small">{{ members }} Person(s)</span>
+                    </div>
+                </div>
+
+                <div class="p-3 rounded-3 text-center mb-4" style="background: #e6f4ea; border: 1px solid #34a853;">
+                    <small class="text-success text-uppercase fw-bold d-block" style="font-size: 0.65rem; letter-spacing: 0.5px;">Amount Captured Successfully</small>
+                    <h3 class="text-success fw-bold m-0 mt-1">₹{{ amount }}</h3>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button onclick="window.print()" class="btn btn-outline-dark fw-bold btn-sm rounded-3 py-2">
+                        <i class="fas fa-print me-2"></i> Print Manifest Voucher
+                    </button>
+                    <a href="{% url 'home' %}" class="btn btn-primary fw-bold btn-sm rounded-3 py-2" style="background: var(--travel-dark); border: none;">
+                        Back to Dashboard ➔
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

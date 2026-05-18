@@ -1,0 +1,408 @@
+{% extends 'trips/base.html' %}
+{% block content %}
+<style>
+    :root {
+        --travel-primary: #0d6efd;
+        --travel-success: #198754;
+        --travel-dark: #1d002c;
+        --travel-bg: #f4f7f6;
+        --card-radius: 24px;
+        --input-radius: 12px;
+    }
+
+    body {
+        background-color: var(--travel-bg);
+    }
+
+    /* Split layout container */
+    .booking-wrapper {
+        display: flex;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: var(--card-radius);
+        box-shadow: 0 25px 60px rgba(29, 0, 44, 0.1) !important;
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        overflow: hidden;
+        min-height: 750px;
+    }
+
+    /* Left side image showcase container */
+    .showcase-sidebar {
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+        background: var(--travel-dark);
+        display: none; /* Mobile pe hide rahega text clear rkhne ke liye */
+    }
+
+    @media (min-width: 992px) {
+        .showcase-sidebar {
+            display: block;
+        }
+    }
+
+    .showcase-img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        transition: opacity 1.5s ease-in-out, transform 6s linear;
+        transform: scale(1);
+    }
+
+    .showcase-img.active {
+        opacity: 0.65;
+        transform: scale(1.08);
+    }
+
+    .showcase-overlay {
+        position: absolute;
+        bottom: 40px;
+        left: 40px;
+        right: 40px;
+        z-index: 10;
+        color: white;
+        text-shadow: 0 4px 15px rgba(0,0,0,0.6);
+    }
+
+    .showcase-overlay h2 {
+        font-weight: 800;
+        font-size: 2.2rem;
+        letter-spacing: -0.5px;
+    }
+
+    /* Right side form container */
+    .form-panel {
+        flex: 1.3;
+        padding: 40px;
+        max-height: 850px;
+        overflow-y: auto;
+    }
+
+    @media (max-width: 576px) {
+        .form-panel {
+            padding: 20px;
+        }
+    }
+
+    .section-indicator {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        background: rgba(13, 110, 237, 0.1);
+        color: var(--travel-primary);
+        border-radius: 50%;
+        font-size: 0.9rem;
+        font-weight: 700;
+        margin-right: 10px;
+    }
+
+    .section-title-custom {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: var(--travel-dark);
+        display: flex;
+        align-items: center;
+    }
+
+    .form-label {
+        color: #4a5568;
+        font-size: 0.88rem;
+        margin-bottom: 6px;
+    }
+
+    .form-control, .form-control:focus {
+        border-radius: var(--input-radius);
+        padding: 12px 16px;
+        border: 2px solid #e2e8f0;
+        background-color: #ffffff;
+        color: var(--travel-dark);
+        font-weight: 500;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .form-control:focus {
+        border-color: var(--travel-primary);
+        box-shadow: 0 0 0 4px rgba(13, 110, 237, 0.15);
+        background-color: #fff;
+    }
+
+    .form-control-sm, .form-control-sm:focus {
+        padding: 8px 12px !important;
+    }
+
+    .btn-action-add {
+        border-radius: var(--input-radius);
+        padding: 10px 20px;
+        background-color: var(--travel-success);
+        border: none;
+        transition: all 0.2s ease;
+    }
+
+    .btn-action-add:hover {
+        background-color: #146c43;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(25, 135, 84, 0.3);
+    }
+
+    .dynamic-builder-box {
+        background: #f8fafc;
+        border: 2px dashed #cbd5e1;
+        border-radius: var(--input-radius);
+        transition: all 0.3s ease;
+    }
+
+    .dynamic-builder-box:focus-within {
+        border-color: var(--travel-success);
+        background: #f0fdf4;
+    }
+
+    .traveler-badge-item {
+        border: 1px solid #e2e8f0 !important;
+        border-radius: var(--input-radius) !important;
+        margin-bottom: 8px;
+        padding: 14px 20px !important;
+        background: #ffffff !important;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+        animation: slideIn 0.3s ease forwards;
+    }
+
+    @keyframes slideIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .btn-submit-booking {
+        background: linear-gradient(135deg, var(--travel-primary) 0%, #0b5ed7 100%);
+        border: none;
+        border-radius: var(--input-radius);
+        padding: 16px;
+        font-size: 1.15rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 20px rgba(13, 110, 237, 0.25);
+    }
+
+    .btn-submit-booking:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 30px rgba(13, 110, 237, 0.35);
+    }
+
+    hr {
+        margin: 2rem 0;
+        opacity: 0.08;
+        border-top: 2px solid var(--travel-dark);
+    }
+</style>
+
+<div class="container py-5 mt-4">
+    <div class="row justify-content-center">
+        <div class="col-xl-11">
+            
+            <div class="booking-wrapper">
+                
+                <!-- LEFT SIDE: Dynamic Rotating Travel Destination Images Showcase -->
+                <div class="showcase-sidebar">
+                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" class="showcase-img active" alt="Beach Destination">
+                    <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=800&q=80" class="showcase-img" alt="Mountain Pass">
+                    <img src="https://images.unsplash.com/photo-1581791534721-e599df4417f7?auto=format&fit=crop&w=800&q=80" class="showcase-img" alt="Ladakh Valley">
+                    <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80" class="showcase-img" alt="Road Trip View">
+                    <img src="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80" class="showcase-img" alt="Kerala Backwaters">
+                    
+                    <div class="showcase-overlay">
+                        <span class="badge bg-primary mb-2 px-3 py-2 text-uppercase fw-bold" style="letter-spacing: 1px;">Travel Planner </span>
+                        <h2>Map Your Next Great Escape</h2>
+                        <p class="mb-0 opacity-75">Your curated itinerary starts with verified details.</p>
+                    </div>
+                </div>
+
+                <!-- RIGHT SIDE: Main Booking Form Panel -->
+                <div class="form-panel">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="me-3 fs-2">✈️</div>
+                        <div>
+                            <h3 class="fw-bold text-dark mb-0">Traveler & Booking Details</h3>
+                            <p class="text-muted small mb-0">Fill configuration to finalize the secure booking pipeline</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Django Messages Section -->
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} text-center shadow-sm mb-4 border-0 rounded-3" role="alert" style="font-weight: 600;">
+                                {% if message.tags == 'error' %}❌{% else %}ℹ️{% endif %} {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form method="POST">
+                        {% csrf_token %}
+                        
+                        <!-- 1. Primary Traveler Verification Section -->
+                        <div class="mb-3">
+                            <h5 class="section-title-custom mb-3">
+                                <span class="section-indicator">1</span>Primary Traveler Verification
+                            </h5>
+                        </div>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Your Login Username <span class="text-danger">*</span></label>
+                                <input type="text" name="verify_username" class="form-control" placeholder="Enter logged-in username" required>
+                                <small class="text-muted d-block mt-1" style="font-size: 0.78rem;">Security Check: The booking process will proceed only if the username matches.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Age</label>
+                                <input type="number" name="primary_age" class="form-control" min="1" placeholder="Age" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Email Address</label>
+                                <input type="email" name="primary_email" class="form-control" placeholder="name@example.com" required>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <!-- 2. Dynamic Co-Travelers Section -->
+                        <div class="mb-3">
+                            <h5 class="section-title-custom mb-3">
+                                <span class="section-indicator">2</span>Additional Members / Co-Travelers
+                            </h5>
+                        </div>
+                        
+                        <!-- Input Fields for temporary entry styled as builder matrix -->
+                        <div class="dynamic-builder-box p-3 mb-3">
+                            <div class="row g-2 align-items-end">
+                                <div class="col-md-5">
+                                    <label class="form-label small fw-bold text-secondary">Traveler Full Name</label>
+                                    <input type="text" id="temp_name" class="form-control form-control-sm" placeholder="Enter co-traveler name">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label small fw-bold text-secondary">Age</label>
+                                    <input type="number" id="temp_age" class="form-control form-control-sm" min="1" placeholder="Age">
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="button" id="add_traveler_btn" class="btn btn-success btn-sm btn-action-add w-100 fw-bold">
+                                        ➕ Add Traveler
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="add_msg" class="text-success small fw-bold mt-2 animate__animated animate__fadeIn" style="display: none; font-size: 0.82rem;">
+                                ✨ Traveler added successfully! You can add more members if needed.
+                            </div>
+                        </div>
+
+                        <!-- Live Travelers List Container -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary mb-2" style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px;">Manifest / Added Travelers List:</label>
+                            <ul id="travelers_list" class="list-group border-0">
+                                <li class="list-group-item text-muted text-center py-4 rounded-3 border" id="empty_list_msg" style="background: #fafafa; border-style: dashed !important;">
+                                    <div class="opacity-50 mb-1" style="font-size: 1.5rem;">👥</div>
+                                    No additional travelers added yet.
+                                </li>
+                            </ul>
+                            <!-- Hidden field to send travelers data to Django backend -->
+                            <input type="hidden" name="co_travelers_json" id="co_travelers_json" value="[]">
+                        </div>
+
+                        <hr>
+
+                        <!-- 3. Emergency Contact Section -->
+                        <div class="mb-3">
+                            <h5 class="section-title-custom mb-3">
+                                <span class="section-indicator">3</span>Emergency Contact Details
+                            </h5>
+                        </div>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Emergency Contact Name</label>
+                                <input type="text" name="emergency_name" class="form-control" placeholder="Contact Person Name" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Emergency Contact Number</label>
+                                <input type="tel" name="emergency_phone" class="form-control" placeholder="Active Phone Number" required>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label fw-bold">Emergency Email</label>
+                                <input type="email" name="emergency_email" class="form-control" placeholder="emergency@example.com" required>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="mt-5">
+                            <button type="submit" class="btn btn-primary w-100 btn-submit-booking fw-bold py-3 fs-5">Now Booking ➔</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT: Background Image Rotator Engine -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const images = document.querySelectorAll('.showcase-img');
+        let currentIndex = 0;
+        
+        function rotateImages() {
+            images[currentIndex].classList.remove('active');
+            currentIndex = (currentIndex + 1) % images.length;
+            images[currentIndex].classList.add('active');
+        }
+        
+        // Image shifts automatically every 4.5 seconds for premium fluid motion
+        setInterval(rotateImages, 4500);
+    });
+</script>
+
+<!-- JAVASCRIPT: Dynamic Traveler Adding Logic (Maintained exactly as requested) -->
+<script>
+    let travelers = [];
+
+    document.getElementById('add_traveler_btn').addEventListener('click', function() {
+        const nameField = document.getElementById('temp_name');
+        const ageField = document.getElementById('temp_age');
+        
+        const name = nameField.value.trim();
+        const age = ageField.value.trim();
+
+        if (name === "" || age === "") {
+            alert("Please enter both Name and Age for the traveler.");
+            return;
+        }
+
+        // Add to array
+        travelers.push({ name: name, age: age });
+
+        // Update hidden input for backend
+        document.getElementById('co_travelers_json').value = JSON.stringify(travelers);
+
+        // UI Update: Remove empty message if first item
+        const emptyMsg = document.getElementById('empty_list_msg');
+        if (emptyMsg) emptyMsg.remove();
+
+        // UI Update: Append to list view with custom classes
+        const listContainer = document.getElementById('travelers_list');
+        const li = document.createElement('li');
+        li.className = "list-group-item d-flex justify-content-between align-items-center bg-white shadow-sm mb-1 rounded traveler-badge-item";
+        li.innerHTML = `<span>👤 <strong>${name}</strong> <span class="text-secondary ms-2">(Age: ${age})</span></span> 
+                        <span class="badge bg-primary rounded-pill px-3 py-2" style="font-size: 0.75rem;">Traveler ${travelers.length}</span>`;
+        listContainer.appendChild(li);
+
+        // Clear input fields
+        nameField.value = "";
+        ageField.value = "";
+
+        // Show confirmation message
+        const msg = document.getElementById('add_msg');
+        msg.style.display = "block";
+        setTimeout(() => { msg.style.display = "none"; }, 4000);
+    });
+</script>
+{% endblock %}
