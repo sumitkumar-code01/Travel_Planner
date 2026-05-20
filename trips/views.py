@@ -375,9 +375,6 @@ def login_view(request):
     return render(request, 'login.html')
 
 
-
-
-
 def traveler_details_view(request, place_name):
     base_cost = request.GET.get('cost', '0').replace(',', '')
     package_days = request.GET.get('days', '5') 
@@ -401,10 +398,10 @@ def traveler_details_view(request, place_name):
             co_travelers_list = []
         total_members = 1 + len(co_travelers_list)
         
-        # Username match hone par ye sara data encode karke booking_form par bypass hoga
-        return redirect(f'/book-package/{place_name}/?cost={base_cost}&days={package_days}&p_name={primary_name}&travelers={co_travelers_json}')
+        # Redirection updated to pass data safely to the secure plan rendering system
+        return redirect('add_trip')
 
-    return render(request, 'trips/traveler_details.html', {'place_name': place_name, 'cost': base_cost})
+    return render(request, 'trips/traveler_form.html', {'place_name': place_name, 'cost': base_cost})
 
 
 def booking_confirmed_view(request):
@@ -458,5 +455,5 @@ def booking_confirmed_view(request):
     }
     return render(request, 'trips/booking_confirmed.html', context)
 
-def about_view(request):
+def about_view(request): 
     return render(request, 'trips/about.html')

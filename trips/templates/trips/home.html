@@ -306,7 +306,7 @@
                 <h1 class="display-2">Explore The World</h1>
                 <p>Plan your perfect trip with smart travel tools.</p>
                 {% if user.is_authenticated %}
-                    <a href="{% url 'add_trip' %}" class="btn btn-primary btn-lg btn-start">Start Planning</a>
+                    <a href="{% url 'traveler_details' place_name='General Trip' %}?cost=0&days=5" class="btn btn-primary btn-lg btn-start">Start Planning</a>
                 {% else %}
                     <a href="{% url 'login' %}" class="btn btn-primary btn-lg btn-start">Get Started Now</a>
                 {% endif %}
