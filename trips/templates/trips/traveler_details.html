@@ -239,7 +239,7 @@
                         {% endfor %}
                     {% endif %}
 
-                    <form method="POST">
+                    <form method="POST" id="booking_form">
                         {% csrf_token %}
                         
                         <!-- 1. Primary Traveler Verification Section -->
@@ -256,7 +256,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">Age</label>
-                                <input type="number" name="primary_age" class="form-control" min="1" placeholder="Age" required>
+                                <input type="number" id="primary_age" name="primary_age" class="form-control" min="1" placeholder="Age" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">Email Address</label>
@@ -350,21 +350,42 @@
         const images = document.querySelectorAll('.showcase-img');
         let currentIndex = 0;
         
-        function rotateImages() {
+        // Image shifts automatically every 4.5 seconds for premium fluid motion
+        setInterval(function rotateImages() {
             images[currentIndex].classList.remove('active');
             currentIndex = (currentIndex + 1) % images.length;
             images[currentIndex].classList.add('active');
-        }
-        
-        // Image shifts automatically every 4.5 seconds for premium fluid motion
-        setInterval(rotateImages, 4500);
+        }, 4500);
     });
 </script>
 
-<!-- JAVASCRIPT: Dynamic Traveler Adding Logic (Maintained exactly as requested) -->
+<!-- JAVASCRIPT: Strict Real-Time & Form Submission Age Validation Engine -->
 <script>
     let travelers = [];
+    const primaryAgeInput = document.getElementById('primary_age');
 
+    // 1. Real-Time Validation: Jaise hi box se focus hatega, check karega
+    primaryAgeInput.addEventListener('change', function() {
+        const val = this.value.trim();
+        if (val !== "" && parseInt(val) < 15) {
+            alert("Invalid Age! Primary traveler must be 15 years old or older to fill this form.");
+            this.value = ""; // Input ko wapas clear kar dega
+            setTimeout(() => { this.focus(); }, 10); // Dubara focus wahi laayega
+        }
+    });
+
+    // 2. Strict Check on Form Submit
+    document.getElementById('booking_form').addEventListener('submit', function(event) {
+        const primaryAge = primaryAgeInput.value.trim();
+
+        if (primaryAge === "" || parseInt(primaryAge) < 15) {
+            event.preventDefault(); // Form submit hone se har haal me rokega
+            alert("Invalid Age! Primary traveler must be 15 years old or older to proceed with booking.");
+            primaryAgeInput.focus();
+        }
+    });
+
+    // 3. Validation for Co-Travelers List
     document.getElementById('add_traveler_btn').addEventListener('click', function() {
         const nameField = document.getElementById('temp_name');
         const ageField = document.getElementById('temp_age');
@@ -374,6 +395,12 @@
 
         if (name === "" || age === "") {
             alert("Please enter both Name and Age for the traveler.");
+            return;
+        }
+
+        // Age Verification: Must be 15 or older
+        if (parseInt(age) < 15) {
+            alert("Invalid Age! Traveler must be 15 years old or older to be added.");
             return;
         }
 
