@@ -367,8 +367,8 @@
     // 1. Real-Time Validation: Jaise hi box se focus hatega, check karega
     primaryAgeInput.addEventListener('change', function() {
         const val = this.value.trim();
-        if (val !== "" && parseInt(val) < 15) {
-            alert("Invalid Age! Primary traveler must be 15 years old or older to fill this form.");
+        if (val !== "" && parseInt(val) < 18) {
+            alert("Invalid Age! Primary traveler must be 18 years old or older to fill this form.");
             this.value = ""; // Input ko wapas clear kar dega
             setTimeout(() => { this.focus(); }, 10); // Dubara focus wahi laayega
         }
@@ -378,14 +378,14 @@
     document.getElementById('booking_form').addEventListener('submit', function(event) {
         const primaryAge = primaryAgeInput.value.trim();
 
-        if (primaryAge === "" || parseInt(primaryAge) < 15) {
+        if (primaryAge === "" || parseInt(primaryAge) < 18) {
             event.preventDefault(); // Form submit hone se har haal me rokega
-            alert("Invalid Age! Primary traveler must be 15 years old or older to proceed with booking.");
+            alert("Invalid Age! Primary traveler must be 18 years old or older to proceed with booking.");
             primaryAgeInput.focus();
         }
     });
 
-    // 3. Validation for Co-Travelers List
+    // 3. Validation for Co-Travelers List (Age limitations removed)
     document.getElementById('add_traveler_btn').addEventListener('click', function() {
         const nameField = document.getElementById('temp_name');
         const ageField = document.getElementById('temp_age');
@@ -395,12 +395,6 @@
 
         if (name === "" || age === "") {
             alert("Please enter both Name and Age for the traveler.");
-            return;
-        }
-
-        // Age Verification: Must be 15 or older
-        if (parseInt(age) < 15) {
-            alert("Invalid Age! Traveler must be 15 years old or older to be added.");
             return;
         }
 
