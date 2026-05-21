@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Body Configuration: Sets up the full-height background gradient, alignment, and default typography typography */
         body { 
             background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #c084fc 100%); 
             min-height: 100vh; 
@@ -17,7 +16,6 @@
             font-family: 'Poppins', sans-serif; 
             padding: 20px 0;
         }
-        /* Card Layout Design: Main white translucent surface block wrapper holding form elements with soft depth elevations */
         .card-plan { 
             border-radius: 24px; 
             border: 1px solid rgba(255, 255, 255, 0.2); 
@@ -31,7 +29,6 @@
             letter-spacing: 0.3px;
             margin-bottom: 8px;
         }
-        /* Input Form Controls: Standard UI spacing variables governing typography, paddings, and background layers */
         .form-control { 
             border-radius: 12px; 
             padding: 14px 16px; 
@@ -42,7 +39,6 @@
             font-size: 0.95rem;
             transition: all 0.2s ease-in-out;
         }
-        /* Interactive Input States: Soft border transition tracking glowing canvas rings during selection focus states */
         .form-control:focus {
             background-color: #ffffff;
             border-color: #6366f1;
@@ -52,13 +48,11 @@
         .form-control::placeholder {
             color: #9ca3af;
         }
-        /* Disabled Input Block States: Locks typography and surfaces when fields are protected from modification */
         .form-control:disabled {
             background-color: #f3f4f6;
             color: #9ca3af;
             border-color: #e5e7eb;
         }
-        /* Action Execution CTA Buttons: High-visibility multi-color gradient trigger buttons controlling interactive scaling loops */
         .btn-create-plan { 
             background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); 
             color: white; 
@@ -82,7 +76,6 @@
         .btn-create-plan:active {
             transform: translateY(1px);
         }
-        /* Built-in Custom Notification Panel: Design specifications for error layout layers */
         .alert-danger {
             border-radius: 12px;
             border: none;
@@ -97,46 +90,38 @@
     <div class="row justify-content-center">
         <div class="col-md-5">
             <div class="card-plan">
-                <!-- Branding Typography Header: Renders user greetings using dynamic Django model interpolation maps -->
                 <h3 class="text-center fw-bold text-transparent bg-clip-text mb-2" style="background: linear-gradient(135deg, #4f46e5, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Hello, {{ user.username }} 👋</h3>
                 <p class="text-center text-muted mb-4 small">Enter the Name of the Place where you want to visit.</p>
                 
-                <!-- Custom Application Error Message Alert Box Container (Controlled dynamically via Javascript) -->
+                <!-- Error Message Alert Box -->
                 <div id="error-alert" class="alert alert-danger d-none small fw-bold text-center mb-4" role="alert"></div>
 
-                <!-- Input Submission Layout Area: Form configured with 'novalidate' to override native browser alerts in favor of custom UI responses -->
                 <form method="POST" id="tripForm" novalidate>
                     {% csrf_token %}
-                    <!-- Destination Location Input Element -->
                     <div class="mb-1">
                         <label class="form-label small fw-bold">Destination Name</label>
                         <input type="text" name="destination" class="form-control" placeholder="🗺️ e.g. Goa, Paris, Manali" required>
                     </div>
                     
-                    <!-- Date Pickers Row Matrix -->
                     <div class="row">
-                        <!-- Start Journey Date Input Parameter Field -->
                         <div class="col-md-6 mb-1">
                             <label class="form-label small fw-bold">Start Date</label>
                             <input type="date" id="start_date" name="start_date" class="form-control" required>
                         </div>
-                        <!-- Termination Journey Date Input Parameter Field (Initially Locked until start date is resolved) -->
                         <div class="col-md-6 mb-1">
                             <label class="form-label small fw-bold">End Date</label>
                             <input type="date" id="end_date" name="end_date" class="form-control" required disabled>
                         </div>
                     </div>
 
-                    <!-- Hidden parameter input state tracking the absolute mathematical duration interval passed back to views -->
+                    <!-- Hidden field to pass total days to your backend view automatically -->
                     <input type="hidden" id="days" name="days" value="1">
 
-                    <!-- Budget Currency Capacity Numerical Entry Node -->
                     <div class="mb-4">
                         <label class="form-label small fw-bold">Total Budget (₹)</label>
                         <input type="number" id="budget" name="budget" class="form-control" placeholder="💳 Enter your budget" required>
                     </div>
 
-                    <!-- Submission trigger controller handling final application pipelines verification checks -->
                     <button type="submit" class="btn-create-plan">
                         ✨ Create My Dream Plan
                     </button>
@@ -146,10 +131,8 @@
     </div>
 </div>
 
-<!-- CLIENT JAVASCRIPT LOGIC ENGINE: Driving continuous structural validation loops and runtime computation engines -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // Gathering structural form input elements from the document DOM tree
         const startDateInput = document.getElementById("start_date");
         const endDateInput = document.getElementById("end_date");
         const daysInput = document.getElementById("days");
@@ -157,22 +140,22 @@
         const tripForm = document.getElementById("tripForm");
         const budgetInput = document.getElementById("budget");
 
-        // 1. Minimum Date Initialization: Isolates the current date string index map to lock out historical choices
+        // 1. Set Minimum Date to Today (Prevents Back Date Selection)
         const today = new Date().toISOString().split('T')[0];
         startDateInput.setAttribute('min', today);
 
-        // 2. Start Journey Input Value Change Listener Pipeline Handles
+        // 2. When Start Date Changes
         startDateInput.addEventListener("change", function () {
             const startDateVal = startDateInput.value;
             
             if (startDateVal) {
-                // Unlock End Date selection choice block
+                // Unlock End Date
                 endDateInput.removeAttribute("disabled");
                 
-                // Updates boundary rules ensuring the termination coordinate cannot trail the start vector
+                // End Date cannot be before Start Date
                 endDateInput.setAttribute("min", startDateVal);
                 
-                // Compute Maximum Package Limits: Caps selectable boundaries exactly at 30 days total timeline allocation
+                // Calculate Max Date (Start Date + 29 Days = 30 Days Total Plan Limit)
                 let startDateObj = new Date(startDateVal);
                 let maxDateObj = new Date(startDateObj);
                 maxDateObj.setDate(startDateObj.getDate() + 29); 
@@ -180,7 +163,7 @@
                 const maxDateVal = maxDateObj.toISOString().split('T')[0];
                 endDateInput.setAttribute("max", maxDateVal);
                 
-                // Verification Reset: Purges out conflicting timeline configurations if inputs breach standard limitations
+                // Reset End Date if it violates new conditions
                 if (endDateInput.value && (endDateInput.value < startDateVal || endDateInput.value > maxDateVal)) {
                     endDateInput.value = "";
                     daysInput.value = "1";
@@ -188,28 +171,26 @@
                     calculateDays();
                 }
             } else {
-                // Safeguard Reset: Fallback strategy re-locking parameters when choices are deleted
                 endDateInput.setAttribute("disabled", "true");
                 endDateInput.value = "";
             }
         });
 
-        // 3. End Journey Input Value Change Event Listener Hook
+        // 3. When End Date Changes
         endDateInput.addEventListener("change", calculateDays);
 
-        // Mathematical Computing Core: Resolves total calendar tracking intervals based on input matrices
+        // Function to calculate and auto-fill days gap
         function calculateDays() {
-            errorAlert.classList.add("d-none"); // Flushes and hides old notification block spaces from view
+            errorAlert.classList.add("d-none"); // Hide errors if any
             
             if (startDateInput.value && endDateInput.value) {
                 const start = new Date(startDateInput.value);
                 const end = new Date(endDateInput.value);
                 
-                // Calculates absolute timestamp differences transformed exactly into whole day digits
+                // Time difference calculation
                 const diffTime = Math.abs(end - start);
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // Explicitly accounts for inclusive dates
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1 includes both start and end days
                 
-                // Safety Exception Layer: Protects backend data from accepting packages overflowing standard limits
                 if (diffDays > 30) {
                     showError("⚠️ You can only create a plan for up to 30 days!");
                     endDateInput.value = "";
@@ -220,29 +201,26 @@
             }
         }
 
-        // 4. Final Application Form Submission Interceptor & Validation Pipelines
+        // 4. Final Form Submission Validation
         tripForm.addEventListener("submit", function (e) {
             const start = new Date(startDateInput.value);
             const end = new Date(endDateInput.value);
             const currentToday = new Date(today);
             const budgetVal = parseFloat(budgetInput.value);
 
-            // TRAVEL PLANNER CUSTOMIZED PREMIUM BUDGET VALIDATION LAYER
-            // Blocks submission attempts dropping below the absolute target parameter floor threshold of 10,000 INR
+            // Travel Planner Customized Premium Budget Validation
             if (!budgetInput.value || budgetVal < 10000 || isNaN(budgetVal)) {
-                e.preventDefault(); // Halts network transit propagation routes immediately
+                e.preventDefault();
                 showError("✨ To craft an amazing getaway with top-tier stays and local experiences, a minimum budget of ₹10,000 is required. Please upscale your budget to unlock your dream plan!");
                 return false;
             }
 
-            // Timeline Security Firewall Check: Evaluates and terminates submission operations using old timelines
             if (start < currentToday) {
                 e.preventDefault();
                 showError("❌ Backdate selection is invalid! Please select the current date or a future date.");
                 return false;
             }
 
-            // Interval Sizing Validation System
             const diffTime = end - start;
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
 
@@ -259,7 +237,6 @@
             }
         });
 
-        // Visual Presentation Framework: Injects context errors and smoothly moves user focus anchors to the alert layer
         function showError(message) {
             errorAlert.innerText = message;
             errorAlert.classList.remove("d-none");

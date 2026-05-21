@@ -1,7 +1,6 @@
 {% extends 'trips/base.html' %}
 {% block content %}
 <style>
-    /* CSS Root Variables: Defines the core gradient maps and background design color blocks */
     :root {
         --travel-gradient: linear-gradient(135deg, #0d6efd 0%, #1d002c 100%);
         --accent-gradient: linear-gradient(45deg, #ff007f, #7928ca, #0d6efd, #00f2fe);
@@ -11,7 +10,6 @@
     body { background-color: var(--travel-bg); }
 
     /* --- PREMIUM HERO BANNER --- */
-    /* Configures the massive cinematic top header background layout with parallax-like fixation effects */
     .about-hero {
         height: 60vh;
         background: linear-gradient(rgba(29, 0, 44, 0.65), rgba(13, 110, 253, 0.5)), 
@@ -28,7 +26,6 @@
         box-shadow: 0 15px 40px rgba(0,0,0,0.15);
     }
 
-    /* Handles the continuous infinite text background position shift animation (moving gradient typography) */
     .gradient-text {
         background: linear-gradient(45deg, #ff007f, #00f2fe, #ffea00);
         background-size: 300% 300%;
@@ -45,7 +42,6 @@
     }
 
     /* --- DYNAMIC SLIDING GALLERY WINDOW --- */
-    /* Encapsulates the visual slider container structure with smooth padding properties */
     .gallery-showcase-box {
         background: white;
         border-radius: 30px;
@@ -55,7 +51,6 @@
         padding: 30px;
     }
 
-    /* Sets up the display workspace box mask where landscape photos live */
     .slider-frame {
         position: relative;
         width: 100%;
@@ -65,7 +60,6 @@
         background: #000;
     }
 
-    /* Controls transition properties (opacity fading and scaling micro-zoom movements) across the image stack */
     .slide-item {
         position: absolute;
         top: 0; left: 0; width: 100%; height: 100%;
@@ -75,14 +69,12 @@
         transition: opacity 1.2s ease-in-out, transform 5s ease;
     }
 
-    /* Trigger properties applied to the currently visible slide index node */
     .slide-item.active {
         opacity: 0.85;
         transform: scale(1);
     }
 
     /* --- CORE FEATURE METRICS --- */
-    /* Handles individual information grid item animations, lifts, and shadow elevations on hover states */
     .feature-glow-card {
         background: white;
         border-radius: 20px;
@@ -98,7 +90,6 @@
         box-shadow: 0 20px 40px rgba(13, 110, 253, 0.12);
     }
 
-    /* Graphic support design blocks enclosing distinct multi-layered color gradients for vector icons */
     .icon-box-purple {
         width: 60px; height: 60px;
         background: linear-gradient(45deg, #7928ca, #ff007f);
@@ -124,7 +115,6 @@
         letter-spacing: -0.5px;
     }
 
-    /* Applies custom linear-gradients clipped exactly onto the mathematical stat values */
     .stat-number {
         font-size: 3rem;
         font-weight: 800;
@@ -134,7 +124,7 @@
     }
 </style>
 
-<!-- HERO SECTION: Renders the premium upper branding layout block introducing the project -->
+<!-- HERO SECTION -->
 <div class="about-hero">
     <div class="container px-3">
         <span class="badge bg-warning text-dark mb-3 px-3 py-2 fw-bold text-uppercase" style="letter-spacing: 1px;">Behind The Code</span>
@@ -146,11 +136,10 @@
 <div class="container py-5 mt-4">
     <div class="row g-5 align-items-center">
         
-        <!-- LEFT PANEL: Dynamic Multi-Image Cinematic Rotator Slider (12 HD Images Loop Showcase) -->
+        <!-- LEFT PANEL: Dynamic Multi-Image Cinematic Rotator Slider (12 HD Images Loop) -->
         <div class="col-lg-6">
             <div class="gallery-showcase-box">
                 <h5 class="fw-bold text-dark mb-3"><i class="fas fa-images text-primary me-2"></i>Visualizing Destinations</h5>
-                <!-- Frame Wrapper managing absolute position elements via layer stacks -->
                 <div class="slider-frame shadow-sm">
                     <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" class="slide-item active">
                     <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=800&q=80" class="slide-item">
@@ -165,7 +154,6 @@
                     <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=80" class="slide-item">
                     <img src="https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=800&q=80" class="slide-item">
                 </div>
-                <!-- Status bar showing system state logs -->
                 <div class="mt-3 d-flex justify-content-between text-muted small">
                     <span>⚡ Seamless Crossfade Active</span>
                     <span>12 Premium Node Vectors Loaded</span>
@@ -173,7 +161,7 @@
             </div>
         </div>
 
-        <!-- RIGHT PANEL: Humanized Project Description & Engineering Stack Profiles -->
+        <!-- RIGHT PANEL: Humanized Project Description & Engineering Stack -->
         <div class="col-lg-6">
             <span class="text-primary text-uppercase fw-bold tracking-wider d-block mb-2" style="font-size: 0.85rem; letter-spacing: 1.5px;">Project Architecture</span>
             <h2 class="section-headline mb-4">Why I Engineered This Travel Platform</h2>
@@ -185,7 +173,6 @@
                 By combining Python's powerful backend routing with dynamic frontend scripts, I created a smooth pipeline where users can configure their travel group details, auto-calculate custom budgets, lock down valid calendar timelines, and instantly trigger a secure UPI checkout panel via Base64 string parameters.
             </p>
 
-            <!-- Technical feature component labels highlighting implementation security matrices -->
             <div class="row g-3">
                 <div class="col-sm-6">
                     <div class="p-3 bg-white rounded-3 border-start border-primary border-4 shadow-sm">
@@ -203,9 +190,8 @@
         </div>
     </div>
 
-    <!-- FUTURE ROADMAP & TECHNOLOGY OVERVIEW: Deep breakdown of product pipelines and operational modules -->
+    <!-- FUTURE ROADMAP & TECHNOLOGY OVERVIEW -->
     <div class="row g-4 mt-5">
-        <!-- Feature block 1: Data structures and JSON serialization mapping workflows -->
         <div class="col-md-4">
             <div class="feature-glow-card">
                 <div class="icon-box-purple"><i class="fas fa-brain"></i></div>
@@ -213,7 +199,6 @@
                 <p class="text-muted small mb-0">The application accepts raw travel inputs, automatically tracks group lists via JSON serialization, checks parameters dynamically across routing channels, and outputs clean day-by-day itineraries mapped exactly to pre-configured destination matrices.</p>
             </div>
         </div>
-        <!-- Feature block 2: Identity validation rules and active session security tokens parameters -->
         <div class="col-md-4">
             <div class="feature-glow-card">
                 <div class="icon-box-blue"><i class="fas fa-shield-alt"></i></div>
@@ -221,7 +206,6 @@
                 <p class="text-muted small mb-0">Security was a primary focus. I integrated an identity verification check requiring inputs to match active session database tokens before rendering invoice models. Calendar components also feature dynamic constraints blocking past scheduling inputs.</p>
             </div>
         </div>
-        <!-- Feature block 3: Scaling pathways mapping third-party flight/hotel programmatic API systems -->
         <div class="col-md-4">
             <div class="feature-glow-card">
                 <div class="icon-box-purple"><i class="fas fa-rocket"></i></div>
@@ -233,7 +217,7 @@
 
     <hr style="margin: 4rem 0; opacity: 0.08;">
 
-    <!-- INFOGRAPHIC PLATFORM SUMMARY STATISTICS: Grid items rendering platform metrics and design frameworks -->
+    <!-- INFOGRAPHIC PLATFORM SUMMARY STATISTICS -->
     <div class="row g-4 text-center">
         <div class="col-6 col-lg-3">
             <div class="stat-number">100%</div>
@@ -254,26 +238,19 @@
     </div>
 </div>
 
-<!-- JAVASCRIPT: High-Speed Cinematic 12 Image Crossfade Rotator Script Engine -->
+<!-- JAVASCRIPT: High-Speed Cinematic 12 Image Crossfade Rotator Script -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Gathers all element nodes carrying slide-item identifiers into an indexed array stream
         const slides = document.querySelectorAll('.slide-item');
         let index = 0;
 
-        // Iterative engine function controlling class shifts to handle fade systems sequentially
         function playAboutSlideshow() {
-            // Drops visibility layer state from the old slide structure
             slides[index].classList.remove('active');
-            
-            // Computes the upcoming index loop bound using arithmetic modulus cycles
             index = (index + 1) % slides.length;
-            
-            // Mounts the active class state to smoothly reveal the targeted operational photograph node
             slides[index].classList.add('active');
         }
 
-        // Fast fluid slider transition loop execution system driving slider updates every 3.2 seconds
+        // Fast fluid slider transition loop shifts every 3.2 seconds
         setInterval(playAboutSlideshow, 3200);
     });
 </script>

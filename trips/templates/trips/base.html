@@ -9,19 +9,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Design Tokens & Theme Variables: Declares global colors used across the site structure */
         :root { --primary: #4e54c8; --secondary: #8f94fb; --dark: #2d3436; --accent: #ff5a5f; }
         body { font-family: 'Poppins', sans-serif; background-color: #f8f9fa; }
         
         /* IMPROVED NAVBAR */
-        /* Implements a translucent frosted glass header sticky design that persists on top during scrolling */
         .navbar-custom { 
             background: rgba(255, 255, 255, 0.95); 
             backdrop-filter: blur(10px);
             box-shadow: 0 2px 15px rgba(0,0,0,0.1); 
             transition: 0.3s;
         }
-        /* Custom logo layout utilizing a linear gradient masked text map */
         .travel-world-logo { 
             font-weight: 800; 
             font-size: 1.8rem; 
@@ -33,27 +30,22 @@
         .nav-link:hover { color: var(--primary) !important; }
         
         /* BLOCK FOR EXTRA CSS (Naye home.html ke liye) */
-        /* Dynamic CSS injection entry point enabling child templates to overlay tailored styling variables */
         {% block extra_css %}{% endblock %}
     </style>
 </head>
 <body>
 
-    <!-- GLOBAL NAVBAR NAVIGATION SYSTEM -->
     <nav class="navbar navbar-expand-lg navbar-light navbar-custom sticky-top">
         <div class="container">
-            <!-- Main Brand Anchor Route targeting application primary splash screens -->
             <a class="navbar-brand travel-world-logo" href="{% url 'landing' %}">✈️ TRAVEL WORLD</a>
             
-            <!-- Added Toggle Button for Mobile: Responsive canvas control system governing viewport breakpoint collapses -->
+            <!-- Added Toggle Button for Mobile -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <!-- Collapsible Navigation Wrap Panel linking operational workflow modules -->
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
-                    <!-- Standard Navigation Nodes linking major operational segments -->
                     <li class="nav-item"><a class="nav-link fw-bold text-dark mx-2" href="{% url 'landing' %}"><i class="fas fa-home"></i> HOME</a></li>
                     
                     <!-- 🔥 FIXED GLOBAL LINK: About button shifts here outside check condition to be visible everywhere always -->
@@ -61,22 +53,18 @@
                     
                     <li class="nav-item"><a class="nav-link fw-bold text-dark mx-2" href="{% url 'contact_us' %}"><i class="fas fa-envelope"></i> CONTACTUS</a></li>
 
-                    <!-- Django Session Validation Framework checking active user status for security state mapping -->
                     {% if user.is_authenticated %}
-                        <!-- Authenticated User Subsystem: Renders hidden programmatic logout routes protected via CSRF tokens -->
                         <li class="nav-item ms-lg-3">
                             <form action="{% url 'logout' %}" method="POST" id="logout-form" style="display: none;">
                                 {% csrf_token %}
                             </form>
-                            <!-- Secure JS execution bridge cleanly dispatching the hidden form payload target parameters -->
                             <a href="javascript:void(0)" class="btn btn-sm btn-outline-danger px-3 rounded-pill fw-bold" 
                                onclick="document.getElementById('logout-form').submit();">
                                 <i class="fas fa-sign-out-alt me-1"></i> Logout ({{ user.username }})
                             </a>
                         </li>
                     {% else %}
-                        <!-- Anonymous Guest User Subsystem: Controls routing triggers linking entry gate authorization profiles -->
-                        <li class="nav-item"><a class="nav-link fw-bold text-dark mx-2" href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                        <li class="nav-item"><a href="{% url 'login' %}" class="nav-link fw-bold text-dark mx-2"><i class="fas fa-sign-in-alt"></i> Login</a></li>
                         <li class="nav-item"><a href="{% url 'register' %}" class="btn btn-primary btn-sm ms-2 px-4 rounded-pill fw-bold">Register</a></li>
                     {% endif %}
                 </ul>
@@ -84,11 +72,10 @@
         </div>
     </nav>
 
-    <!-- MESSAGE ALERTS CONTAINER: Evaluates Django session message backend storage to push responsive alert feedback blocks -->
+    <!-- Message Alerts Container -->
     <div class="container mt-3">
         {% if messages %}
             {% for message in messages %}
-                <!-- Conditionally parses runtime flags to attach appropriate context color themes (success, info, or error) -->
                 <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'info' %}alert-info{% else %}alert-danger{% endif %} alert-dismissible fade show shadow-sm" role="alert">
                     <i class="fas fa-info-circle me-2"></i> {{ message }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -97,24 +84,19 @@
         {% endif %}
     </div>
 
-    <!-- MAIN CONTENT BLOCK -->
-    <!-- Primary structural inheritance slot that loads core view components rendered via targeted page segments -->
+    <!-- MAIN CONTENT -->
     {% block content %}{% endblock %}
 
-    <!-- AUTOMATIC NOTIFICATION TIMER DESELECTION SCRIPT ENGINE -->
+    <!-- Script to auto-hide alerts after 4 seconds -->
     <script>
-        // Triggers an execution callback tracking active notifications on a precisely timed 4-second delay loop
         setTimeout(function() {
-            // Aggregates matching notification container references into an iterable document node matrix stream
             let alerts = document.querySelectorAll('.alert');
             alerts.forEach(function(alert) {
-                // Instantiates Bootstrap operational controller modules to handle safe node deletion patterns cleanly
                 let bsAlert = new bootstrap.Alert(alert);
-                bsAlert.close(); // Triggers a smooth structural fade and removes target items from current layouts
+                bsAlert.close();
             });
-        }, 4000); // 4000 milliseconds explicit threshold interval tracking runtime timeouts
+        }, 4000);
     </script>
-    <!-- Core Bootstrap package bundle parsing handling interactive events (collapses, dropdown clicks, toggling hooks) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

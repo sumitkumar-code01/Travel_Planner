@@ -3,19 +3,13 @@
 
 {% block extra_css %}
     <style>
-        /* Base Viewport Styles: Standardizes background colors blocks globally */
         body { background: #f8f9fa; }
-        
-        /* Carousel Image Viewports: Fixes display boundary heights for dynamic media layouts handles */
         .carousel-item img { height: 350px; object-fit: cover; border-radius: 20px; }
-        
-        /* Interactive Cards: Configures modern borderless boxes supporting layout transition movements */
         .day-card { border: none; border-radius: 15px; transition: 0.3s; }
         .day-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
         .status-badge { font-size: 0.8rem; padding: 5px 12px; border-radius: 20px; }
-        
-        /* --- STYLISH STAR RATING ARCHITECTURE --- */
-        /* Encapsulates the modular rating component wrapper area with clean slate grid borders */
+       
+        /* 🔥 STYLISH STAR RATING ARCHITECTURE */
         .rating-wrapper {
             background: #ffffff;
             border: 1px solid #e2e8f0;
@@ -24,14 +18,12 @@
             margin-top: 15px;
             transition: all 0.3s ease;
         }
-        /* Uses reverse horizontal layout order to facilitate css cascading sibling selection lookups */
         .rating-stars {
             display: flex;
             flex-direction: row-reverse;
             justify-content: center;
             gap: 6px;
         }
-        /* Hides native checkbox structures from screen view elements */
         .rating-stars input {
             display: none;
         }
@@ -41,7 +33,7 @@
             cursor: pointer;
             transition: color 0.2s ease, transform 0.2s ease;
         }
-        /* Hover and Checked Golden Glow states: Triggers progressive coloration using generic sibling operators */
+        /* Hover and Checked Golden Glow states */
         .rating-stars label:hover,
         .rating-stars label:hover ~ label,
         .rating-stars input:checked ~ label {
@@ -50,7 +42,6 @@
         }
 
         /* 🌟 PREMIUM TRIP SUMMARY CARD ARCHITECTURE (MATCHES SCREENSHOT) */
-        /* Configures the vertical right-side layout blocks mapping itinerary pricing attributes */
         .summary-card {
             background: #ffffff;
             border-radius: 24px;
@@ -79,7 +70,6 @@
         .summary-body {
             padding: 24px;
         }
-        /* Local meta data containers presenting duration values columns */
         .info-block {
             background: #f8fafc;
             border: 1px solid #e2e8f0;
@@ -97,7 +87,6 @@
             font-weight: 700;
             color: #1e293b;
         }
-        /* Highlights aggregate cost metrics utilizing an explicit dashed perimeter border tracking grid */
         .budget-highlight-box {
             background-color: #f0fdf4;
             border: 2px dashed #22c55e;
@@ -109,7 +98,6 @@
         }
 
         /* 🌟 SCREENSHOT MATCHED BUTTON ACTIONS */
-        /* Primary gateway confirmation element utilizing dynamic transitions maps and depths shadows */
         .btn-confirm-trip {
             background: linear-gradient(135deg, #007bff 0%, #00d2ff 100%);
             border: none;
@@ -138,7 +126,6 @@
         }
 
         /* 🌟 MODAL QR STYLING SYSTEM */
-        /* Framing system wrapping the generated secure API QR chart vectors elements cleanly */
         .qr-frame-box {
             border: 2px dashed #0d6efd;
             border-radius: 20px;
@@ -155,10 +142,8 @@
 {% endblock %}
 
 {% block content %}
-<!-- UPPER BRANDING HERO CAROUSEL: Renders panoramic travel scene slide images matching loop parameters counters -->
 <div id="tripSlider" class="carousel slide carousel-fade" data-bs-ride="carousel">
     <div class="carousel-inner shadow-lg">
-        <!-- Django context loop traversing through parsed trip photograph array sets links -->
         {% for img in trip.image_list %}
         <div class="carousel-item {% if forloop.first %}active{% endif %}" data-bs-interval="3000">
             <img src="{{ img }}" class="d-block w-100">
@@ -172,21 +157,25 @@
 </div>
 
 <div class="container mt-5">
-    
+   
     <div class="row g-4">
-        
-        <!-- LEFT WORKSPACE CANVAS: Renders the core step-by-step scheduled location itinerary profiles -->
+       
         <div id="schedule_panel" class="col-lg-8">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 class="fw-bold mb-0"><i class="fa fa-map-marked-alt text-primary"></i> Detailed Schedule</h2>
             </div>
 
             <div class="row">
-                <!-- Inner loop processing standalone records fetched from the linked Model database architecture -->
                 {% for day in trip.days.all %}
                 <div class="col-md-12 col-xl-6 mb-4">
                     <div class="card day-card shadow-sm">
-                        <!-- Sub-header card rows allocating sequence indexes data fields values -->
+                        <!-- 🌟 DYNAMIC RENDERING FROM RESTORED MODEL DATA LAYER -->
+                        <!-- If a unique image exists inside database row instances, display node layer smoothly -->
+                        {% if day.spot_image_url %}
+                        <div style="width:100%; height:180px; overflow:hidden; border-radius:15px 15px 0 0;">
+                            <img src="{{ day.spot_image_url }}" style="width:100%; height:100%; object-fit:cover;" alt="{{ day.activity_title }}">
+                        </div>
+                        {% endif %}
                         <div class="card-header bg-white border-0 pt-3 d-flex justify-content-between">
                             <span class="text-primary fw-bold">DAY {{ day.day_number }}</span>
                             <span class="badge bg-light text-dark border">Cost: ₹{{ day.cost_estimate }}</span>
@@ -194,52 +183,46 @@
                         <div class="card-body">
                             <h5 class="fw-bold">{{ day.activity_title }}</h5>
                             <p class="text-muted mb-3 small"><i class="fa fa-clock"></i> {{ day.time_slot }}</p>
-                            
-                            <!-- Deep link anchor providing active maps routing mapping coordinates parameters templates -->
+                           
                             <a href="https://www.google.com/maps/search/{{ day.location_address|urlencode }}" target="_blank" class="btn btn-outline-primary btn-sm mb-3 w-100">
                                 <i class="fa fa-location-arrow"></i> Navigate on Google Maps
                             </a>
 
-                            <!-- Local Tracking Module Area: Forms managing inline execution changes for current indexes handles -->
                             <div class="p-3 rounded bg-light">
                                 <form action="{% url 'update_status' day.id %}" method="POST">
                                     {% csrf_token %}
                                     <p class="small fw-bold mb-2">Track Status:</p>
                                     <div class="btn-group w-100 mb-2">
-                                        <!-- Submit button updates instance states records fields directly inside server databases structures -->
                                         <button type="submit" name="status" value="Completed" class="btn btn-sm btn-outline-success {% if day.status == 'Completed' %}active{% endif %}">Completed</button>
-                                        <!-- JS interceptor displaying alternative notes field configurations containers areas natively -->
                                         <button type="button" class="btn btn-sm btn-outline-warning {% if day.status == 'Pending' %}active{% endif %}" onclick="document.getElementById('note-{{day.id}}').style.display='block'">Pending</button>
                                     </div>
-                                    
-                                    <!-- Conditional Note Input Box: Toggles element visibilities based on existing model content flags -->
+                                   
                                     <div id="note-{{day.id}}" style="display: {% if day.notes %}block{% else %}none{% endif %};">
                                         <textarea name="notes" class="form-control form-control-sm mb-2" placeholder="Why pending? (e.g. Raining)">{{ day.notes }}</textarea>
                                         <button type="submit" name="status" value="Pending" class="btn btn-dark btn-sm w-100">Save Note</button>
                                     </div>
                                 </form>
-                                
-                                <!-- Star Input Row Interfacing Blocks -->
+                               
                                 <div class="rating-wrapper">
                                     <p class="small fw-bold text-center text-dark mb-2"><i class="fas fa-star text-warning me-1"></i> Rate This Experience</p>
                                     <div class="rating-stars">
                                         <input type="radio" id="star5-{{ day.id }}" name="experience_rating-{{ day.id }}" value="5">
                                         <label for="star5-{{ day.id }}" class="fas fa-star" title="Excellent"></label>
-                                        
+                                       
                                         <input type="radio" id="star4-{{ day.id }}" name="experience_rating-{{ day.id }}" value="4">
                                         <label for="star4-{{ day.id }}" class="fas fa-star" title="Good"></label>
-                                        
+                                       
                                         <input type="radio" id="star3-{{ day.id }}" name="experience_rating-{{ day.id }}" value="3">
                                         <label for="star3-{{ day.id }}" class="fas fa-star" title="Average"></label>
-                                        
+                                       
                                         <input type="radio" id="star2-{{ day.id }}" name="experience_rating-{{ day.id }}" value="2">
                                         <label for="star2-{{ day.id }}" class="fas fa-star" title="Fair"></label>
-                                        
+                                       
                                         <input type="radio" id="star1-{{ day.id }}" name="experience_rating-{{ day.id }}" value="1">
                                         <label for="star1-{{ day.id }}" class="fas fa-star" title="Poor"></label>
                                     </div>
                                 </div>
-                                
+                               
                             </div>
                         </div>
                     </div>
@@ -248,18 +231,15 @@
             </div>
         </div>
 
-        <!-- RIGHT SIDEBAR TRACKER CONTAINER: Renders the central trip details summaries calculations columns -->
         <div id="summary_panel" class="col-lg-4 position-relative">
             <div class="sticky-top" style="top: 24px; z-index: 10;">
                 <div class="summary-card">
-                    <!-- Heading badge labels mapping transaction contextual attributes cards -->
                     <div class="summary-header">
                         <p>Booking Details</p>
                         <h3>Trip Summary</h3>
                     </div>
-                    
+                   
                     <div class="summary-body">
-                        <!-- Target location text block variable maps -->
                         <div class="mb-4">
                             <label class="text-uppercase text-secondary fw-bold small d-block mb-2" style="letter-spacing: 0.5px;">Selected Destination</label>
                             <h4 class="fw-bold text-dark d-flex align-items-center mb-0">
@@ -267,7 +247,6 @@
                             </h4>
                         </div>
 
-                        <!-- Sub-Grid Split Rows: Renders timing durations lengths blocks side-by-side cleanly -->
                         <div class="row g-3 mb-4">
                             <div class="col-6">
                                 <div class="info-block">
@@ -285,13 +264,11 @@
 
                         <hr class="my-4" style="opacity: 0.1;">
 
-                        <!-- Total balance tracker badge highlight box element parameters -->
                         <div class="budget-highlight-box mb-4">
                             <span class="h5 fw-bold text-success mb-0">Total Budget</span>
                             <span class="h3 mb-0" style="font-weight: 800; color: #15803d;">₹{{ trip.budget }}</span>
                         </div>
 
-                        <!-- Modal trigger switch connecting to the payment transaction overlay modules handles -->
                         <div class="mb-3">
                             <button type="button" class="btn btn-confirm-trip w-100 d-flex align-items-center justify-content-center gap-2" data-bs-toggle="modal" data-bs-target="#paymentQrModal">
                                 <i class="fa fa-check-circle"></i> Confirm & Add Trip
@@ -311,11 +288,9 @@
     </div>
 </div>
 
-<!-- INTERACTIVE CHECKOUT MODAL OVERLAY: Standardized financial payment overlay dashboard -->
 <div class="modal fade" id="paymentQrModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="paymentQrModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 rounded-4 shadow-lg">
-            <!-- Modal header defining core purpose strings and closing cross triggers handles -->
             <div class="modal-header bg-primary text-white p-4 rounded-top-4 border-0">
                 <div class="w-100 text-center">
                     <h5 class="modal-title fw-bold fs-4" id="paymentQrModalLabel"><i class="fa fa-qrcode me-2"></i> UPI Payment Gateway</h5>
@@ -324,28 +299,24 @@
                 <button type="button" class="btn-close btn-close-white position-absolute end-0 me-3" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-4 text-center">
-                
-                <!-- Account owner greeting rows -->
+               
                 <div class="mb-3 p-3 rounded-3" style="background-color: #f0f7ff;">
                     <span class="text-secondary small d-block mb-1">Account Username</span>
                     <strong class="text-dark fs-5"><i class="fa fa-user-circle text-primary me-2"></i>{{ user.username }}</strong>
                 </div>
 
-                <!-- Core required pricing variable numbers elements display nodes -->
                 <div class="mb-4">
                     <span class="text-muted small d-block">Required Total Amount</span>
                     <h1 class="fw-extrabold text-primary mb-0" style="font-weight: 800;">₹{{ trip.budget }}</h1>
                 </div>
 
-                <!-- Dynamic QR Generator Module API: Automatically parses current budget attributes to construct valid UPI endpoints string schemas -->
                 <div class="my-4 text-center">
                     <div class="qr-frame-box shadow-sm">
                         <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=upi://pay?pa=tripengine@upi&pn=TripPlanner&am={{ trip.budget }}&cu=INR&tn=TripBooking_{{ user.username }}" alt="Secure UPI QR Code" class="img-fluid rounded-3">
                     </div>
-                    <small class="text-muted d-block mt-2"><i class="fa lock text-success me-1"></i> End-to-End Encrypted Token Pipeline</small>
+                    <small class="text-muted d-block mt-2"><i class="fa fa-lock text-success me-1"></i> End-to-End Encrypted Token Pipeline</small>
                 </div>
 
-                <!-- Supported banking applications descriptive icon tags labels components row -->
                 <div class="d-flex align-items-center justify-content-center gap-3 py-2 border-top border-bottom my-3 payment-badge-group">
                     <span class="small text-secondary font-monospace">Supported Apps:</span>
                     <span class="badge bg-light text-dark border px-2 py-1 small">GPay</span>
@@ -354,8 +325,7 @@
                     <span class="badge bg-light text-dark border px-2 py-1 small">BHIM</span>
                 </div>
             </div>
-            
-            <!-- Modal action rows handling window cancellation closures and transaction verification steps triggers -->
+           
             <div class="modal-footer p-3 border-0 bg-light rounded-bottom-4 d-flex gap-2">
                 <button type="button" class="btn btn-outline-secondary w-50 py-2.5 rounded-3 fw-bold small" data-bs-dismiss="modal">Cancel Payment</button>
                 <button type="button" id="btn_verify_payment" class="btn btn-success w-50 py-2.5 rounded-3 fw-bold small shadow-sm">
@@ -366,43 +336,33 @@
     </div>
 </div>
 
-<!-- CLIENT JAVASCRIPT VALIDATION ENGINE: Controls responsive layout shifts, transaction blocks, and testing wrappers -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Gathering target variables strings identifiers from the rendering engine context template structures
         const tripId = "{{ trip.id }}";
         const summaryPanel = document.getElementById('summary_panel');
         const schedulePanel = document.getElementById('schedule_panel');
         const verifyPaymentBtn = document.getElementById('btn_verify_payment');
 
-        // LOCAL STORAGE STATE FIREWALL CHECK: Evaluates if this specific trip instance has a finalized verification token records
+        // Check if this specific trip transaction state has been fulfilled previously
         if (localStorage.getItem('payment_status_trip_' + tripId) === 'success') {
             if (summaryPanel) {
-                summaryPanel.remove(); // Safely remove Trip Summary panel elements tree from active layouts to extend content blocks
+                summaryPanel.remove(); 
             }
             if (schedulePanel) {
-                schedulePanel.className = "col-lg-12"; // Re-adjust column grid width mappings parameters to extend across full viewport tracks
+                schedulePanel.className = "col-lg-12"; 
             }
         }
 
-        // Action binding for programmatic verification notification dialog processing controls loops
+        // Action binding for dynamic validation processing state updates
         if (verifyPaymentBtn) {
             verifyPaymentBtn.addEventListener('click', function() {
-                // 1. Show strict English notification warning prompt
                 alert("Please complete the payment first via the QR code. You will be redirected to the next page once the payment process is successfully verified.");
-                
-                // 🛑 Yahan execution ruk jayegi! User ab popup par hi locked rahega jab tak real payment confirm na ho.
-                // Next step (reload aur card hide hona) automatic nahi chalega jab tak aap verification logic confirm nahi karte.
             });
         }
 
-        // 💡 DEVELOPMENT TESTING WRAPPER FUNCTION:
-        // Jab aapko payment simulate karke check karna ho, to browser console (F12) khol kar 
-        // verifyPaymentSuccessful() likhein aur Enter dabayein. Isse workflow next step par badh jayega.
         window.verifyPaymentSuccessful = function() {
-            // Assigns success validation tokens into local operational storage buckets strings properties
             localStorage.setItem('payment_status_trip_' + tripId, 'success');
-            window.location.reload(); // Restarts the runtime execution context pipelines to mount layout updates layers
+            window.location.reload();
         };
     });
 </script>

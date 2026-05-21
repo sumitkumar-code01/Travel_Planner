@@ -1,7 +1,6 @@
 {% extends 'trips/base.html' %}
 {% block content %}
 <style>
-    /* Design System Configurations: Declares theme color tokens, border radius properties, and foundational variables */
     :root {
         --travel-primary: #0d6efd;
         --travel-success: #198754;
@@ -16,7 +15,6 @@
     }
 
     /* Success Header Style */
-    /* Configures the green horizontal gradient hero banner indicating finalized operations */
     .success-hero {
         background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
         border-radius: 0 0 var(--card-radius) var(--card-radius);
@@ -26,7 +24,6 @@
         box-shadow: 0 10px 30px rgba(25, 135, 84, 0.15);
     }
 
-    /* Renders a circular translucent checkmark badge utilizing entry pop scaling loops */
     .success-icon {
         width: 80px;
         height: 80px;
@@ -47,7 +44,6 @@
         to { transform: scale(1); opacity: 1; }
     }
 
-    /* Card canvas enclosing the main horizontal day-by-day sequence arrays */
     .itinerary-card {
         background: white;
         border-radius: var(--card-radius);
@@ -57,7 +53,6 @@
     }
 
     /* Timeline Nodes for Schedule */
-    /* Structural left dashed border track forming vertical timeline steps */
     .schedule-timeline {
         position: relative;
         padding-left: 30px;
@@ -65,7 +60,6 @@
         border-left: 3px dashed var(--travel-primary);
     }
 
-    /* Generates checking markers floating exactly on top of the dashed tracking column vector line */
     .schedule-timeline::before {
         content: '✓';
         position: absolute;
@@ -84,7 +78,6 @@
         box-shadow: 0 0 10px rgba(13, 110, 253, 0.4);
     }
 
-    /* High-resolution image mask layer handling destination snapshots and smooth transformation scaling */
     .schedule-img {
         width: 100%;
         height: 300px;
@@ -99,7 +92,6 @@
         transform: scale(1.01);
     }
 
-    /* Text block wrapping individual metric values inside the receipt billing manifest section */
     .receipt-badge {
         background: rgba(29, 0, 44, 0.03);
         border: 1px dashed rgba(29, 0, 44, 0.1);
@@ -108,12 +100,11 @@
     }
 </style>
 
-<!-- SUCCESS HEADER BANNER: Global operation block verifying successful balance capturing -->
+<!-- SUCCESS HEADER BANNER -->
 <div class="success-hero">
     <div class="container">
         <div class="success-icon">✓</div>
         <h1 class="fw-bold mb-2">Payment Successful!</h1>
-        <!-- Django context interpolation drawing authentication username indexes -->
         <p class="fs-5 opacity-90 mb-0">Thank you, {{ request.user.username }}. Your transaction is secured & itinerary is deployed.</p>
     </div>
 </div>
@@ -121,10 +112,9 @@
 <div class="container py-5">
     <div class="row g-4 justify-content-center">
         
-        <!-- LEFT SIDE: Final Booked Itinerary Manifest (Dynamic Sequential Cards Grid Area) -->
+        <!-- LEFT SIDE: Final Booked Itinerary Manifest (Dynamic Cards) -->
         <div class="col-lg-8">
             <div class="itinerary-card p-4">
-                <!-- Inner Layout Header Label detailing data validation status parameters -->
                 <div class="d-flex align-items-center mb-5">
                     <div class="bg-primary text-white rounded-circle p-3 me-3" style="width: 55px; height: 55px; display: flex; align-items: center; justify-content: center;">
                         <i class="fas fa-passport fa-lg"></i>
@@ -135,11 +125,9 @@
                     </div>
                 </div>
 
-                <!-- Loop iteration mapped exactly to days duration context array stream -->
-                <!-- Loops sequentially through every single scheduled plan node configured in the database context array -->
+                <!-- Loop iteration mapped exactly to days duration context -->
                 {% for item in itinerary %}
                 <div class="schedule-timeline">
-                    <!-- Day marker identifier paired with real-time specific point names variables -->
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <h5 class="fw-bold text-dark mb-0">Day {{ item.day }}: {{ item.spot_name }}</h5>
                         <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-1 text-uppercase fw-bold" style="font-size: 0.7rem;">Status: Confirmed</span>
@@ -147,12 +135,10 @@
                     <p class="text-muted small mb-3">Exploring the famous spots and hidden gems around <strong>{{ destination }}</strong>. Transport, dynamic tracking, and entry permissions are configured for this window.</p>
                     
                     <!-- HIGH ACCURACY LOCATION IMAGERY ENGINE FOR DAY PLAN -->
-                    <!-- Generates automated dynamic external calls using title tokens parsed through slugify string filters -->
                     <div class="position-relative">
                         <img src="https://loremflickr.com/800/450/{{ item.spot_name|slugify }},travel/all?sig={{ item.day }}" 
                              alt="{{ item.spot_name }}" 
                              class="schedule-img border"
-                             /* Script-based recovery handler fallback mapping country coordinates if the first asset fails to load */
                              onerror="this.onerror=null;this.src='https://loremflickr.com/800/450/india,{{ destination|slugify }},travel/all?sig={{ item.day }}';">
                     </div>
                 </div>
@@ -160,12 +146,11 @@
             </div>
         </div>
 
-        <!-- RIGHT SIDE: Booking Voucher Summary Card (Sticky Operational Context Bar Panel) -->
+        <!-- RIGHT SIDE: Booking Voucher Summary Card -->
         <div class="col-lg-4">
             <div class="card border-0 shadow-sm p-4 sticky-top" style="top: 100px; border-radius: var(--card-radius);">
                 <h5 class="fw-bold text-dark mb-3">Booking Voucher</h5>
                 
-                <!-- Displays tabular records reflecting account attributes, dates, and member lengths parameters -->
                 <div class="receipt-badge mb-4">
                     <div class="d-flex justify-content-between mb-2">
                         <span class="text-muted small">Account Holder</span>
@@ -185,19 +170,15 @@
                     </div>
                 </div>
 
-                <!-- Green highlight widget container tracking total captured amount attributes -->
                 <div class="p-3 rounded-3 text-center mb-4" style="background: #e6f4ea; border: 1px solid #34a853;">
                     <small class="text-success text-uppercase fw-bold d-block" style="font-size: 0.65rem; letter-spacing: 0.5px;">Amount Captured Successfully</small>
                     <h3 class="text-success fw-bold m-0 mt-1">₹{{ amount }}</h3>
                 </div>
 
-                <!-- Action Button Block handles: Local template layouts and return routes mapping index entry pipelines -->
                 <div class="d-grid gap-2">
-                    <!-- Print interface trigger engine linking local operating system drivers directly -->
                     <button onclick="window.print()" class="btn btn-outline-dark fw-bold btn-sm rounded-3 py-2">
                         <i class="fas fa-print me-2"></i> Print Manifest Voucher
                     </button>
-                    <!-- Return route link clearing view stacks back into central operational boards -->
                     <a href="{% url 'home' %}" class="btn btn-primary fw-bold btn-sm rounded-3 py-2" style="background: var(--travel-dark); border: none;">
                         Back to Dashboard ➔
                     </a>
