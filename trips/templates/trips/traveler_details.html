@@ -1,6 +1,7 @@
 {% extends 'trips/base.html' %}
 {% block content %}
 <style>
+    /* CSS Root Variable Definitions: Manages global theme colors, card curvature metrics, and input padding parameters */
     :root {
         --travel-primary: #0d6efd;
         --travel-success: #198754;
@@ -15,6 +16,7 @@
     }
 
     /* Split layout container */
+    /* Implements the modern responsive backdrop layout dividing visual cards from form interfaces cleanly */
     .booking-wrapper {
         display: flex;
         background: rgba(255, 255, 255, 0.95);
@@ -27,6 +29,7 @@
     }
 
     /* Left side image showcase container */
+    /* Ambient slider layout hiding image decks on small resolutions to prioritize form inputs readability */
     .showcase-sidebar {
         flex: 1;
         position: relative;
@@ -41,6 +44,7 @@
         }
     }
 
+    /* Standardizes continuous crossfade dimensions, scale targets, and animation timing rules across background images */
     .showcase-img {
         position: absolute;
         top: 0;
@@ -53,11 +57,13 @@
         transform: scale(1);
     }
 
+    /* Trigger properties executing smooth linear micro-zooms when an index receives the active class state modifier */
     .showcase-img.active {
         opacity: 0.65;
         transform: scale(1.08);
     }
 
+    /* Content presentation absolute text box floating safely above ambient background slides */
     .showcase-overlay {
         position: absolute;
         bottom: 40px;
@@ -75,6 +81,7 @@
     }
 
     /* Right side form container */
+    /* Form entry panel with independent axis scrollbars to protect standard resolution viewports layouts */
     .form-panel {
         flex: 1.3;
         padding: 40px;
@@ -88,6 +95,7 @@
         }
     }
 
+    /* Circular step tracker badges placed alongside form sectional subtitles */
     .section-indicator {
         display: inline-flex;
         align-items: center;
@@ -116,6 +124,7 @@
         margin-bottom: 6px;
     }
 
+    /* Custom Input Control Systems: Standardizes typing frame boundaries, font weights, and glowing focus ring tracks */
     .form-control, .form-control:focus {
         border-radius: var(--input-radius);
         padding: 12px 16px;
@@ -136,6 +145,7 @@
         padding: 8px 12px !important;
     }
 
+    /* Sub-action trigger elements styled via flat brand colors and floating layout hover elevations */
     .btn-action-add {
         border-radius: var(--input-radius);
         padding: 10px 20px;
@@ -150,6 +160,7 @@
         box-shadow: 0 6px 15px rgba(25, 135, 84, 0.3);
     }
 
+    /* Sub-matrix wrapper area providing a clean dashed perimeter enclosure for temporary co-traveler entries */
     .dynamic-builder-box {
         background: #f8fafc;
         border: 2px dashed #cbd5e1;
@@ -162,6 +173,7 @@
         background: #f0fdf4;
     }
 
+    /* Dynamic element container blocks rendering appended passenger data entries using sliding keyframe transitions */
     .traveler-badge-item {
         border: 1px solid #e2e8f0 !important;
         border-radius: var(--input-radius) !important;
@@ -177,6 +189,7 @@
         to { opacity: 1; transform: translateY(0); }
     }
 
+    /* Primary checkout submission handle using dynamic linear gradient background fills and depth elevations */
     .btn-submit-booking {
         background: linear-gradient(135deg, var(--travel-primary) 0%, #0b5ed7 100%);
         border: none;
@@ -205,7 +218,7 @@
             
             <div class="booking-wrapper">
                 
-                <!-- LEFT SIDE: Dynamic Rotating Travel Destination Images Showcase -->
+                <!-- LEFT SIDE: Dynamic Rotating Travel Destination Images Showcase (Parallax Sliding Panel Stack) -->
                 <div class="showcase-sidebar">
                     <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" class="showcase-img active" alt="Beach Destination">
                     <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=800&q=80" class="showcase-img" alt="Mountain Pass">
@@ -213,6 +226,7 @@
                     <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80" class="showcase-img" alt="Road Trip View">
                     <img src="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80" class="showcase-img" alt="Kerala Backwaters">
                     
+                    <!-- Context overlay badge block defining brand identity rules over the slider images -->
                     <div class="showcase-overlay">
                         <span class="badge bg-primary mb-2 px-3 py-2 text-uppercase fw-bold" style="letter-spacing: 1px;">Travel Planner </span>
                         <h2>Map Your Next Great Escape</h2>
@@ -220,8 +234,9 @@
                     </div>
                 </div>
 
-                <!-- RIGHT SIDE: Main Booking Form Panel -->
+                <!-- RIGHT SIDE: Main Booking Form Panel (Primary Form Operations Canvas Area) -->
                 <div class="form-panel">
+                    <!-- Section header setting up descriptive subtitles -->
                     <div class="d-flex align-items-center mb-4">
                         <div class="me-3 fs-2">✈️</div>
                         <div>
@@ -230,16 +245,19 @@
                         </div>
                     </div>
                     
-                    <!-- Django Messages Section -->
+                    <!-- RESPONSE MESSAGES SUBSYSTEM: Parses dynamic operational flags parsed from the Django message framework -->
                     {% if messages %}
                         {% for message in messages %}
+                            <!-- Maps error indicators conditionally to append appropriate context icon markers and colors templates -->
                             <div class="alert alert-{{ message.tags }} text-center shadow-sm mb-4 border-0 rounded-3" role="alert" style="font-weight: 600;">
                                 {% if message.tags == 'error' %}❌{% else %}ℹ️{% endif %} {{ message }}
                             </div>
                         {% endfor %}
                     {% endif %}
 
+                    <!-- Main Data Dispatch Form Block routing inputs back into execution controllers channels -->
                     <form method="POST" id="booking_form">
+                        <!-- Middleware security parameter block preventing malicious network validation forgery -->
                         {% csrf_token %}
                         
                         <!-- 1. Primary Traveler Verification Section -->
@@ -249,15 +267,18 @@
                             </h5>
                         </div>
                         <div class="row g-3 mb-4">
+                            <!-- Verification input tracking original identity profile records -->
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">Your Login Username <span class="text-danger">*</span></label>
                                 <input type="text" name="verify_username" class="form-control" placeholder="Enter logged-in username" required>
                                 <small class="text-muted d-block mt-1" style="font-size: 0.78rem;">Security Check: The booking process will proceed only if the username matches.</small>
                             </div>
+                            <!-- Age configuration parameter mapped directly into real-time checking validation handles -->
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">Age</label>
                                 <input type="number" id="primary_age" name="primary_age" class="form-control" min="1" placeholder="Age" required>
                             </div>
+                            <!-- Target communications email field tracking invoicing data files -->
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">Email Address</label>
                                 <input type="email" name="primary_email" class="form-control" placeholder="name@example.com" required>
@@ -266,51 +287,56 @@
 
                         <hr>
 
-                        <!-- 2. Dynamic Co-Travelers Section -->
+                        <!-- 2. Dynamic Co-Travelers Section (Builder Sub-System) -->
                         <div class="mb-3">
                             <h5 class="section-title-custom mb-3">
                                 <span class="section-indicator">2</span>Additional Members / Co-Travelers
                             </h5>
                         </div>
                         
-                        <!-- Input Fields for temporary entry styled as builder matrix -->
+                        <!-- Temporary registration entry sub-fields styled inside a dashed box grid matrix -->
                         <div class="dynamic-builder-box p-3 mb-3">
                             <div class="row g-2 align-items-end">
+                                <!-- Captures co-traveler name entries -->
                                 <div class="col-md-5">
                                     <label class="form-label small fw-bold text-secondary">Traveler Full Name</label>
                                     <input type="text" id="temp_name" class="form-control form-control-sm" placeholder="Enter co-traveler name">
                                 </div>
+                                <!-- Captures co-traveler age parameters -->
                                 <div class="col-md-3">
                                     <label class="form-label small fw-bold text-secondary">Age</label>
                                     <input type="number" id="temp_age" class="form-control form-control-sm" min="1" placeholder="Age">
                                 </div>
+                                <!-- Click interceptor button running push array methods on local stacks -->
                                 <div class="col-md-4">
                                     <button type="button" id="add_traveler_btn" class="btn btn-success btn-sm btn-action-add w-100 fw-bold">
                                         ➕ Add Traveler
                                     </button>
                                 </div>
                             </div>
-                            <div id="add_msg" class="text-success small fw-bold mt-2 animate__animated animate__fadeIn" style="display: none; font-size: 0.82rem;">
+                            <!-- Inline success layout text shown selectively upon list updates -->
+                            <div class="text-success small fw-bold mt-2 animate__animated animate__fadeIn" style="display: none; font-size: 0.82rem;" id="add_msg">
                                 ✨ Traveler added successfully! You can add more members if needed.
                             </div>
                         </div>
 
-                        <!-- Live Travelers List Container -->
+                        <!-- Live Travelers List Presentation Display Window Area -->
                         <div class="mb-4">
                             <label class="form-label fw-bold text-secondary mb-2" style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px;">Manifest / Added Travelers List:</label>
                             <ul id="travelers_list" class="list-group border-0">
+                                <!-- Default baseline fallback item visible when the tracking manifest length is zero -->
                                 <li class="list-group-item text-muted text-center py-4 rounded-3 border" id="empty_list_msg" style="background: #fafafa; border-style: dashed !important;">
                                     <div class="opacity-50 mb-1" style="font-size: 1.5rem;">👥</div>
                                     No additional travelers added yet.
                                 </li>
                             </ul>
-                            <!-- Hidden field to send travelers data to Django backend -->
+                            <!-- CRITICAL: Hidden parameter input block holding the serialized JSON string structure forwarded to Django view pipelines -->
                             <input type="hidden" name="co_travelers_json" id="co_travelers_json" value="[]">
                         </div>
 
                         <hr>
 
-                        <!-- 3. Emergency Contact Section -->
+                        <!-- 3. Emergency Contact Section: Captures relational contact data maps for fallback security -->
                         <div class="mb-3">
                             <h5 class="section-title-custom mb-3">
                                 <span class="section-indicator">3</span>Emergency Contact Details
@@ -331,7 +357,7 @@
                             </div>
                         </div>
 
-                        <!-- Submit Button -->
+                        <!-- Main form transit submission channel anchor handle -->
                         <div class="mt-5">
                             <button type="submit" class="btn btn-primary w-100 btn-submit-booking fw-bold py-3 fs-5">Now Booking ➔</button>
                         </div>
@@ -344,48 +370,55 @@
     </div>
 </div>
 
-<!-- JAVASCRIPT: Background Image Rotator Engine -->
+<!-- CLIENT JAVASCRIPT LOGIC ENGINE 1: Operating the continuous sidebar image gallery crossfade loops -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const images = document.querySelectorAll('.showcase-img');
         let currentIndex = 0;
         
-        // Image shifts automatically every 4.5 seconds for premium fluid motion
+        // Dynamic transition cycle executed on a fixed 4.5 seconds interval rotation rule
         setInterval(function rotateImages() {
+            // Drops the layout rendering visibility indicator from the old index coordinate node
             images[currentIndex].classList.remove('active');
+            
+            // Evaluates upcoming indices securely via standard modulus arithmetic boundary bounds loops
             currentIndex = (currentIndex + 1) % images.length;
+            
+            // Mounts the active flag class to cleanly trigger the next landscape visual frame zoom
             images[currentIndex].classList.add('active');
         }, 4500);
     });
 </script>
 
-<!-- JAVASCRIPT: Strict Real-Time & Form Submission Age Validation Engine -->
+<!-- CLIENT JAVASCRIPT LOGIC ENGINE 2: Enforcing legal age bounds real-time validations and data array parsing -->
 <script>
+    // Allocates an empty database tracking array storing co-traveler entity rows models globally
     let travelers = [];
     const primaryAgeInput = document.getElementById('primary_age');
 
-    // 1. Real-Time Validation: Jaise hi box se focus hatega, check karega
+    // 1. REAL-TIME VALIDATION BLOCK: Evaluates primary legal age zones immediately when focus steps away from input fields
     primaryAgeInput.addEventListener('change', function() {
         const val = this.value.trim();
+        // Blocks inputs dropping beneath the strict adult restriction limit threshold of 18 years
         if (val !== "" && parseInt(val) < 18) {
             alert("Invalid Age! Primary traveler must be 18 years old or older to fill this form.");
-            this.value = ""; // Input ko wapas clear kar dega
-            setTimeout(() => { this.focus(); }, 10); // Dubara focus wahi laayega
+            this.value = ""; // Flushes out out boundary values automatically to maintain form data protection rules
+            setTimeout(() => { this.focus(); }, 10); // Safely returns focus back into the input cell block
         }
     });
 
-    // 2. Strict Check on Form Submit
+    // 2. TRANSMIT GATEWAY FIREWALL CHECK: Final submission validator blocking network transit propagation routes if constraints breach
     document.getElementById('booking_form').addEventListener('submit', function(event) {
         const primaryAge = primaryAgeInput.value.trim();
 
         if (primaryAge === "" || parseInt(primaryAge) < 18) {
-            event.preventDefault(); // Form submit hone se har haal me rokega
+            event.preventDefault(); // Explicitly terminates the form validation dispatch routine route immediately
             alert("Invalid Age! Primary traveler must be 18 years old or older to proceed with booking.");
             primaryAgeInput.focus();
         }
     });
 
-    // 3. Validation for Co-Travelers List (Age limitations removed)
+    // 3. DYNAMIC MANIFEST BUILDER TRACK: Handles element injection routines appending co-travelers into array records
     document.getElementById('add_traveler_btn').addEventListener('click', function() {
         const nameField = document.getElementById('temp_name');
         const ageField = document.getElementById('temp_age');
@@ -393,22 +426,23 @@
         const name = nameField.value.trim();
         const age = ageField.value.trim();
 
+        // Integrity Exception Layer: Demands entries be non-empty before processing insertions
         if (name === "" || age === "") {
             alert("Please enter both Name and Age for the traveler.");
             return;
         }
 
-        // Add to array
+        // Pushes the validated data dictionary parameters cleanly into the global dataset stack
         travelers.push({ name: name, age: age });
 
-        // Update hidden input for backend
+        // STRING SERIALIZATION: Updates the value mapping of hidden input boxes into valid JSON strings for backend view translation layers
         document.getElementById('co_travelers_json').value = JSON.stringify(travelers);
 
-        // UI Update: Remove empty message if first item
+        // UI RENDER CORE: Safely clears the dashed placeholder item frame when initial entities enter lists
         const emptyMsg = document.getElementById('empty_list_msg');
         if (emptyMsg) emptyMsg.remove();
 
-        // UI Update: Append to list view with custom classes
+        // DOM Element Injection: Appends new stylized structural text list indices layout models dynamically
         const listContainer = document.getElementById('travelers_list');
         const li = document.createElement('li');
         li.className = "list-group-item d-flex justify-content-between align-items-center bg-white shadow-sm mb-1 rounded traveler-badge-item";
@@ -416,11 +450,11 @@
                         <span class="badge bg-primary rounded-pill px-3 py-2" style="font-size: 0.75rem;">Traveler ${travelers.length}</span>`;
         listContainer.appendChild(li);
 
-        // Clear input fields
+        // Input Fields Flush: Wipes input buffers to facilitate subsequent entry operations cleanly
         nameField.value = "";
         ageField.value = "";
 
-        // Show confirmation message
+        // Status Notification Trigger: Mounts localized success labels, dissolving them systematically after a 4-second timeout loop
         const msg = document.getElementById('add_msg');
         msg.style.display = "block";
         setTimeout(() => { msg.style.display = "none"; }, 4000);

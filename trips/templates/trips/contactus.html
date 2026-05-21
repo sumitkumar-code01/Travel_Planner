@@ -1,6 +1,7 @@
 {% extends 'trips/base.html' %}
 {% block content %}
 <style>
+    /* CSS Root System Design Tokens: Declares theme color mappings, border-radius metrics, and layout parameters */
     :root { 
         --primary: #4e54c8; 
         --secondary: #8f94fb; 
@@ -19,6 +20,7 @@
     }
     
     /* --- MASSIVE & HIGH-END CINEMATIC SLIDESHOW HEADER --- */
+    /* Configures the large horizontal hero header block supporting parallax-like fixed frames and curves */
     .contact-header { 
         position: relative;
         height: 65vh; /* Perfect proportional large screen view */
@@ -34,12 +36,14 @@
         z-index: 10;
     }
 
+    /* Absolute position track masking individual slideshow image nodes */
     .header-image-track {
         position: absolute;
         top: 0; left: 0; width: 100%; height: 100%;
         z-index: 1;
     }
 
+    /* Sets up crossfade animation rules, scale vectors, and timing mechanisms for the hero banner slides */
     .header-loop-img {
         position: absolute;
         top: 0; left: 0; width: 100%; height: 100%;
@@ -49,11 +53,13 @@
         transition: opacity 1.5s ease-in-out, transform 5s ease-out;
     }
 
+    /* Triggered state handling smooth layout visualization loops via automated class injection layers */
     .header-loop-img.active {
         opacity: 0.85; 
         transform: scale(1);
     }
 
+    /* Multi-layered dark gradient layer enhancing readability over complex photographic vectors */
     .clear-dark-tint {
         position: absolute;
         top: 0; left: 0; width: 100%; height: 100%;
@@ -66,6 +72,7 @@
         z-index: 5;
     }
 
+    /* Animated status badge chip layer featuring cyclic glow modifications */
     .exclusive-badge-tag {
         background: linear-gradient(90deg, rgba(0, 242, 254, 0.2) 0%, rgba(255, 0, 127, 0.2) 100%);
         border: 1px solid rgba(255, 255, 255, 0.2);
@@ -87,6 +94,7 @@
         100% { box-shadow: 0 4px 25px rgba(255, 0, 127, 0.4); }
     }
 
+    /* Typographic text layouts controlling linear shifting color shifts across titles */
     .gradient-headline {
         background: linear-gradient(45deg, #ff007f, var(--neon-cyan), #ffea00);
         background-size: 200% auto;
@@ -104,6 +112,7 @@
     }
 
     /* --- 🔥 FIXED: CARDS SHIFTED SAFELY BELOW THE HEADER IMAGE --- */
+    /* Container layout handling card placements cleanly below the header boundaries */
     .lowered-grid-wrapper {
         margin-top: 40px; /* Purane negative margin ko hata kar positive spacing de di h taaki card niche rahe */
         position: relative; 
@@ -111,6 +120,7 @@
         padding-bottom: 90px;
     }
 
+    /* Translucent glassmorphism cards presenting profiles with floating elevation transitions */
     .dev-card {
         border: 1px solid rgba(255, 255, 255, 0.12) !important; 
         border-radius: var(--card-radius) !important; 
@@ -135,6 +145,7 @@
         margin: 35px auto 15px;
     }
 
+    /* Formats the circular avatar picture frames including rotating hover animations */
     .dev-img { 
         width: 130px; height: 130px; 
         border-radius: 50%; object-fit: cover; 
@@ -148,6 +159,7 @@
         border-color: var(--neon-cyan);
     }
 
+    /* Text blocks classifying operational designations across personnel */
     .role-badge {
         background: rgba(255, 255, 255, 0.1);
         color: #ffffff;
@@ -158,6 +170,7 @@
     }
 
     /* --- PREMIUM SQUIRCLE INTERACTIVE CONTACT BUTTONS --- */
+    /* Action trigger buttons utilizing responsive custom geometric masks and micro-scale transformations */
     .fancy-squircle-button {
         width: 46px; height: 46px;
         display: inline-flex; align-items: center; justify-content: center;
@@ -169,6 +182,7 @@
         border: 1px solid rgba(255, 255, 255, 0.1);
     }
     
+    /* Dedicated cross-gradient schemes separating target action types */
     .btn-whatsapp { background: linear-gradient(135deg, #25D366 0%, #1ebd57 100%); }
     .btn-phone { background: linear-gradient(135deg, #00f2fe 0%, #4e54c8 100%); }
     .btn-email { background: linear-gradient(135deg, #ff5a5f 0%, #fe0979 100%); }
@@ -189,6 +203,7 @@
         z-index: 20;
     }
 
+    /* Injects a wavy multicolor infinite fluid shift on copyright text strings */
     .animated-neon-text {
         font-size: 1rem;
         font-weight: 700;
@@ -208,7 +223,7 @@
     }
 </style>
 
-<!-- EXPANDED HIGH-QUALITY SLIDESHOW HERO STAGE -->
+<!-- EXPANDED HIGH-QUALITY SLIDESHOW HERO STAGE: Core panoramic display background panel -->
 <div class="contact-header">
     <div class="header-image-track">
         <img src="https://images.unsplash.com/photo-1539635278303-d4002c07eae3?auto=format&fit=crop&w=1600&q=80" class="header-loop-img active">
@@ -227,17 +242,20 @@
     </div>
 </div>
 
-<!-- COMPRESSED LOWERED MAIN CARDS MATRIX GRID -->
+<!-- COMPRESSED LOWERED MAIN CARDS MATRIX GRID: Loops dynamically across active developer dictionaries -->
 <div class="container lowered-grid-wrapper">
     <div class="row g-4 justify-content-center">
+        <!-- Django context loop iterating through records sent from the view layer -->
         {% for dev in developers %}
         <div class="col-lg-3 col-md-6">
             <div class="card dev-card text-center p-3">
                 
+                <!-- Profile Image Frame Wrapper -->
                 <div class="dev-img-wrapper">
                     <img src="{{ dev.img }}" class="dev-img" alt="{{ dev.name }}">
                 </div>
                 
+                <!-- Structural fields matching target model properties dynamically -->
                 <h5 class="fw-bold mb-2 text-white">{{ dev.name }}</h5>
                 <div class="mb-3">
                     <span class="role-badge">{{ dev.role }}</span>
@@ -245,7 +263,7 @@
                 
                 <hr>
                 
-                <!-- CONTACT ACTIONS SQUIRCLES -->
+                <!-- CONTACT ACTIONS SQUIRCLES: Generates action anchors linked with parameters -->
                 <div class="d-flex justify-content-center pb-2">
                     <a href="https://wa.me/911234567890" class="fancy-squircle-button btn-whatsapp" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
                     <a href="tel:+911234567890" class="fancy-squircle-button btn-phone" title="Call Us"><i class="fas fa-phone-alt"></i></a>
@@ -257,23 +275,31 @@
     </div>
 </div>
 
-<!-- GLOWING FOOTER REDIRECTION NODE -->
+<!-- GLOWING FOOTER REDIRECTION NODE: Static footer template boundary block -->
 <footer class="glowing-footer">
     <span class="animated-neon-text">
         © 2026 Travel World Project | Designed with ❤️
     </span>
 </footer>
 
-<!-- CONTINUOUS BACKEND ASSET MANAGER ROTATOR SCRIPT -->
+<!-- CONTINUOUS BACKEND ASSET MANAGER ROTATOR SCRIPT ENGINE -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
+        // Collects all images forming the header slide sequence into a document reference array
         const headSlides = document.querySelectorAll('.header-loop-img');
         let headIdx = 0;
+        
+        // Starts a timed execution routine performing visibility transition switches every 3.5 seconds
         setInterval(() => {
+            // Drop active state visibility from the old index position node
             headSlides[headIdx].classList.remove('active');
+            
+            // Computes the upcoming target index wrap using arithmetic modulus cycles safely
             headIdx = (headIdx + 1) % headSlides.length;
+            
+            // Appends active class flag configuration to fade in the next background image structure
             headSlides[headIdx].classList.add('active');
-        }, 3500);
+        }, 3500); // 3500 milliseconds explicit interval loop constraint
     });
 </script>
 {% endblock %}

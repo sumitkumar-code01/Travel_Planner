@@ -1,6 +1,7 @@
 {% extends 'trips/base.html' %}
 {% block content %}
 <style>
+    /* CSS Root System Design Tokens: Declares theme styling variables, border metrics, and core brand color maps */
     :root {
         --travel-primary: #0d6efd;
         --travel-dark: #1d002c;
@@ -11,6 +12,7 @@
 
     body { background-color: var(--travel-bg); }
 
+    /* Main Flex Layout Box Wrapper: Houses both the scenic side container and input operational panels */
     .booking-wrapper {
         display: flex;
         background: rgba(255, 255, 255, 0.95);
@@ -22,6 +24,7 @@
         min-height: 600px;
     }
 
+    /* Left Aesthetic Presentation Bar: Hidden on small views, expands selectively on large screens */
     .showcase-sidebar {
         flex: 1;
         position: relative;
@@ -32,6 +35,7 @@
 
     @media (min-width: 992px) { .showcase-sidebar { display: block; } }
 
+    /* Ambient Carousel Engine Elements: Standardizes absolute imagery scaling rules and layout crossfading speeds */
     .showcase-img {
         position: absolute;
         top: 0; left: 0; width: 100%; height: 100%;
@@ -39,15 +43,19 @@
         transition: opacity 1.5s ease-in-out, transform 6s linear;
     }
 
+    /* Controls keyframe zooming adjustments triggered dynamically when a slide index receives the active class state */
     .showcase-img.active { opacity: 0.6; transform: scale(1.08); }
 
+    /* Floating textual graphics content absolute layer layered cleanly above visual slide decks */
     .showcase-overlay {
         position: absolute; bottom: 40px; left: 40px; right: 40px;
         z-index: 10; color: white; text-shadow: 0 4px 15px rgba(0,0,0,0.6);
     }
 
+    /* Right Inputs Section Workspace Content Box */
     .form-panel { flex: 1.2; padding: 40px; }
 
+    /* Custom inline horizontal display badge labels used to wrap user identifier string sequences */
     .manifest-pill {
         background: rgba(13, 110, 237, 0.08);
         color: var(--travel-primary);
@@ -56,6 +64,7 @@
         display: inline-flex; align-items: center; margin: 4px;
     }
 
+    /* Structural design modifications applied directly onto form data capture controls */
     .form-control {
         border-radius: var(--input-radius); padding: 14px;
         border: 2px solid #e2e8f0; font-weight: 600;
@@ -67,6 +76,7 @@
         box-shadow: 0 0 0 4px rgba(13, 110, 237, 0.15);
     }
 
+    /* Main CTA Button: Premium green linear-gradient setup with smooth vertical lifting interactions */
     .btn-view-package {
         background: linear-gradient(135deg, #198754 0%, #157347 100%);
         border: none; border-radius: var(--input-radius);
@@ -86,12 +96,13 @@
         <div class="col-xl-11">
             <div class="booking-wrapper">
                 
-                <!-- LEFT SIDE: Rotating Ambience Imagery -->
+                <!-- LEFT SIDE: Rotating Ambience Imagery (Visual Display Slider Node Stack) -->
                 <div class="showcase-sidebar">
                     <img src="https://images.unsplash.com/photo-1506461883276-594a12b11cc3?auto=format&fit=crop&w=800&q=80" class="showcase-img active">
                     <img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=800&q=80" class="showcase-img">
                     <img src="https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=800&q=80" class="showcase-img">
                     
+                    <!-- Frosted glass context information summary layer on top of sidebar visuals -->
                     <div class="showcase-overlay">
                         <span class="badge bg-warning text-dark mb-2 px-3 py-2 text-uppercase fw-bold">Live Configuration</span>
                         <h2>Secure Your Travel Dates</h2>
@@ -99,31 +110,36 @@
                     </div>
                 </div>
 
-                <!-- RIGHT SIDE: Configurator Engine Form Panel -->
+                <!-- RIGHT SIDE: Configurator Engine Form Panel (Operational Inputs Canvas Section) -->
                 <div class="form-panel">
+                    <!-- Heading text block pulling context variables parsed dynamically from view data structures -->
                     <div class="mb-4">
                         <h3 class="fw-bold text-dark mb-1">Set Journey Timeline</h3>
                         <p class="text-muted small">Confirm deployment window for your premium package to <strong>{{ place_name }}</strong></p>
                     </div>
 
-                    <!-- Verified Travelers Board View -->
+                    <!-- Verified Travelers Board View: Tracks group capacities and outputs identity rows mapped in lists -->
                     <div class="card p-3 border-0 bg-light rounded-4 mb-4">
                         <span class="text-uppercase text-secondary fw-bold mb-2" style="font-size: 0.7rem; letter-spacing: 0.5px;">Attached Crew Manifest</span>
                         <div class="d-flex flex-wrap m-n1">
                             <!-- FIXED: Now showing strictly the logged-in User's Username -->
                             <span class="manifest-pill"><i class="fas fa-user-shield me-2"></i>{{ login_username }}</span>
+                            <!-- Django template loop reading accompanying member records streams from backend views -->
                             {% for name in co_names %}
                                 <span class="manifest-pill"><i class="fas fa-user me-2"></i>{{ name }}</span>
                             {% endfor %}
                         </div>
+                        <!-- Meta summary counting absolute length configurations across the registration dictionary -->
                         <div class="mt-2 text-muted small" style="font-size: 0.75rem;">
                             Total Registered Group Size: <strong>{{ total_members }} Traveler(s)</strong>
                         </div>
                     </div>
 
+                    <!-- Operational Submission Form Block routing collected input fields back into backend verification structures -->
                     <form method="POST">
                         {% csrf_token %}
                         
+                        <!-- Calendar Input field handling target timeline parameters -->
                         <div class="mb-4">
                             <label class="form-label fw-bold text-dark mb-2">Select Start Date <span class="text-danger">*</span></label>
                             <input type="date" name="start_date" id="start_date_input" class="form-control form-control-lg" required>
@@ -132,7 +148,7 @@
                             </div>
                         </div>
 
-                        <!-- Static Meta Display Badge for Duration Info -->
+                        <!-- Static Meta Display Badge for Duration Info: Static visualization card stating fixed rates variables -->
                         <div class="p-3 rounded-3 mb-4 bg-white border d-flex justify-content-between align-items-center">
                             <div>
                                 <small class="text-muted d-block text-uppercase fw-bold" style="font-size: 0.65rem;">Package Duration</small>
@@ -141,7 +157,7 @@
                             <span class="badge bg-primary px-3 py-2 rounded-pill">Fixed Rate</span>
                         </div>
 
-                        <!-- Action Redirection Trigger Button -->
+                        <!-- Action Redirection Trigger Button processing form submission directly into processing view channels -->
                         <div class="mt-5">
                             <button type="submit" class="btn btn-view-package w-100 fw-bold py-3">
                                 View Your Amazing Package <i class="fas fa-arrow-right ms-2"></i>
@@ -155,20 +171,28 @@
     </div>
 </div>
 
-<!-- Date Validation Guard Control Script -->
+<!-- CLIENT DESCRIPTIVE VALIDATION CONTROL SCRIPT ENGINE -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
+        // Core Timeline Protection Logic: isolates calendar fields and assigns minimum thresholds using today's timestamp values
         const dateInput = document.getElementById('start_date_input');
-        const today = new Date().toISOString().split('T')[0];
-        dateInput.setAttribute('min', today);
+        const today = new Date().toISOString().split('T')[0]; // Drops structural clock data to retain clean date formats
+        dateInput.setAttribute('min', today); // Locks out backend verification issues by rejecting past timeline entries
         
-        const imgs = document.querySelectorAll('.showcase-img');
+        // Multi-image Crossfade Loop Script Engine: Controls ambient slideshow rotations inside the sidebar space
+        const imgs = document.querySelectorAll('.showcase-img'); // Gathers elements carrying target slide identifiers
         let idx = 0;
+        
+        // Triggers loop iterations sequentially on a structured 4000ms delay interval execution route
         setInterval(() => {
+            // Removes active layout visibility states from the historical slide reference node index
             imgs[idx].classList.remove('active');
+            
+            // Computes upcoming index offsets wrapped using arithmetic remainder arithmetic loops safely
             idx = (idx + 1) % imgs.length;
+            
+            // Attaches active layout visibility flags to render the next landscape target element
             imgs[idx].classList.add('active');
-        }, 4000);
-    });
-</script>
+        }, 4000); // Drives background crossfade transitions precisely every 4 seconds
+    </script>
 {% endblock %}

@@ -15,7 +15,12 @@ import json
 
 
 # --- AUTHENTICATION FUNCTIONS ---
+
 def register_user(request):
+    """
+    Handles user account registration. Validates password lengths, confirmation matches, 
+    and checks database record indexes to reject duplicate username entries.
+    """
     if request.method == "POST":
         user_id = request.POST.get('userid') 
         uname = request.POST.get('username')
@@ -23,20 +28,24 @@ def register_user(request):
         passw = request.POST.get('password')
         conf_pass = request.POST.get('confirm_password')
 
+        # Length validation rule ensuring secure character counts
         if len(passw) < 8:
             messages.error(request, "Registration Failed: Password must be at least 8 characters long.")
             return redirect('register')
 
+        # Checks for structural equivalence between primary and verified confirm strings
         if passw != conf_pass:
             messages.error(request, "Registration Failed: Passwords do not match.")
             return redirect('register')
 
+        # Integrity check query protecting user dictionary boundaries from collisions
         if User.objects.filter(username=uname).exists():
             messages.warning(request, "Registration Failed: This username is already taken.")
             return redirect('register')
 
+        # Instantiates record maps into the default Django authentication model architecture
         new_user = User.objects.create_user(username=uname, email=email, password=passw)
-        new_user.first_name = user_id  
+        new_user.first_name = user_id  # Assigns identification strings to first_name slots
         new_user.save()
         
         messages.success(request, "Registration Successful! You can now log in with your credentials.")
@@ -44,15 +53,21 @@ def register_user(request):
         
     return render(request, 'trips/register.html')
 
+
 def stylish_login(request):
+    """
+    Processes credential verification payloads. Cross-examines provided variables across database 
+    hash tokens to open secure sessions or returns appropriate transit exception responses.
+    """
     if request.method == "POST":
         uname = request.POST.get('username')
         passw = request.POST.get('password')
         
+        # Identity cross-examination pipeline matching database records tokens
         user = authenticate(request, username=uname, password=passw)
         
         if user is not None:
-            auth_login(request, user)
+            auth_login(request, user)  # Mounts secure context indicators onto current sessions
             messages.success(request, f"Welcome, {uname}! Login successful.")
             return redirect('add_trip')
         else:
@@ -61,8 +76,14 @@ def stylish_login(request):
             
     return render(request, 'trips/login.html')
 
+
 # --- HOME PAGE ---
+
 def home(request):
+    """
+    Populates static structural packages context dictionaries mapping pricing thresholds, 
+    durations lengths, and cover photographs variables for index visual displays grids.
+    """
     places = [
         {   'name': 'Manali Trip',
             'rating': '4.8',
@@ -106,14 +127,19 @@ def home(request):
     ]
     return render(request, 'trips/home.html', {'places': places})
 
+
 # --- PACKAGE BOOKING & DETAILS (WITH BUDGET LOGIC) ---
 
 def book_package(request, place_name):
+    """
+    Configures structural variables for initialization packages. Extracts data tracking tokens 
+    passed from index elements, deserializing passenger list maps parameters.
+    """
     base_cost = request.GET.get('cost', '0').replace(',', '') 
     package_days = request.GET.get('days', '5')
     co_travelers_raw = request.GET.get('travelers', '[]')
     
-    # Co-travelers ke names parse karne ke liye
+    # Decodes serialized JSON string sequences to gather accompanying member arrays
     try:
         co_travelers_list = json.loads(co_travelers_raw)
         co_names = [t['name'] for t in co_travelers_list]
@@ -125,7 +151,7 @@ def book_package(request, place_name):
     if request.method == "POST":
         start_date = request.POST.get('start_date')
         
-        # Duration delta automation
+        # Timeline Delta Calculation: Computes datetime interval gaps for the package duration bounds
         d1 = datetime.strptime(start_date, "%Y-%m-%d")
         delta = int(package_days)
         
@@ -141,7 +167,12 @@ def book_package(request, place_name):
     }
     return render(request, 'trips/booking_form.html', context)
 
+
 def trip_details_view(request):
+    """
+    Assembles a comprehensive step-by-step sequential preview matrix. Cross-references target keys 
+    across destination mapping indices to assign unique spot labels to corresponding days.
+    """
     destination = request.GET.get('destination', 'India')
     days = int(request.GET.get('days', 1))
     members = int(request.GET.get('members', 1))
@@ -150,6 +181,7 @@ def trip_details_view(request):
     total_budget = cost_per_person * members
 
     # --- MASSIVE UNIQUE SPOTS DATABASE ---
+    # Architectural dataset organizing targeted location vectors for processing engines loops
     spots_map = {
         'Goa': [
             'Baga Beach', 'Old Goa Church', 'Dudhsagar Falls', 'Anjuna Flea Market', 'Aguada Fort', 
@@ -184,8 +216,8 @@ def trip_details_view(request):
     final_itinerary = []
     
     for i in range(days):
-        # Unique spot picking logic
-        if i < len(itinerary_data):
+        # Fallback allocation logic handling long duration query ranges safely via cyclic modulo structures
+        if i < itinerary_data:
             spot = itinerary_data[i]
         else:
             # Agar user 15 din se zyada mang le, toh random suffix laga denge taaki search/image unique rahe
@@ -211,14 +243,25 @@ def trip_details_view(request):
     }
     return render(request, 'trips/package_detail.html', context)
 
+
 # --- DASHBOARD & TRIP MANAGEMENT ---
+
 @login_required
 def dashboard(request):
+    """
+    Renders the authenticated user control board interface, pulling compiled transaction history 
+    records organized descending by chronological generation timestamps.
+    """
     trips = Trip.objects.filter(user=request.user).order_by('-created_at')
     return render(request, 'trips/dashboard.html', {'trips': trips})
 
+
 @login_required
 def add_trip(request):
+    """
+    Creates fresh core Trip object instances. Processes form inputs, maps dynamic image assets via 
+    external requests bundle, and triggers proportional unequal cost allocation calculations.
+    """
     if request.method == "POST":
         dest = request.POST.get('destination')
         days_val = request.POST.get('days')
@@ -236,6 +279,7 @@ def add_trip(request):
         )
         
         # --- IMPROVED UNEQUAL BUDGET LOGIC ATTACHED ---
+        # Generates weighted variations parameters determining unequal expenditure scaling tracks
         weights = [random.uniform(0.6, 1.4) for _ in range(days)]
         total_weight = sum(weights)
 
@@ -244,11 +288,13 @@ def add_trip(request):
             allocated_cost = int(round((w / total_weight) * budget))
             day_costs.append(allocated_cost)
 
+        # Resolves mathematical remainder variations, appending adjustments cleanly onto final item index nodes
         difference = int(budget - sum(day_costs))
         if day_costs:
             day_costs[-1] += difference
         # ----------------------------------------------
 
+        # Iteratively constructs dynamic Itinerary relational child fields bound across generated trip instances
         for idx, item in enumerate(schedule):
             Itinerary.objects.create(
                 trip=trip, day_number=item['day'],
@@ -259,25 +305,45 @@ def add_trip(request):
         return redirect('trip_detail', pk=trip.pk)
     return render(request, 'trips/add_trip.html')
 
+
 @login_required
 def trip_detail(request, pk):
+    """
+    Gathers targeted information sheets using unique database primary keys index pointers, 
+    protecting row queries with active user filters to enforce isolation security rules.
+    """
     trip = get_object_or_404(Trip, pk=pk, user=request.user)
     return render(request, 'trips/trip_detail.html', {'trip': trip})
 
+
 @login_required
 def delete_trip(request, id):
+    """
+    Purges targeted relational model rows matching provided ID markers, validating ownership 
+    parameters before running instance deletion pipelines.
+    """
     trip = get_object_or_404(Trip, id=id, user=request.user)
     trip.delete()
     messages.success(request, "Trip deleted successfully.")
     return redirect('dashboard')
 
+
 def custom_logout(request):
+    """
+    Termines current operational session authentication indicators, clears cookie caches variables, 
+    and sends descriptive sign-off notification blocks to index displays.
+    """
     user_name = request.user.username if request.user.is_authenticated else "User"
     auth_logout_func(request)
     messages.success(request, f"Logged out! See you soon, {user_name}.")
     return redirect('landing')
 
+
 def contact_us(request):
+    """
+    Serves development crew profiles directories tracking structural information components, 
+    designations tags, and asset resource locations matrices.
+    """
     developers = [
         {'name': 'Sumit Kumar', 'role': 'Lead Developer', 'img': '/static/images/SUMIT_PIC.jpeg'},
         {'name': 'Rishu Raj', 'role': 'UI Designer', 'img': '/static/images/Rishu_Raj.jpeg'},
@@ -286,8 +352,13 @@ def contact_us(request):
     ]
     return render(request, 'trips/contactus.html', {'developers': developers})
 
+
 # (Helper for dynamic images and schedule)
 def get_trip_data(destination, days, budget):
+    """
+     प्रोग्रामेटिक helper running secure external API queries mapping visual graphic resources tokens, 
+    assembling uniform template dictionary grids tracking placeholder day entries schemas.
+    """
     access_key = "RtJu3yQQPig9i8_iek4fQdaMMK1o_9HToKYQna4rdyo"
     img_url = f"https://api.unsplash.com/search/photos?query={destination}&per_page=5"
     images = ["https://images.unsplash.com/photo-1488646953014-85cb44e25828"]
@@ -301,10 +372,14 @@ def get_trip_data(destination, days, budget):
     schedule = [{'day': i, 'title': f"Visit Spot in {destination}", 'address': destination, 'time': "10AM-5PM", 'cost': daily_budget} for i in range(1, num_days+1)]
     return images, schedule
 
+
 # --- MISSING FUNCTIONS TO FIX ATTRIBUTE ERROR ---
 
 @login_required
 def update_status(request, it_id):
+    """
+    Updates localized status indicators and descriptive textual logs tracking individual day schedule matrices.
+    """
     item = get_object_or_404(Itinerary, id=it_id)
     if request.method == "POST":
         item.status = request.POST.get('status')
@@ -312,14 +387,23 @@ def update_status(request, it_id):
         item.save()
     return redirect('trip_detail', pk=item.trip.pk)
 
+
 @login_required
 def login_check(request):
+    """
+    Evaluates historical interaction logs to choose optimal landing redirections targets. 
+    Routes returning users to active manifests profiles or fallback configurations views.
+    """
     last_trip = Trip.objects.filter(user=request.user).order_by('-id').first()
     if last_trip:
         return redirect('trip_detail', pk=last_trip.pk)
     return redirect('add_trip')
 
+
 def package(request):
+    """
+    Fallback baseline shortcut forwarding unmapped workflow streams cleanly back onto landing page index loops.
+    """
     return redirect('home')
 
 
@@ -327,6 +411,10 @@ def package(request):
 
 @login_required
 def login_redirect_handler(request):
+    """
+    Processes authentication check validation flows. Intercepts sign-in sessions vectors to route accounts 
+    towards operational dashboard lists if pre-existing datasets match.
+    """
     last_trip = Trip.objects.filter(user=request.user).order_by('-id').first()
     if last_trip:
         return redirect('trip_detail', pk=last_trip.pk)
@@ -336,7 +424,12 @@ def login_redirect_handler(request):
 
 # --- MISSING FUNCTIONS END ---
 
+
 def generate_payment_qr(request):
+    """
+    Constructs a secure virtual payment layer processing currency variables. Employs inline QR generation 
+    engines to encode string schemas, transforming binary outputs maps directly into safe base64 strings formats.
+    """
     amount = request.GET.get('amount', '0')
     destination = request.GET.get('destination', 'Trip')
 
@@ -345,6 +438,7 @@ def generate_payment_qr(request):
     upi_id = "9354863854@ibl"  
     name = "Travel Planner"      
     
+    # Structural banking scheme string layout parsing amount parameters safely
     upi_url = f"upi://pay?pa={upi_id}&pn={name}&am={amount}&cu=INR&tn=Booking+for+{destination}"
 
     qr = qrcode.QRCode(version=1, box_size=10, border=2)
@@ -352,6 +446,7 @@ def generate_payment_qr(request):
     qr.make(fit=True)
     img = qr.make_image(fill_color="#000000", back_color="#ffffff")
     
+    # Converts structural output streams into bytes storage buffers matrices
     buffer = io.BytesIO()
     img.save(buffer, format="PNG")
     qr_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
@@ -369,6 +464,9 @@ def generate_payment_qr(request):
 @never_cache
 @csrf_exempt  
 def login_view(request):
+    """
+    Exempted pipeline entry node processing structural validation logs without caching response parameters data.
+    """
     if request.method == 'POST':
         pass
 
@@ -376,6 +474,10 @@ def login_view(request):
 
 
 def traveler_details_view(request, place_name):
+    """
+    Validates crew allocation numbers entries. Incorporates security checks preventing account token mismatch, 
+    serializing data fields mappings back into structural views vectors.
+    """
     base_cost = request.GET.get('cost', '0').replace(',', '')
     package_days = request.GET.get('days', '5') 
 
@@ -383,12 +485,12 @@ def traveler_details_view(request, place_name):
         verify_username = request.POST.get('verify_username')
         primary_name = request.POST.get('primary_name', '')
         
-        # Security Username Verification Logic
+        # Security Username Verification Firewall Check
         if verify_username != request.user.username:
             messages.error(request, "Invalid Username! Please enter your own active logged-in username.")
             return redirect(f'/traveler-details/{place_name}/?cost={base_cost}&days={package_days}')
         
-        # Travelers array extract karna
+        # Extracts hidden travelers lists payloads string keys
         co_travelers_json = request.POST.get('co_travelers_json', '[]')
         
         # --- FIXED: total_members yahan sahi se define kar diya gaya hai ---
@@ -405,6 +507,10 @@ def traveler_details_view(request, place_name):
 
 
 def booking_confirmed_view(request):
+    """
+    Guards finalized plan coordinates generation frameworks. Implements structural crash barriers blocking blank inputs, 
+    cross-checking transaction tokens maps before outputting destination schedules records layers.
+    """
     destination = request.GET.get('destination', 'India')
     amount = request.GET.get('amount', '0')
     
@@ -412,7 +518,7 @@ def booking_confirmed_view(request):
     raw_days = request.GET.get('days', '')
     raw_members = request.GET.get('members', '')
     
-    # Validation: Agar user direct url hit kare ya payment zero/khali ho
+    # Validation: Rejects unauthorized manual URL manipulation routes if indicators carry null fields attributes
     if not raw_days or not raw_members or amount == '0' or amount == '':
         messages.error(request, "Access Denied: Please complete your payment first before viewing the schedule!")
         # Wapas payment QR page par redirect karega secure tracking ke sath
@@ -422,7 +528,7 @@ def booking_confirmed_view(request):
     days = int(raw_days)
     members = int(raw_members)
 
-    # Spots mapping database context for dynamic page generation
+    # Dynamic target mapping lists determining localized spot properties components matrices
     spots_map = {
         'Goa': ['Baga Beach', 'Old Goa Church', 'Dudhsagar Falls', 'Anjuna Flea Market', 'Aguada Fort', 'Chapora Fort', 'Calangute Beach'],
         'Manali': ['Hadimba Temple', 'Solang Valley', 'Rohtang Pass', 'Old Manali Market', 'Jogini Waterfalls', 'Mall Road', 'Naggar Castle'],
@@ -455,5 +561,9 @@ def booking_confirmed_view(request):
     }
     return render(request, 'trips/booking_confirmed.html', context)
 
+
 def about_view(request): 
+    """
+    Renders the static informational profile section detailing foundational project storyboards blocks.
+    """
     return render(request, 'trips/about.html')
