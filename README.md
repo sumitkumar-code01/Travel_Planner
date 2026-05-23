@@ -19,10 +19,3 @@ The **Travel Planner** is a comprehensive web-based application designed to simp
 *   **Tools:** Git & GitHub for Version Control
 
 
-## 📂 Project Structure
-```text
-├── travel_planner/       # Project Configuration
-├── planner_app/          # Core Logic (Views, Models, URLs)
-├── templates/            # HTML Frontend Files
-├── static/               # CSS and Assets
-└── manage.py             # Django Project Manager
