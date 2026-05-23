@@ -103,9 +103,9 @@
         to { background-position: 200% center; }
     }
 
-    /* --- 🔥 FIXED: CARDS SHIFTED SAFELY BELOW THE HEADER IMAGE --- */
+    /* --- CARDS SHIFTED SAFELY BELOW THE HEADER IMAGE --- */
     .lowered-grid-wrapper {
-        margin-top: 40px; /* Purane negative margin ko hata kar positive spacing de di h taaki card niche rahe */
+        margin-top: 40px;
         position: relative; 
         z-index: 20;
         padding-bottom: 90px;
@@ -170,8 +170,8 @@
     }
     
     .btn-whatsapp { background: linear-gradient(135deg, #25D366 0%, #1ebd57 100%); }
-    .btn-phone { background: linear-gradient(135deg, #00f2fe 0%, #4e54c8 100%); }
     .btn-email { background: linear-gradient(135deg, #ff5a5f 0%, #fe0979 100%); }
+    .btn-linkedin { background: linear-gradient(135deg, #0a66c2 0%, #0077b5 100%); }
     
     .fancy-squircle-button:hover { 
         transform: translateY(-5px) scale(1.15);
@@ -208,7 +208,6 @@
     }
 </style>
 
-<!-- EXPANDED HIGH-QUALITY SLIDESHOW HERO STAGE -->
 <div class="contact-header">
     <div class="header-image-track">
         <img src="https://images.unsplash.com/photo-1539635278303-d4002c07eae3?auto=format&fit=crop&w=1600&q=80" class="header-loop-img active">
@@ -227,7 +226,6 @@
     </div>
 </div>
 
-<!-- COMPRESSED LOWERED MAIN CARDS MATRIX GRID -->
 <div class="container lowered-grid-wrapper">
     <div class="row g-4 justify-content-center">
         {% for dev in developers %}
@@ -245,11 +243,28 @@
                 
                 <hr>
                 
-                <!-- CONTACT ACTIONS SQUIRCLES -->
                 <div class="d-flex justify-content-center pb-2">
-                    <a href="https://wa.me/911234567890" class="fancy-squircle-button btn-whatsapp" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                    <a href="tel:+911234567890" class="fancy-squircle-button btn-phone" title="Call Us"><i class="fas fa-phone-alt"></i></a>
-                    <a href="mailto:contact@travelworld.com" class="fancy-squircle-button btn-email" title="Email Us"><i class="fas fa-envelope"></i></a>
+                    {% if dev.name == "Sumit Kumar" %}
+                        <a href="https://api.whatsapp.com/send?phone=919354863854" target="_blank" class="fancy-squircle-button btn-whatsapp" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="mailto:ranjansumit3854@gmail.com" class="fancy-squircle-button btn-email" title="Email Sumit"><i class="fas fa-envelope"></i></a>
+                        <a href="https://linkedin.com/in/sumit-kumar-34a229379" target="_blank" class="fancy-squircle-button btn-linkedin" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    {% elif dev.name == "Rishu Raj" %}
+                        <a href="https://api.whatsapp.com/send?phone=918651869476" target="_blank" class="fancy-squircle-button btn-whatsapp" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="mailto:rishurajof05@gmail.com" class="fancy-squircle-button btn-email" title="Email Rishu"><i class="fas fa-envelope"></i></a>
+                        <a href="https://linkedin.com/in/rishu-raj-a38455376" target="_blank" class="fancy-squircle-button btn-linkedin" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    {% elif dev.name == "Khushi Kumari" %}
+                        <a href="https://api.whatsapp.com/send?phone=916200536149" target="_blank" class="fancy-squircle-button btn-whatsapp" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="mailto:rajv05911@gmail.com" class="fancy-squircle-button btn-email" title="Email Khushi"><i class="fas fa-envelope"></i></a>
+                        <a href="https://linkedin.com/in/vineeta-raj-5aabb52b2" target="_blank" class="fancy-squircle-button btn-linkedin" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    {% elif dev.name == "Priyanshu Kumari" %}
+                        <a href="https://api.whatsapp.com/send?phone=918097657282" target="_blank" class="fancy-squircle-button btn-whatsapp" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="mailto:priyasingh10271@gmail.com" class="fancy-squircle-button btn-email" title="Email Priya"><i class="fas fa-envelope"></i></a>
+                        <a href="https://linkedin.com/in/priya-singh-9557342a5" target="_blank" class="fancy-squircle-button btn-linkedin" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    {% else %}
+                        <a href="https://api.whatsapp.com/send?phone=911234567890" target="_blank" class="fancy-squircle-button btn-whatsapp" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="mailto:contact@travelworld.com" class="fancy-squircle-button btn-email" title="Email Us"><i class="fas fa-envelope"></i></a>
+                        <a href="https://linkedin.com" target="_blank" class="fancy-squircle-button btn-linkedin" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -257,14 +272,12 @@
     </div>
 </div>
 
-<!-- GLOWING FOOTER REDIRECTION NODE -->
 <footer class="glowing-footer">
     <span class="animated-neon-text">
         © 2026 Travel World Project | Designed with ❤️
     </span>
 </footer>
 
-<!-- CONTINUOUS BACKEND ASSET MANAGER ROTATOR SCRIPT -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const headSlides = document.querySelectorAll('.header-loop-img');

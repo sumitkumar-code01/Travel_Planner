@@ -10,12 +10,13 @@
     <style>
         /* 🌟 PREMIUM SYSTEM NAVIGATION HEADER BASE DESIGN STYLES */
         .custom-navbar-wrapper {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(12px);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+            background: #ffffff;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid #e5e7eb;
             padding: 14px 0;
             width: 100%;
+            position: relative;
+            z-index: 100;
         }
         .navbar-brand-custom {
             font-weight: 800;
@@ -46,89 +47,195 @@
             background: rgba(79, 70, 229, 0.08);
         }
 
+        /* 🌟 DYNAMIC TWO-PANEL DISPATCH GRID SYSTEM INTERACTION MATRICES */
         body { 
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #c084fc 100%); 
+            background: linear-gradient(135deg, #f4f7f6 0%, #eef2f3 100%); 
             min-height: 100vh; 
             display: flex; 
-            flex-direction: column; /* Stack header vertically on top */
-            align-items: center; 
+            flex-direction: column;
             font-family: 'Poppins', sans-serif; 
-            padding: 0 0 20px 0;
+            padding: 0;
+            margin: 0;
         }
+        
         .main-form-workspace {
             flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
             width: 100%;
-            margin-top: 40px;
+            padding: 40px 20px;
         }
-        .card-plan { 
-            border-radius: 24px; 
-            border: 1px solid rgba(255, 255, 255, 0.2); 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.25); 
-            background: #ffffff; 
-            padding: 45px 40px; 
-            transition: all 0.3s ease;
+
+        /* Split Glass Workspace Frame Container Architecture */
+        .premium-split-container {
+            background: #ffffff;
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(29, 0, 44, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            overflow: hidden;
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            min-height: 640px;
         }
+
+        /* Left Side Interactive Visual Canvas Backdrop Layout */
+        .workspace-visual-sidebar {
+            flex: 1;
+            position: relative;
+            background: #0c0919; /* Solid ambient background node fallback */
+            display: none;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 50px;
+            overflow: hidden;
+        }
+
+        @media (min-width: 992px) {
+            .workspace-visual-sidebar {
+                display: flex;
+            }
+        }
+        
+        /* 🌟 IMPROVED: CSS LAYERS FOR FLUID SLIDESHOW TRANSITIONS */
+        .sidebar-bg-slide {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            z-index: 1;
+            transform: scale(1.05);
+            transition: opacity 1.5s ease-in-out, transform 5s ease-out;
+        }
+        
+        .sidebar-bg-slide.active {
+            opacity: 0.65; /* Elegant overlay transparency matrix */
+            transform: scale(1.0);
+        }
+        
+        .sidebar-content-holder {
+            position: relative;
+            z-index: 5; /* Forces typography nodes strictly above active visuals track */
+        }
+
+        .sidebar-badge-token {
+            align-self: flex-start;
+            background: #ffc107;
+            color: #1f2937;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            padding: 6px 16px;
+            border-radius: 30px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+            display: inline-block;
+        }
+
+        .sidebar-headline-main {
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 2.3rem;
+            line-height: 1.2;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            margin-bottom: 10px;
+        }
+
+        .sidebar-subtext-para {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+            margin: 0;
+        }
+
+        /* Right Side Input Validation Engine */
+        .workspace-fields-panel {
+            flex: 1.1;
+            padding: 50px 45px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        @media (max-width: 576px) {
+            .workspace-fields-panel {
+                padding: 35px 25px;
+            }
+        }
+
+        .workspace-form-title {
+            font-weight: 800;
+            font-size: 2.2rem;
+            color: #1e293b;
+            letter-spacing: -0.5px;
+        }
+
         .form-label {
             color: #4b5563;
-            letter-spacing: 0.3px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             margin-bottom: 8px;
         }
+
         .form-control { 
-            border-radius: 12px; 
-            padding: 14px 16px; 
-            margin-bottom: 18px; 
+            border-radius: 14px; 
+            padding: 14px 18px; 
+            margin-bottom: 20px; 
             border: 1px solid #e5e7eb; 
             background-color: #f9fafb;
             color: #1f2937;
             font-size: 0.95rem;
             transition: all 0.2s ease-in-out;
         }
+
         .form-control:focus {
             background-color: #ffffff;
-            border-color: #6366f1;
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
             outline: none;
         }
-        .form-control::placeholder {
-            color: #9ca3af;
-        }
-        .form-control:disabled {
-            background-color: #f3f4f6;
-            color: #9ca3af;
-            border-color: #e5e7eb;
-        }
+
         .btn-create-plan { 
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); 
+            background: #198754; 
             color: white; 
-            border-radius: 12px; 
+            border-radius: 30px; 
             padding: 14px; 
             width: 100%; 
-            font-weight: 600; 
-            font-size: 1.05rem;
+            font-weight: 700; 
+            font-size: 1.1rem;
             border: none; 
             letter-spacing: 0.5px;
-            box-shadow: 0 4px 14px rgba(79, 70, 229, 0.4);
+            box-shadow: 0 6px 20px rgba(25, 135, 84, 0.2);
             transition: all 0.3s ease;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
+
         .btn-create-plan:hover {
+            background: #157347;
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.6);
-            background: linear-gradient(135deg, #4338ca 0%, #6d28d9 100%);
+            box-shadow: 0 8px 25px rgba(25, 135, 84, 0.3);
             color: white;
         }
+
         .btn-create-plan:active {
-            transform: translateY(1px);
+            transform: translateY(0);
         }
+
         .alert-danger {
-            border-radius: 12px;
+            border-radius: 14px;
             border: none;
             background-color: #fef2f2;
             color: #dc2626;
-            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.08);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.05);
+            padding: 14px;
         }
     </style>
 </head>
@@ -148,47 +255,63 @@
 </header>
 
 <div class="main-form-workspace">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-5">
-                <div class="card-plan">
-                    <h3 class="text-center fw-bold text-transparent bg-clip-text mb-2" style="background: linear-gradient(135deg, #4f46e5, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Hello, {{ user.username }} 👋</h3>
-                    <p class="text-center text-muted mb-4 small">Enter the Name of the Place where you want to visit.</p>
-                    
-                    <div id="error-alert" class="alert alert-danger d-none small fw-bold text-center mb-4" role="alert"></div>
-
-                    <form method="POST" id="tripForm" novalidate>
-                        {% csrf_token %}
-                        <div class="mb-1">
-                            <label class="form-label small fw-bold">Destination Name</label>
-                            <input type="text" name="destination" class="form-control" placeholder="🗺️ e.g. Goa, Paris, Manali" required>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6 mb-1">
-                                <label class="form-label small fw-bold">Start Date</label>
-                                <input type="date" id="start_date" name="start_date" class="form-control" required>
-                            </div>
-                            <div class="col-md-6 mb-1">
-                                <label class="form-label small fw-bold">End Date</label>
-                                <input type="date" id="end_date" name="end_date" class="form-control" required disabled>
-                            </div>
-                        </div>
-
-                        <input type="hidden" id="days" name="days" value="1">
-
-                        <div class="mb-4">
-                            <label class="form-label small fw-bold">Total Budget (₹)</label>
-                            <input type="number" id="budget" name="budget" class="form-control" placeholder="💳 Enter your budget" required>
-                        </div>
-
-                        <button type="submit" class="btn-create-plan">
-                            ✨ Create My Dream Plan
-                        </button>
-                    </form>
-                </div>
+    <div class="premium-split-container">
+        
+        <div class="workspace-visual-sidebar">
+            
+            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80" class="sidebar-bg-slide">
+            <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1200&q=80" class="sidebar-bg-slide">
+            <img src="https://images.unsplash.com/photo-1581791534721-e599df4417f7?auto=format&fit=crop&w=1200&q=80" class="sidebar-bg-slide">
+            <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1200&q=80" class="sidebar-bg-slide">
+            
+            <div class="sidebar-content-holder">
+                <span class="sidebar-badge-token">Live Configuration</span>
+                <h2 class="sidebar-headline-main">Secure Your Travel Dates</h2>
+                <p class="sidebar-subtext-para">Experience the magic of seamless trip planning. 
+                    Just enter your destination, select your travel dates, and let us craft 
+                    your perfect itinerary. Your dream vacation is just a few clicks away!</p>
             </div>
         </div>
+
+        <div class="workspace-fields-panel">
+            <div class="mb-4">
+                <h3 class="workspace-form-title mb-1">Hello, {{ user.username }} 👋</h3>
+                <p class="text-muted small mb-0">Enter the Name of the Place where you want to visit.</p>
+            </div>
+            
+            <div id="error-alert" class="alert alert-danger d-none small fw-bold text-center mb-4" role="alert"></div>
+
+            <form method="POST" id="tripForm" novalidate>
+                {% csrf_token %}
+                <div class="mb-2">
+                    <label class="form-label">Destination Name <span class="text-danger">*</span></label>
+                    <input type="text" name="destination" class="form-control" placeholder="🗺️ e.g. Goa, Paris, Manali" required>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-2">
+                        <label class="form-label">Start Date</label>
+                        <input type="date" id="start_date" name="start_date" class="form-control" required>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <label class="form-label">End Date</label>
+                        <input type="date" id="end_date" name="end_date" class="form-control" required disabled>
+                    </div>
+                </div>
+
+                <input type="hidden" id="days" name="days" value="1">
+
+                <div class="mb-4">
+                    <label class="form-label">Total Budget (₹)</label>
+                    <input type="number" id="budget" name="budget" class="form-control" placeholder="💳 Enter your budget" required>
+                </div>
+
+                <button type="submit" class="btn-create-plan">
+                    ✨ Create My Dream Plan / Book Now <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
+        </div>
+
     </div>
 </div>
 
@@ -200,6 +323,17 @@
         const errorAlert = document.getElementById("error-alert");
         const tripForm = document.getElementById("tripForm");
         const budgetInput = document.getElementById("budget");
+
+        // 🌟 AUTOMATIC SIDEBAR BACKGROUND IMAGES ROTATOR TIMER LOOP
+        const headSlides = document.querySelectorAll('.sidebar-bg-slide');
+        let headIdx = 0;
+        if(headSlides.length > 0) {
+            setInterval(() => {
+                headSlides[headIdx].classList.remove('active');
+                headIdx = (headIdx + 1) % headSlides.length;
+                headSlides[headIdx].classList.add('active');
+            }, 4500); // Transitions exactly every 4.5 seconds
+        }
 
         // 1. Set Minimum Date to Today (Prevents Back Date Selection)
         const today = new Date().toISOString().split('T')[0];
@@ -270,9 +404,9 @@
             const budgetVal = parseFloat(budgetInput.value);
 
             // Travel Planner Customized Premium Budget Validation
-            if (!budgetInput.value || budgetVal < 10000 || isNaN(budgetVal)) {
+            if (!budgetInput.value || budgetVal < 30000 || isNaN(budgetVal)) {
                 e.preventDefault();
-                showError("✨ To craft an amazing getaway with top-tier stays and local experiences, a minimum budget of ₹10,000 is required. Please upscale your budget to unlock your dream plan!");
+                showError("✨ To craft an amazing getaway with top-tier stays and local experiences, a minimum budget of ₹30,000 is required. Please upscale your budget to unlock your dream plan!");
                 return false;
             }
 
