@@ -1,443 +1,893 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Create Your Plan | Travel World</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
+
         /* 🌟 PREMIUM SYSTEM NAVIGATION HEADER BASE DESIGN STYLES */
+
         .custom-navbar-wrapper {
+
             background: #ffffff;
+
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+
             border-bottom: 1px solid #e5e7eb;
+
             padding: 14px 0;
+
             width: 100%;
+
             position: relative;
+
             z-index: 100;
+
         }
+
         .navbar-brand-custom {
+
             font-weight: 800;
+
             font-size: 1.4rem;
+
             color: #4f46e5;
+
             letter-spacing: -0.5px;
+
             text-decoration: none;
+
             display: flex;
+
             align-items: center;
+
         }
+
         .nav-link-custom {
+
             color: #4b5563;
+
             font-weight: 600;
+
             font-size: 0.95rem;
+
             padding: 8px 18px;
+
             border-radius: 10px;
+
             text-decoration: none;
+
             transition: all 0.2s ease-in-out;
+
             display: inline-flex;
+
             align-items: center;
+
         }
+
         .nav-link-custom:hover {
+
             color: #7c3aed;
+
             background: rgba(124, 58, 237, 0.05);
+
         }
+
         .nav-link-custom.active-route-token {
+
             color: #4f46e5;
+
             background: rgba(79, 70, 229, 0.08);
+
         }
+
+
 
         /* 🌟 DYNAMIC TWO-PANEL DISPATCH GRID SYSTEM INTERACTION MATRICES */
-        body { 
-            background: linear-gradient(135deg, #f4f7f6 0%, #eef2f3 100%); 
-            min-height: 100vh; 
-            display: flex; 
-            flex-direction: column;
-            font-family: 'Poppins', sans-serif; 
-            padding: 0;
-            margin: 0;
-        }
-        
-        .main-form-workspace {
-            flex: 1;
+
+        body {
+
+            background: linear-gradient(135deg, #f4f7f6 0%, #eef2f3 100%);
+
+            min-height: 100vh;
+
             display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            padding: 40px 20px;
+
+            flex-direction: column;
+
+            font-family: 'Poppins', sans-serif;
+
+            padding: 0;
+
+            margin: 0;
+
         }
+
+        
+
+        .main-form-workspace {
+
+            flex: 1;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            width: 100%;
+
+            padding: 40px 20px;
+
+        }
+
+
 
         /* Split Glass Workspace Frame Container Architecture */
+
         .premium-split-container {
+
             background: #ffffff;
+
             border-radius: 30px;
+
             box-shadow: 0 20px 50px rgba(29, 0, 44, 0.08);
+
             border: 1px solid rgba(255, 255, 255, 0.8);
+
             overflow: hidden;
+
             width: 100%;
+
             max-width: 1100px;
+
             display: flex;
+
             min-height: 640px;
+
         }
+
+
 
         /* Left Side Interactive Visual Canvas Backdrop Layout */
+
         .workspace-visual-sidebar {
+
             flex: 1;
+
             position: relative;
-            background: #0c0919; /* Solid ambient background node fallback */
+
+            background: #0c0919;
+
             display: none;
+
             flex-direction: column;
+
             justify-content: flex-end;
+
             padding: 50px;
+
             overflow: hidden;
+
         }
+
+
 
         @media (min-width: 992px) {
+
             .workspace-visual-sidebar {
+
                 display: flex;
+
             }
+
         }
+
         
-        /* 🌟 IMPROVED: CSS LAYERS FOR FLUID SLIDESHOW TRANSITIONS */
+
+        /* 🌟 CSS SLIDESHOW FRAMEWORK LOGIC */
+
         .sidebar-bg-slide {
+
             position: absolute;
+
             top: 0; left: 0; width: 100%; height: 100%;
+
             object-fit: cover;
+
             opacity: 0;
+
             z-index: 1;
-            transform: scale(1.05);
-            transition: opacity 1.5s ease-in-out, transform 5s ease-out;
+
+            transform: scale(1.04);
+
+            transition: opacity 1.2s ease-in-out, transform 4.5s linear;
+
         }
+
         
+
         .sidebar-bg-slide.active {
-            opacity: 0.65; /* Elegant overlay transparency matrix */
+
+            opacity: 0.65; /* Dark tint mask blend overlay tracking rule */
+
             transform: scale(1.0);
+
         }
+
         
+
         .sidebar-content-holder {
+
             position: relative;
-            z-index: 5; /* Forces typography nodes strictly above active visuals track */
+
+            z-index: 5;
+
         }
+
+
 
         .sidebar-badge-token {
+
             align-self: flex-start;
+
             background: #ffc107;
+
             color: #1f2937;
+
             font-weight: 700;
+
             text-transform: uppercase;
+
             font-size: 0.75rem;
+
             letter-spacing: 1px;
+
             padding: 6px 16px;
+
             border-radius: 30px;
+
             margin-bottom: 15px;
+
             box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+
             display: inline-block;
+
         }
+
+
 
         .sidebar-headline-main {
+
             color: #ffffff;
+
             font-weight: 800;
+
             font-size: 2.3rem;
+
             line-height: 1.2;
+
             text-shadow: 0 4px 15px rgba(0,0,0,0.4);
+
             margin-bottom: 10px;
+
         }
+
+
 
         .sidebar-subtext-para {
+
             color: rgba(255, 255, 255, 0.9);
+
             font-size: 1rem;
+
             text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+
             margin: 0;
+            line-height: 1.6;
+
         }
+
+
 
         /* Right Side Input Validation Engine */
+
         .workspace-fields-panel {
+
             flex: 1.1;
+
             padding: 50px 45px;
+
             display: flex;
+
             flex-direction: column;
+
             justify-content: center;
+
         }
+
+
 
         @media (max-width: 576px) {
+
             .workspace-fields-panel {
+
                 padding: 35px 25px;
+
             }
+
         }
+
+
 
         .workspace-form-title {
+
             font-weight: 800;
+
             font-size: 2.2rem;
+
             color: #1e293b;
+
             letter-spacing: -0.5px;
+
         }
+
+
 
         .form-label {
+
             color: #4b5563;
+
             font-weight: 600;
+
             font-size: 0.85rem;
+
             text-transform: uppercase;
+
             letter-spacing: 0.5px;
+
             margin-bottom: 8px;
+
         }
 
-        .form-control { 
-            border-radius: 14px; 
-            padding: 14px 18px; 
-            margin-bottom: 20px; 
-            border: 1px solid #e5e7eb; 
+
+
+        .form-control {
+
+            border-radius: 14px;
+
+            padding: 14px 18px;
+
+            margin-bottom: 20px;
+
+            border: 1px solid #e5e7eb;
+
             background-color: #f9fafb;
+
             color: #1f2937;
+
             font-size: 0.95rem;
+
             transition: all 0.2s ease-in-out;
+
         }
+
+
 
         .form-control:focus {
+
             background-color: #ffffff;
+
             border-color: #4f46e5;
+
             box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+
             outline: none;
+
         }
 
-        .btn-create-plan { 
-            background: #198754; 
-            color: white; 
-            border-radius: 30px; 
-            padding: 14px; 
-            width: 100%; 
-            font-weight: 700; 
-            font-size: 1.1rem;
-            border: none; 
-            letter-spacing: 0.5px;
-            box-shadow: 0 6px 20px rgba(25, 135, 84, 0.2);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+        
+        .form-control::placeholder {
+
+            color: #9ca3af;
+
         }
+
+
+        .form-control:disabled {
+
+            background-color: #f3f4f6;
+
+            color: #9ca3af;
+
+            border-color: #e5e7eb;
+
+        }
+
+
+        .btn-create-plan {
+
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+
+            color: white;
+
+            border-radius: 30px;
+
+            padding: 14px;
+
+            width: 100%;
+
+            font-weight: 700;
+
+            font-size: 1.1rem;
+
+            border: none;
+
+            letter-spacing: 0.5px;
+
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.3);
+
+            transition: all 0.3s ease;
+
+            cursor: pointer;
+
+        }
+
+
 
         .btn-create-plan:hover {
-            background: #157347;
+
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(25, 135, 84, 0.3);
+
+            box-shadow: 0 8px 25px rgba(79, 70, 229, 0.5);
+
+            background: linear-gradient(135deg, #4338ca 0%, #6d28d9 100%);
+
             color: white;
+
         }
+
+
 
         .btn-create-plan:active {
+
             transform: translateY(0);
+
         }
+
+
 
         .alert-danger {
+
             border-radius: 14px;
+
             border: none;
+
             background-color: #fef2f2;
+
             color: #dc2626;
+
             box-shadow: 0 4px 12px rgba(220, 38, 38, 0.05);
+
             padding: 14px;
+
         }
+
     </style>
+
 </head>
+
 <body>
 
+
+
 <header class="custom-navbar-wrapper">
+
     <div class="container d-flex justify-content-between align-items-center">
+
         <a href="{% url 'landing' %}" class="navbar-brand-custom">
+
             <i class="fa-solid fa-plane-departure me-2"></i> TRAVEL WORLD
+
         </a>
+
         <nav class="d-flex gap-2">
+
             <a href="{% url 'landing' %}" class="nav-link-custom"><i class="fa-solid fa-house me-2"></i>Home</a>
+
             <a href="/about/" class="nav-link-custom"><i class="fa-solid fa-circle-info me-2"></i>About</a>
+
             <a href="{% url 'contact_us' %}" class="nav-link-custom"><i class="fa-solid fa-envelope me-2"></i>Contact Us</a>
+
         </nav>
+
     </div>
+
 </header>
 
+
+
 <div class="main-form-workspace">
+
     <div class="premium-split-container">
+
         
+
         <div class="workspace-visual-sidebar">
-            
+
+           
+
             <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80" class="sidebar-bg-slide">
+
             <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1200&q=80" class="sidebar-bg-slide">
+
             <img src="https://images.unsplash.com/photo-1581791534721-e599df4417f7?auto=format&fit=crop&w=1200&q=80" class="sidebar-bg-slide">
+
             <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1200&q=80" class="sidebar-bg-slide">
+
             
+
             <div class="sidebar-content-holder">
+
                 <span class="sidebar-badge-token">Live Configuration</span>
+
                 <h2 class="sidebar-headline-main">Secure Your Travel Dates</h2>
+
                 <p class="sidebar-subtext-para">Experience the magic of seamless trip planning. 
+
                     Just enter your destination, select your travel dates, and let us craft 
+
                     your perfect itinerary. Your dream vacation is just a few clicks away!</p>
+
             </div>
+
         </div>
 
+
+
         <div class="workspace-fields-panel">
+
             <div class="mb-4">
+
                 <h3 class="workspace-form-title mb-1">Hello, {{ user.username }} 👋</h3>
+
                 <p class="text-muted small mb-0">Enter the Name of the Place where you want to visit.</p>
+
             </div>
+
             
+
             <div id="error-alert" class="alert alert-danger d-none small fw-bold text-center mb-4" role="alert"></div>
 
+
+
             <form method="POST" id="tripForm" novalidate>
+
                 {% csrf_token %}
+
                 <div class="mb-2">
-                    <label class="form-label">Destination Name <span class="text-danger">*</span></label>
+
+                    <label class="form-label small fw-bold">Destination Name <span class="text-danger">*</span></label>
+
                     <input type="text" name="destination" class="form-control" placeholder="🗺️ e.g. Goa, Paris, Manali" required>
+
                 </div>
+
                 
+
                 <div class="row">
+
                     <div class="col-md-6 mb-2">
-                        <label class="form-label">Start Date</label>
+
+                        <label class="form-label small fw-bold">Start Date</label>
+
                         <input type="date" id="start_date" name="start_date" class="form-control" required>
+
                     </div>
+
                     <div class="col-md-6 mb-2">
-                        <label class="form-label">End Date</label>
+
+                        <label class="form-label small fw-bold">End Date</label>
+
                         <input type="date" id="end_date" name="end_date" class="form-control" required disabled>
+
                     </div>
+
                 </div>
+
+
 
                 <input type="hidden" id="days" name="days" value="1">
 
+
+
                 <div class="mb-4">
-                    <label class="form-label">Total Budget (₹)</label>
+
+                    <label class="form-label small fw-bold">Total Budget (₹)</label>
+
                     <input type="number" id="budget" name="budget" class="form-control" placeholder="💳 Enter your budget" required>
+
                 </div>
 
+
+
                 <button type="submit" class="btn-create-plan">
-                    ✨ Create My Dream Plan / Book Now <i class="fa-solid fa-arrow-right"></i>
+
+                    ✨ Create My Dream Plan
+
                 </button>
+
             </form>
+
         </div>
 
+
+
     </div>
+
 </div>
 
+
+
 <script>
+
     document.addEventListener("DOMContentLoaded", function () {
+
         const startDateInput = document.getElementById("start_date");
+
         const endDateInput = document.getElementById("end_date");
+
         const daysInput = document.getElementById("days");
+
         const errorAlert = document.getElementById("error-alert");
+
         const tripForm = document.getElementById("tripForm");
+
         const budgetInput = document.getElementById("budget");
 
+
+
         // 🌟 AUTOMATIC SIDEBAR BACKGROUND IMAGES ROTATOR TIMER LOOP
+
         const headSlides = document.querySelectorAll('.sidebar-bg-slide');
+
         let headIdx = 0;
+
         if(headSlides.length > 0) {
+
             setInterval(() => {
+
                 headSlides[headIdx].classList.remove('active');
+
                 headIdx = (headIdx + 1) % headSlides.length;
+
                 headSlides[headIdx].classList.add('active');
+
             }, 4500); // Transitions exactly every 4.5 seconds
+
         }
+
+
 
         // 1. Set Minimum Date to Today (Prevents Back Date Selection)
+
         const today = new Date().toISOString().split('T')[0];
+
         startDateInput.setAttribute('min', today);
 
+
+
         // 2. When Start Date Changes
+
         startDateInput.addEventListener("change", function () {
+
             const startDateVal = startDateInput.value;
+
             
+
             if (startDateVal) {
+
                 // Unlock End Date
+
                 endDateInput.removeAttribute("disabled");
+
                 
+
                 // End Date cannot be before Start Date
+
                 endDateInput.setAttribute("min", startDateVal);
+
                 
+
                 // Calculate Max Date (Start Date + 29 Days = 30 Days Total Plan Limit)
+
                 let startDateObj = new Date(startDateVal);
-                let maxDateObj = new Date(startDateObj);
-                maxDateObj.setDate(startDateObj.getDate() + 29); 
+
+                let maxDateObj = new Date(startDateObj);maxDateObj.setDate(startDateObj.getDate() + 29); 
+
                 
+
                 const maxDateVal = maxDateObj.toISOString().split('T')[0];
+
                 endDateInput.setAttribute("max", maxDateVal);
+
                 
+
                 // Reset End Date if it violates new conditions
+
                 if (endDateInput.value && (endDateInput.value < startDateVal || endDateInput.value > maxDateVal)) {
+
                     endDateInput.value = "";
+
                     daysInput.value = "1";
+
                 } else {
+
                     calculateDays();
+
                 }
+
             } else {
+
                 endDateInput.setAttribute("disabled", "true");
+
                 endDateInput.value = "";
+
             }
+
         });
+
+
 
         // 3. When End Date Changes
+
         endDateInput.addEventListener("change", calculateDays);
 
+
+
         // Function to calculate and auto-fill days gap
+
         function calculateDays() {
+
             errorAlert.classList.add("d-none"); // Hide errors if any
+
             
+
             if (startDateInput.value && endDateInput.value) {
+
                 const start = new Date(startDateInput.value);
+
                 const end = new Date(endDateInput.value);
+
                 
+
                 // Time difference calculation
+
                 const diffTime = Math.abs(end - start);
+
                 const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1 includes both start and end days
+
                 
+
                 if (diffDays > 30) {
+
                     showError("⚠️ You can only create a plan for up to 30 days!");
+
                     endDateInput.value = "";
+
                     daysInput.value = "1";
+
                 } else {
+
                     daysInput.value = diffDays;
+
                 }
+
             }
+
         }
+
+
 
         // 4. Final Form Submission Validation
+
         tripForm.addEventListener("submit", function (e) {
+
             const start = new Date(startDateInput.value);
+
             const end = new Date(endDateInput.value);
+
             const currentToday = new Date(today);
+
             const budgetVal = parseFloat(budgetInput.value);
 
+
+
             // Travel Planner Customized Premium Budget Validation
+
             if (!budgetInput.value || budgetVal < 30000 || isNaN(budgetVal)) {
+
                 e.preventDefault();
+
                 showError("✨ To craft an amazing getaway with top-tier stays and local experiences, a minimum budget of ₹30,000 is required. Please upscale your budget to unlock your dream plan!");
+
                 return false;
+
             }
+
+
 
             if (start < currentToday) {
+
                 e.preventDefault();
+
                 showError("❌ Backdate selection is invalid! Please select the current date or a future date.");
+
                 return false;
+
             }
+
+
 
             const diffTime = end - start;
+
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
 
+
+
             if (diffDays > 30) {
+
                 e.preventDefault();
+
                 showError("❌ Trip duration exceeds the 30-day limit! Please adjust your dates.");
+
                 return false;
+
             }
+
             
+
             if (diffDays <= 0) {
+
                 e.preventDefault();
+
                 showError("❌ End Date must be equal to or after the Start Date!");
+
                 return false;
+
             }
+
         });
 
+
+
         function showError(message) {
+
             errorAlert.innerText = message;
+
             errorAlert.classList.remove("d-none");
+
             window.scrollTo({ top: 0, behavior: 'smooth' });
+
         }
+
     });
+
 </script>
+
 </body>
+
 </html>
