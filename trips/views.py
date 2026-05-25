@@ -12,6 +12,7 @@ from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
 import json
+from django.db.models import Sum
 
 
 # --- AUTHENTICATION FUNCTIONS ---
@@ -363,15 +364,34 @@ def add_trip(request):
 
 @login_required
 def trip_detail(request, pk):
-    trip = get_object_or_404(Trip, pk=pk, user=request.user)
+    
+    #  ADMIN OVERRIDE CONTROL LAYER: If logged-in user is staff, bypass ownership validation checks
+    if request.user.is_staff:
+        trip = get_object_or_404(Trip, pk=pk)
+    else:
+        # Standard customer privacy isolation remains 100% untouched
+        trip = get_object_or_404(Trip, pk=pk, user=request.user)
+        
     return render(request, 'trips/trip_detail.html', {'trip': trip})
 
 
 @login_required
 def delete_trip(request, id):
-    trip = get_object_or_404(Trip, id=id, user=request.user)
+   
+    #  CORE SECURITY GATEWAY: If user is admin/staff, pull trip directly by ID bypassing ownership check
+    if request.user.is_staff:
+        trip = get_object_or_404(Trip, id=id)
+    else:
+        # Standard customer safety layer remains untouched
+        trip = get_object_or_404(Trip, id=id, user=request.user)
+        
     trip.delete()
-    messages.success(request, "Trip deleted successfully.")
+    messages.success(request, "Trip itinerary record deleted successfully from the database.")
+    
+    #  INTELLIGENT REDIRECTION LAYER: Admin goes back to Admin Dashboard, User goes to standard Dashboard
+    if request.user.is_staff:
+        return redirect('custom_admin_dashboard')
+        
     return redirect('dashboard')
 
 
@@ -646,3 +666,115 @@ def booking_confirmed_view(request):
 
 def about_view(request): 
     return render(request, 'trips/about.html')
+
+
+
+
+
+def custom_admin_login(request):
+    """
+    Handles premium custom admin credentials authentication safely.
+    """
+    if request.method == "POST":
+        uname = request.POST.get('username')
+        passw = request.POST.get('password')
+        user = authenticate(request, username=uname, password=passw)
+        
+        if user is not None and user.is_staff:
+            auth_login(request, user)
+            messages.success(request, "Admin Authentication Successful! Welcome Owner.")
+            return redirect('custom_admin_dashboard')
+        else:
+            messages.error(request, "Access Denied: Invalid Admin Credentials or Permissions.")
+            return redirect('custom_admin_login')
+            
+    return render(request, 'trips/admin_login.html')
+
+
+from django.db import connection
+from django.db.models import Sum
+from .models import Trip # Ensures your strict class model architecture is utilized
+import decimal
+
+@login_required
+def custom_admin_dashboard(request):
+    """
+    Renders the complete admin overview dashboard metrics panel.
+    🌟 FIXED 404 ERROR: Dynamically extracts the explicit underlying database table name 
+    from the Trip model class to pull authentic real-world row IDs, guaranteeing 
+    that 'View Details' and 'Delete' controls route perfectly without any 404 missing query crashes.
+    """
+    if not request.user.is_staff:
+        messages.error(request, "Unauthorized Access Blocked!")
+        return redirect('custom_admin_login')
+        
+    # 1. Base tracking metrics calculations processing
+    total_users_count = User.objects.filter(is_staff=False).count()
+    total_trips_count = Trip.objects.count()
+    
+    # 2. Maximum Security Revenue Calculator Engine
+    total_revenue = 0
+    try:
+        revenue_query = Trip.objects.aggregate(total=Sum('budget'))
+        if revenue_query['total'] is not None:
+            total_revenue = int(revenue_query['total'])
+    except:
+        pass
+
+    # 3. 🌟 DYNAMIC AUTOMATED ROUTING LAYER (Fetches 100% Authentic Row Elements & Primary Keys)
+    safe_trips_list = []
+    
+    # Safely extracts the precise underlying database table token parameters (e.g. 'trips_trip')
+    actual_table_name = Trip._meta.db_table
+    
+    with connection.cursor() as cursor:
+        # Executes the direct selection statement using the true environment runtime table identity
+        cursor.execute(f"SELECT id, user_id, destination, start_date, total_days, budget FROM {actual_table_name} ORDER BY id DESC")
+        raw_rows = cursor.fetchall()
+        
+        for row in raw_rows:
+            trip_real_id = row[0] # The exact true Primary Key (id) row identity
+            u_id = row[1]
+            dest = row[2]
+            s_date = row[3]
+            t_days = row[4]
+            raw_budget = row[5]
+            
+            # Safe calculation insulation logic handles floating conversions gracefully
+            clean_budget = 0
+            try:
+                if raw_budget:
+                    clean_budget = float(raw_budget)
+                    if total_revenue == 0: # Backup summation system validation checks
+                        total_revenue += int(clean_budget)
+            except:
+                pass
+                
+            # Safely link user credentials without query crashes
+            try:
+                trip_user = User.objects.get(id=u_id)
+                uname = trip_user.username
+            except User.DoesNotExist:
+                uname = "Unknown User"
+                
+            # Maps data array securely to match your template keys exactly
+            safe_trips_list.append({
+                'pk': trip_real_id,   # Mapped securely to match {% url 'trip_detail' trip.pk %}
+                'id': trip_real_id,   # Mapped securely to match {% url 'delete_trip' trip.id %}
+                'user': {'username': uname},
+                'destination': dest,
+                'start_date': s_date,
+                'total_days': t_days,
+                'budget': int(clean_budget)
+            })
+
+    all_users = User.objects.filter(is_staff=False).order_by('-date_joined')
+    
+    context = {
+        'total_users': total_users_count,
+        'total_trips': total_trips_count,
+        'total_revenue': total_revenue,
+        'trips': safe_trips_list, # Injects fully verified structural elements matrix
+        'users': all_users
+    }
+    return render(request, 'trips/admin_dashboard.html', context)

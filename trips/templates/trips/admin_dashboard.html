@@ -1,0 +1,83 @@
+{% extends 'trips/base.html' %}
+{% block content %}
+<div class="container-fluid py-5 px-4" style="background: #f4f6f9; min-height: 100vh;">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h1 class="fw-bold text-dark mb-1"><i class="fa fa-chart-pie text-primary"></i> Admin Control Overview</h1>
+            <p class="text-muted mb-0">Live diagnostic operations data layer matrix tracker</p>
+        </div>
+        <span class="badge bg-success p-3 rounded-3 fw-bold shadow-sm">SYSTEM OVERVIEW STATUS: ACTIVE</span>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm p-4 rounded-4 bg-white text-dark">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-uppercase text-secondary fw-bold small">Registered Travelers</h6>
+                        <h2 class="fw-extrabold mb-0" style="font-weight: 800;">{{ total_users }}</h2>
+                    </div>
+                    <div class="p-3 bg-light rounded-circle text-primary fs-3"><i class="fa fa-users"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm p-4 rounded-4 bg-white text-dark">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-uppercase text-secondary fw-bold small">Total Created Trips</h6>
+                        <h2 class="fw-extrabold mb-0" style="font-weight: 800;">{{ total_trips }}</h2>
+                    </div>
+                    <div class="p-3 bg-light rounded-circle text-success fs-3"><i class="fa fa-route"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm p-4 rounded-4 bg-white text-dark">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-uppercase text-secondary fw-bold small">Total Processed Vol (₹)</h6>
+                        <h2 class="fw-extrabold mb-0" style="font-weight: 800;">₹{{ total_revenue }}</h2>
+                    </div>
+                    <div class="p-3 bg-light rounded-circle text-warning fs-3"><i class="fa fa-wallet"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4 p-4 mb-5">
+        <h4 class="fw-bold mb-4 text-dark"><i class="fa fa-database text-primary me-2"></i> Manage User Custom Itineraries</h4>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>User Account</th>
+                        <th>Target Destination</th>
+                        <th>Start Date</th>
+                        <th>Duration</th>
+                        <th>Allocated Budget</th>
+                        <th class="text-center">Action Controls</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for trip in trips %}
+                    <tr>
+                        <td class="fw-bold text-secondary">{{ trip.user.username }}</td>
+                        <td class="fw-bold text-dark"><i class="fa fa-map-marker-alt text-danger me-1"></i> {{ trip.destination }}</td>
+                        <td>{{ trip.start_date }}</td>
+                        <td><span class="badge bg-light text-dark border">{{ trip.total_days }} Days</span></td>
+                        <td class="fw-bold text-success">₹{{ trip.budget }}</td>
+                        <td class="text-center">
+                            <a href="{% url 'trip_detail' trip.pk %}" class="btn btn-sm btn-outline-primary px-3 rounded-pill fw-bold me-1">View Details</a>
+                            <a href="{% url 'delete_trip' trip.id %}" class="btn btn-sm btn-danger px-3 rounded-pill fw-bold" onclick="return confirm('Are you sure you want to permanently delete this trip transaction database row?');">Delete</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="6" class="text-center text-muted p-4">No custom traveler itineraries records found in the database.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

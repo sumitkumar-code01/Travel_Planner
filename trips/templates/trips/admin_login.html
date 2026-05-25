@@ -1,0 +1,64 @@
+{% extends 'trips/base.html' %}
+{% block content %}
+<div class="container-fluid d-flex justify-content-center align-items-center" style="min-height: 85vh; background: linear-gradient(135deg, rgba(30, 58, 138, 0.85) 0%, rgba(13, 148, 136, 0.85) 100%), url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1600&q=80') no-repeat center center; background-size: cover; position: relative;">
+    
+    <div class="card shadow-lg p-5 border-0 rounded-4 my-5" style="max-width: 460px; width: 100%; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); box-shadow: 0 20px 40px rgba(0,0,0,0.3) !important;">
+        
+        <div class="text-center mb-4">
+            <div class="d-inline-block p-3 rounded-circle mb-3 shadow-sm" style="background: linear-gradient(135deg, #1e3a8a 0%, #0d9488 100%); color: white; width: 70px; height: 70px; line-height: 40px; font-size: 1.6rem;">
+                <i class="fa fa-user-shield"></i>
+            </div>
+            <h2 class="fw-bold" style="background: linear-gradient(90deg, #1e3a8a, #0d9488); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800 !important; letter-spacing: -0.5px;">Control Gateway</h2>
+            <p class="text-muted small fw-medium text-uppercase tracking-wider" style="font-size: 0.75rem; letter-spacing: 1px;">Travel World Admin Terminal</p>
+        </div>
+        
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-danger small fw-bold text-center mb-4 border-0 rounded-3 shadow-sm" style="background-color: #fef2f2; color: #dc2626;" role="alert">
+                    <i class="fa-solid fa-triangle-exclamation me-2"></i> {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="mb-4">
+                <label class="form-label small fw-bold text-dark" style="font-size: 0.8rem; letter-spacing: 0.5px;">ADMIN USERNAME</label>
+                <div class="input-group">
+                    <span class="input-group-text border-0" style="background: #f1f5f9; color: #475569; border-radius: 12px 0 0 12px; padding-left: 15px;"><i class="fa fa-user"></i></span>
+                    <input type="text" name="username" class="form-control border-0 p-3 shadow-none text-dark fw-medium" style="background: #f1f5f9; border-radius: 0 12px 12px 0; font-size: 0.95rem;" placeholder="e.g. admin_sumit" required>
+                </div>
+            </div>
+            
+            <div class="mb-4">
+                <label class="form-label small fw-bold text-dark" style="font-size: 0.8rem; letter-spacing: 0.5px;">SECURE ACCESS PASSWORD</label>
+                <div class="input-group">
+                    <span class="input-group-text border-0" style="background: #f1f5f9; color: #475569; border-radius: 12px 0 0 12px; padding-left: 15px;"><i class="fa fa-key"></i></span>
+                    <input type="password" name="password" class="form-control border-0 p-3 shadow-none text-dark fw-medium" style="background: #f1f5f9; border-radius: 0 12px 12px 0; font-size: 0.95rem;" placeholder="••••••••" required>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary w-100 py-3 rounded-3 fw-bold mt-2 text-uppercase tracking-wide" style="background: linear-gradient(135deg, #1e3a8a 0%, #0d9488 100%) !important; border: none !important; font-size: 0.9rem; box-shadow: 0 8px 20px rgba(30, 58, 138, 0.3) !important; transition: all 0.3s ease;">
+                <i class="fa fa-shield-halved me-2"></i> Authenticate & Enter
+            </button>
+        </form>
+
+        <div class="text-center mt-4">
+            <p class="text-muted mb-0" style="font-size: 0.75rem;"><i class="fa fa-lock text-success me-1"></i> End-to-End Secure Admin Session Layer</p>
+        </div>
+    </div>
+</div>
+
+<style>
+    .input-group:focus-within {
+        box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.2);
+        border-radius: 12px;
+        transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 25px rgba(30, 58, 138, 0.45) !important;
+    }
+</style>
+{% endblock %}

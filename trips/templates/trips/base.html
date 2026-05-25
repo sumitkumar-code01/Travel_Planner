@@ -53,6 +53,8 @@
                     
                     <li class="nav-item"><a class="nav-link fw-bold text-dark mx-2" href="{% url 'contact_us' %}"><i class="fas fa-envelope"></i> CONTACTUS</a></li>
 
+                    <li class="nav-item"><a class="nav-link fw-bold text-danger mx-2" href="{% url 'custom_admin_login' %}"><i class="fas fa-user-shield"></i> ADMIN</a></li>
+                    
                     {% if user.is_authenticated %}
                         <li class="nav-item ms-lg-3">
                             <form action="{% url 'logout' %}" method="POST" id="logout-form" style="display: none;">
