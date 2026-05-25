@@ -115,7 +115,17 @@ def home(request):
             'days': '4',
             'image': 'https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=600', 
             'description': 'Explore the rich heritage and royal culture of Pink City.'},
+
+        {   'name': 'Delhi to Jaipur to Agra', 
+            'rating': '4.9',
+            'cost': '22500',
+            'deadline': 'June 10, 2026', 
+            'days': '6',
+            'image': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPqlvWmyNaeixMlkcxuT7Rcq4c_Lmk0Q2k7g&s',
+            
+            'description': 'Experience the iconic Golden Triangle Tour covering India Gate, Taj Mahal, and Hawa Mahal in one premium journey.'},
     ]
+
     return render(request, 'trips/home.html', {'places': places})
 
 
@@ -161,11 +171,7 @@ def book_package(request, place_name):
 # --- REPLACE THIS COMPLETED FUNCTION INSIDE YOUR VIEWS.PY ---
 
 def trip_details_view(request):
-    """
-    WORKFLOW B: Processes pre-made packages by pulling data directly from your static spots map keys.
-    🌟 FIXED: Uses your exact spelling strings ('Hadimba Devi Temple', 'Pangong Tso Lake') as keys 
-    in the verified image repository to completely resolve the mismatch issue.
-    """
+   
     destination = request.GET.get('destination', 'India')
     days = int(request.GET.get('days', 1))
     members = int(request.GET.get('members', 1))
@@ -191,7 +197,11 @@ def trip_details_view(request):
         ],
         'Jaipur': [
             'Amer Fort', 'Hawa Mahal', 'City Palace', 'Jantar Mantar'
-        ]
+        ],
+        'Delhi to Jaipur to Agra': [
+            'India Gate (Delhi)', 
+            'Qutub Minar (Delhi)', 'Hawa Mahal (Jaipur)', 
+            'Amer Fort (Jaipur)', 'Taj Mahal (Agra)', 'Agra Fort (Agra)']
     }
     
     # 🌟 100% EXACT STRING MATCHING REPOSITORY
@@ -203,7 +213,7 @@ def trip_details_view(request):
         'City Palace': 'https://s7ap1.scene7.com/is/image/incredibleindia/city-palace-jaipur-rajasthan-1?qlt=82&ts=1742164664970',
         'Jantar Mantar': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSh4J8DQyrNkRj6p1WS3gKUnux3-Yi7frkLDw&s',
         
-        # --- 🏔️ Manali Package (Exact Matches) ---
+        # ---  Manali Package (Exact Matches) ---
         'Solang Valley': 'https://larisaresort.com/assets/images/blogposts/Solang-Valley-Manali.jpg',
         'Rohtang Pass': 'https://www.sushanttravels.com/uploads/rohtang_pass.jpg',
         'Hadimba Devi Temple': 'https://i0.wp.com/weekendyaari.in/wp-content/uploads/2024/09/hadimba-devi-temple-weekend-yaari-.webp?fit=810%2C540&ssl=1', 
@@ -212,24 +222,36 @@ def trip_details_view(request):
         'Naggar Castle': 'https://s7ap1.scene7.com/is/image/incredibleindia/nagger-castle-kullu-1-attr-hero?qlt=82&ts=1726730753318',
         'Manikaran Sahib': 'https://d3gz7d9rg09miz.cloudfront.net/travel/1748531907729-813734495.jpg',
 
-        # --- 🏖️ Goa Package (Exact Matches) ---
+        # ---  Goa Package (Exact Matches) ---
         'Baga Beach': 'https://s7ap1.scene7.com/is/image/incredibleindia/baga-beach-goa-goa-baga-beach-1-attr-hero?qlt=82&ts=1742156326916',
         'Calangute Beach': 'https://www.naturediary.in/wp-content/uploads/2022/10/Calangute-Beach-Goa.jpg',
         'Fort Aguada': 'https://marquishotels.in/wp-content/uploads/2025/09/visit-fort-aguada-on-your-next-goa-trip-1.jpg',
         'Anjuna Beach': 'https://content.jdmagicbox.com/quickquotes/listicle/listicle_1776148741219_tb1d2_1000x667.jpg?impolicy=queryparam&im=Resize=(847,400),aspect=fit&q=75',
         'Palolem Beach': 'https://togethertounknown.com/wp-content/uploads/2023/01/DJI_0207-min.jpg',
 
-        # --- 🌌 Ladakh Package (Exact Matches) ---
+        # ---  Ladakh Package (Exact Matches) ---
         'Pangong Tso Lake': 'https://www.lehladakhindia.com/wp-content/uploads/2024/07/pangong-tso-lake.jpeg', 
         'Nubra Valley': 'https://miro.medium.com/1*noCskj8yVY-c6RPmj6-j5w.jpeg',
         'Shanti Stupa': 'https://upload.wikimedia.org/wikipedia/commons/8/81/Leh%2C_Shanti_Stupa%2C_Ladakh%2C_India.jpg',
         'Magnetic Hill': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIODEXCQohiD6XeslGr7JeIculkxI2GX4GNQ&s',
         'Leh Palace': 'https://indotoursadventures.com/public/storage/blogs/3460c3259ce622fafd0576fed4252576.jpeg',
 
-        # --- 🌴 Kerala Package (Exact Matches) ---
+        # ---  Kerala Package (Exact Matches) ---
         'Munnar Tea Gardens': 'https://media.tacdn.com/media/attractions-splice-spp-674x446/06/6f/12/04.jpg',
         'Alleppey Backwaters': 'https://cdn.getyourguide.com/image/format=auto,fit=crop,gravity=auto,quality=60,width=375,height=375,dpr=2/tour_img/43a380a61dfd6e1e0f4026e9dc3ea4c572f5d299b6a0c13085051d16d9ccb99a.png',
-        'Fort Kochi': 'https://optimatravels.com/images/kerala-images/fort-kochi-head.jpg'
+        'Fort Kochi': 'https://optimatravels.com/images/kerala-images/fort-kochi-head.jpg',
+
+        
+        # --- Delhi to Jaipur to Agra (Exact Matches) ---
+
+        'India Gate (Delhi)': 'https://s7ap1.scene7.com/is/image/incredibleindia/india-gate-delhi-1-attr-hero?qlt=82&ts=1742159856441',
+        'Qutub Minar (Delhi)' : 'https://indiacinehub.gov.in/sites/default/files/styles/flexslider_full/public/2024-01/qutub_minar1_0.jpg?itok=NC34u528',
+        'Hawa Mahal (Jaipur)': 'https://www.savaari.com/blog/wp-content/uploads/2022/11/Hawa-mahal.jpg',
+        'Amer Fort (Jaipur)': 'https://www.swantour.com/blogs/wp-content/uploads/2018/09/Amer-Fort.jpg',
+        'Taj Mahal (Agra)': 'https://upload.wikimedia.org/wikipedia/commons/1/1d/Taj_Mahal_%28Edited%29.jpeg',
+        'Agra Fort (Agra)': 'https://upload.wikimedia.org/wikipedia/commons/7/7e/Agra_03-2016_10_Agra_Fort.jpg'
+
+        
     }
     
     # URL string target cleaner removes suffix metadata tags safely ('Trip', 'Tour', etc.)
