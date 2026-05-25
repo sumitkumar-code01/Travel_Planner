@@ -110,7 +110,7 @@ def home(request):
         
         {   'name': 'Jaipur Trip', 
             'rating': '4.7',
-            'cost': '1',
+            'cost': '15000',
             'deadline': 'May 25, 2026', 
             'days': '4',
             'image': 'https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=600', 
